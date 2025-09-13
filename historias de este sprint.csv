@@ -1,0 +1,9 @@
+Tipo de Incidencia	Clave	Resumen	Estado	Comentarios	Sprint	Persona asignada	Fecha de vencimiento	Prioridad	Etiquetas	Creada	Actualizada	Informador
+Tarea	CPG-7	Kick off del proyecto Artify	Tareas por hacer		Sprint 0	Carolina Comba		Medium		2025-09-10	2025-09-12	Carolina Comba
+Historia	CPG-28	Gestión de Roles	Tareas por hacer		Sprint 0	Carolina Comba		Highest		2025-09-12	2025-09-12	Carolina Comba
+Historia	CPG-8	Registro de usuario	Tareas por hacer		Sprint 0	Carolina Comba		High		2025-09-11	2025-09-12	Carolina Comba
+Historia	CPG-27	API Autenticación JWT	En curso		Sprint 0			Highest		2025-09-12	2025-09-12	Carolina Comba
+Historia	CPG-33	Login de Usuario	Tareas por hacer		Sprint 0	Carolina Comba		Medium		2025-09-12	2025-09-12	Carolina Comba
+Historia	CPG-10	Selección de rol en registro	Tareas por hacer		Sprint 0	Carolina Comba		Medium		2025-09-11	2025-09-12	Carolina Comba
+Historia	CPG-9	Validación de registro	Tareas por hacer		Sprint 0	Carolina Comba		Low		2025-09-11	2025-09-12	Carolina Comba
+Historia	CPG-41	Cerrar Sesión	Tareas por hacer		Sprint 0			Medium		2025-09-12	2025-09-12	Carolina Comba
