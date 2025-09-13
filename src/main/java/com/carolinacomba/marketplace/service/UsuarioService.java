@@ -1,13 +1,11 @@
 package com.carolinacomba.marketplace.service;
 
 import com.carolinacomba.marketplace.dto.RegistroArtesanoRequest;
-import com.carolinacomba.marketplace.dto.RegistroClienteRequest;
+import com.carolinacomba.marketplace.dto.RegistroUsuarioRequest;
 import com.carolinacomba.marketplace.dto.CambioRolRequest;
 import com.carolinacomba.marketplace.model.Artesano;
-import com.carolinacomba.marketplace.model.Cliente;
 import com.carolinacomba.marketplace.model.Usuario;
 import com.carolinacomba.marketplace.repository.ArtesanoRepository;
-import com.carolinacomba.marketplace.repository.ClienteRepository;
 import com.carolinacomba.marketplace.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,9 +18,6 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
 
     @Autowired
     private ArtesanoRepository artesanoRepository;
@@ -45,20 +40,20 @@ public class UsuarioService {
         return usuario;
     }
 
-    public Cliente registrarCliente(RegistroClienteRequest request) {
+    public Usuario registrarUsuario(RegistroUsuarioRequest request) {
         // Verificar si el email ya existe
         if (usuarioRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Ya existe un usuario con este email");
         }
 
-        // Crear nuevo cliente
-        Cliente cliente = new Cliente();
-        cliente.setNombre(request.getNombre());
-        cliente.setEmail(request.getEmail());
-        cliente.setContraseña(passwordEncoder.encode(request.getPassword()));
-        cliente.setRol(Usuario.Rol.CLIENTE);
+        // Crear nuevo usuario
+        Usuario usuario = new Usuario();
+        usuario.setNombre(request.getNombre());
+        usuario.setEmail(request.getEmail());
+        usuario.setContraseña(passwordEncoder.encode(request.getPassword()));
+        usuario.setRol(Usuario.Rol.USUARIO);
 
-        return clienteRepository.save(cliente);
+        return usuarioRepository.save(usuario);
     }
 
     public Artesano registrarArtesano(RegistroArtesanoRequest request) {
@@ -80,19 +75,14 @@ public class UsuarioService {
         return artesanoRepository.save(artesano);
     }
 
-    public Cliente buscarClientePorId(Long id) {
-        return clienteRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
+    public Usuario buscarUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
     }
 
     public Artesano buscarArtesanoPorId(Long id) {
         return artesanoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Artesano no encontrado con ID: " + id));
-    }
-
-    public Cliente buscarClientePorEmail(String email) {
-        return clienteRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Cliente no encontrado con email: " + email));
     }
 
     public Artesano buscarArtesanoPorEmail(String email) {
@@ -124,38 +114,6 @@ public class UsuarioService {
         // Cambiar el rol
         usuario.setRol(nuevoRol);
         
-        // Si está cambiando a ARTESANO, crear entidad Artesano
-        if (nuevoRol == Usuario.Rol.ARTESANO && usuario instanceof Cliente) {
-            Cliente cliente = (Cliente) usuario;
-            Artesano artesano = new Artesano();
-            artesano.setId(cliente.getId());
-            artesano.setNombre(cliente.getNombre());
-            artesano.setEmail(cliente.getEmail());
-            artesano.setContraseña(cliente.getContraseña());
-            artesano.setRol(Usuario.Rol.ARTESANO);
-            artesano.setNombreEmprendimiento("Mi Emprendimiento");
-            artesano.setDescripcion("Descripción de mi emprendimiento");
-            
-            // Eliminar cliente y crear artesano
-            clienteRepository.delete(cliente);
-            return artesanoRepository.save(artesano);
-        }
-        
-        // Si está cambiando a CLIENTE, crear entidad Cliente
-        if (nuevoRol == Usuario.Rol.CLIENTE && usuario instanceof Artesano) {
-            Artesano artesano = (Artesano) usuario;
-            Cliente cliente = new Cliente();
-            cliente.setId(artesano.getId());
-            cliente.setNombre(artesano.getNombre());
-            cliente.setEmail(artesano.getEmail());
-            cliente.setContraseña(artesano.getContraseña());
-            cliente.setRol(Usuario.Rol.CLIENTE);
-            
-            // Eliminar artesano y crear cliente
-            artesanoRepository.delete(artesano);
-            return clienteRepository.save(cliente);
-        }
-        
         return usuarioRepository.save(usuario);
     }
-} 
+}

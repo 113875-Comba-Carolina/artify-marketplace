@@ -12,10 +12,11 @@ import lombok.AllArgsConstructor;
 @Table(name = "usuarios")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tipo_usuario", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("USUARIO")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Usuario {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,6 +49,6 @@ public abstract class Usuario {
     }
 
     public enum Rol {
-        ARTESANO, CLIENTE, ADMIN
+        ARTESANO, USUARIO, ADMIN
     }
 } 
