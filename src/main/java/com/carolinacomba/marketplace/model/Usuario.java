@@ -33,7 +33,7 @@ public abstract class Usuario {
 
     @NotBlank(message = "La contraseña es requerida")
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
-    @Column(nullable = false, length = 255)
+    @Column(name = "password", nullable = false, length = 255)
     private String contraseña;
 
     @Enumerated(EnumType.STRING)
