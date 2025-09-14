@@ -7,6 +7,7 @@ import com.carolinacomba.marketplace.model.Artesano;
 import com.carolinacomba.marketplace.model.Usuario;
 import com.carolinacomba.marketplace.repository.ArtesanoRepository;
 import com.carolinacomba.marketplace.repository.UsuarioRepository;
+import com.carolinacomba.marketplace.service.impl.UsuarioServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,7 +35,7 @@ class UsuarioServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private UsuarioService usuarioService;
+    private UsuarioServiceImpl usuarioService;
 
     private Usuario usuario;
     private Artesano artesano;
@@ -48,7 +49,7 @@ class UsuarioServiceTest {
         usuario.setId(1L);
         usuario.setNombre("Juan Usuario");
         usuario.setEmail("usuario@test.com");
-        usuario.setContraseña("encodedPassword");
+        usuario.setContrasena("encodedPassword");
         usuario.setRol(Usuario.Rol.USUARIO);
 
         // Setup Artesano
@@ -56,7 +57,7 @@ class UsuarioServiceTest {
         artesano.setId(2L);
         artesano.setNombre("María Artesana");
         artesano.setEmail("artesano@test.com");
-        artesano.setContraseña("encodedPassword");
+        artesano.setContrasena("encodedPassword");
         artesano.setRol(Usuario.Rol.ARTESANO);
         artesano.setNombreEmprendimiento("Artesanías María");
         artesano.setDescripcion("Creaciones únicas");
@@ -114,7 +115,7 @@ class UsuarioServiceTest {
         String email = "usuario@test.com";
         String password = "123456";
         when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches(password, usuario.getContraseña())).thenReturn(true);
+        when(passwordEncoder.matches(password, usuario.getContrasena())).thenReturn(true);
 
         // When
         Usuario resultado = usuarioService.autenticar(email, password);
@@ -123,24 +124,24 @@ class UsuarioServiceTest {
         assertNotNull(resultado);
         assertEquals(usuario.getEmail(), resultado.getEmail());
         verify(usuarioRepository).findByEmail(email);
-        verify(passwordEncoder).matches(password, usuario.getContraseña());
+        verify(passwordEncoder).matches(password, usuario.getContrasena());
     }
 
     @Test
-    void autenticar_ContraseñaIncorrecta_DeberiaLanzarExcepcion() {
+    void autenticar_ContrasenaIncorrecta_DeberiaLanzarExcepcion() {
         // Given
         String email = "usuario@test.com";
         String password = "passwordIncorrecta";
         when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches(password, usuario.getContraseña())).thenReturn(false);
+        when(passwordEncoder.matches(password, usuario.getContrasena())).thenReturn(false);
 
         // When & Then
         RuntimeException exception = assertThrows(RuntimeException.class, 
             () -> usuarioService.autenticar(email, password));
         
-        assertEquals("Contraseña incorrecta", exception.getMessage());
+        assertEquals("Contrasena incorrecta", exception.getMessage());
         verify(usuarioRepository).findByEmail(email);
-        verify(passwordEncoder).matches(password, usuario.getContraseña());
+        verify(passwordEncoder).matches(password, usuario.getContrasena());
     }
 
     @Test

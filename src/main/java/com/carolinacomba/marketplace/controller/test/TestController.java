@@ -1,8 +1,8 @@
-package com.carolinacomba.marketplace.controller;
+package com.carolinacomba.marketplace.controller.test;
 
 import com.carolinacomba.marketplace.model.Usuario;
 import com.carolinacomba.marketplace.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +12,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/test")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class TestController {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/usuarios")
     public List<Usuario> getAllUsuarios() {
@@ -39,12 +37,12 @@ public class TestController {
         }
         
         Usuario usuario = usuarioOpt.get();
-        boolean matches = passwordEncoder.matches("password", usuario.getContraseña());
+        boolean matches = passwordEncoder.matches("password", usuario.getContrasena());
         
         return String.format(
-            "Email: %s, Contraseña hash: %s, Matches 'password': %s", 
+            "Email: %s, Contrasena hash: %s, Matches 'password': %s", 
             usuario.getEmail(), 
-            usuario.getContraseña(), 
+            usuario.getContrasena(), 
             matches
         );
     }
@@ -58,12 +56,12 @@ public class TestController {
             }
             
             Usuario usuario = usuarioOpt.get();
-            boolean matches = passwordEncoder.matches(password, usuario.getContraseña());
+            boolean matches = passwordEncoder.matches(password, usuario.getContrasena());
             
             if (matches) {
                 return String.format("Login exitoso para %s (rol: %s)", email, usuario.getRol());
             } else {
-                return String.format("Contraseña incorrecta para %s", email);
+                return String.format("Contrasena incorrecta para %s", email);
             }
         } catch (Exception e) {
             return "Error: " + e.getMessage();

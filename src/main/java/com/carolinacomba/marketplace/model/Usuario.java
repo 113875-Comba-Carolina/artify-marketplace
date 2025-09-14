@@ -32,19 +32,19 @@ public class Usuario {
     @Column(nullable = false, unique = true, length = 150)
     private String email;
 
-    @NotBlank(message = "La contraseña es requerida")
-    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
+    @NotBlank(message = "La contrasena es requerida")
+    @Size(min = 6, message = "La contrasena debe tener al menos 6 caracteres")
     @Column(name = "password", nullable = false, length = 255)
-    private String contraseña;
+    private String contrasena;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private Rol rol;
 
-    public Usuario(String nombre, String email, String contraseña, Rol rol) {
+    public Usuario(String nombre, String email, String contrasena, Rol rol) {
         this.nombre = nombre;
         this.email = email;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
         this.rol = rol;
     }
 

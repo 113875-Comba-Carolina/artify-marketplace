@@ -1,11 +1,11 @@
-package com.carolinacomba.marketplace.security;
+package com.carolinacomba.marketplace.controller.auth;
 
 import com.carolinacomba.marketplace.dto.*;
 import com.carolinacomba.marketplace.model.Artesano;
 import com.carolinacomba.marketplace.model.Usuario;
-import com.carolinacomba.marketplace.service.UsuarioService;
+import com.carolinacomba.marketplace.service.IUsuarioService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,10 +17,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class AuthController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final IUsuarioService usuarioService;
 
     @PostMapping("/registro/usuario")
     public ResponseEntity<?> registrarUsuario(@Valid @RequestBody RegistroUsuarioRequest request) {

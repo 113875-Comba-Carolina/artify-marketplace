@@ -5,7 +5,7 @@
 DELETE FROM artesanos;
 DELETE FROM usuarios;
 
--- Insertar usuarios base con contraseña hasheada correctamente para "password"
+-- Insertar usuarios base con contrasena hasheada correctamente para "password"
 INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario) VALUES 
 ('Admin Sistema', 'admin@artify.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ADMIN', 'USUARIO');
 
@@ -20,7 +20,7 @@ INSERT INTO artesanos (id, nombre_emprendimiento, descripcion, ubicacion)
 SELECT id, 'Artesanías Únicas', 'Creaciones únicas hechas a mano con amor y dedicación', 'Buenos Aires, Argentina' 
 FROM usuarios WHERE email = 'artesano@test.com';
 
--- Nota: La contraseña para todos los usuarios de prueba es 'password'
+-- Nota: La contrasena para todos los usuarios de prueba es 'password'
 -- Hash BCrypt verificado: $2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
 -- Usuarios disponibles para testing:
 -- admin@artify.com - password (ROL: ADMIN)

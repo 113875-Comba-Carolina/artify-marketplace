@@ -20,7 +20,7 @@ public class RegistroUsuarioRequest {
     @Email(message = "Debe ser un email válido")
     private String email;
 
-    @NotBlank(message = "La contraseña es requerida")
-    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
+    @NotBlank(message = "La contrasena es requerida")
+    @Size(min = 6, message = "La contrasena debe tener al menos 6 caracteres")
     private String password;
 }

@@ -2,7 +2,7 @@ package com.carolinacomba.marketplace.security;
 
 import com.carolinacomba.marketplace.model.Usuario;
 import com.carolinacomba.marketplace.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,10 +15,10 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return User.builder()
             .username(usuario.getEmail())
-            .password(usuario.getContraseña())
+            .password(usuario.getContrasena())
             .authorities(getAuthorities(usuario))
             .build();
     }

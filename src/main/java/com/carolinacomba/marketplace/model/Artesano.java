@@ -29,9 +29,9 @@ public class Artesano extends Usuario {
         setRol(Rol.ARTESANO);
     }
 
-    public Artesano(String nombre, String email, String contraseña, 
+    public Artesano(String nombre, String email, String contrasena, 
                    String nombreEmprendimiento, String descripcion, String ubicacion) {
-        super(nombre, email, contraseña, Rol.ARTESANO);
+        super(nombre, email, contrasena, Rol.ARTESANO);
         this.nombreEmprendimiento = nombreEmprendimiento;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion;
