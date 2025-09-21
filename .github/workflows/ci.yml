@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Tests Check
 
 on:
   push:
@@ -27,11 +27,8 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
         
-    - name: Run tests with H2 database
+    - name: Run tests
       run: mvn clean test "-Dspring.profiles.active=test"
-        
-    - name: Compile application
-      run: mvn clean compile
       
-    - name: Package application
+    - name: Build application
       run: mvn clean package -DskipTests
