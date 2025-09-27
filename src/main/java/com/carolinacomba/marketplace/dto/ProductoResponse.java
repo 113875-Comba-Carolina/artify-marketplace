@@ -24,8 +24,19 @@ public class ProductoResponse {
     private Boolean esActivo;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
-    private String artesanoNombre;
-    private Long artesanoId;
+    private ArtesanoInfo artesano;
+    
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ArtesanoInfo {
+        private Long id;
+        private String nombre;
+        private String email;
+        private String nombreEmprendimiento;
+        private String descripcion;
+        private String ubicacion;
+    }
     
     // Constructor personalizado para convertir desde Producto
     public ProductoResponse(Producto producto) {
@@ -39,8 +50,14 @@ public class ProductoResponse {
         this.esActivo = producto.getEsActivo();
         this.fechaCreacion = producto.getFechaCreacion();
         this.fechaActualizacion = producto.getFechaActualizacion();
-        this.artesanoNombre = producto.getArtesano().getNombre();
-        this.artesanoId = producto.getArtesano().getId();
+        this.artesano = new ArtesanoInfo(
+            producto.getArtesano().getId(),
+            producto.getArtesano().getNombre(),
+            producto.getArtesano().getEmail(),
+            producto.getArtesano().getNombreEmprendimiento(),
+            producto.getArtesano().getDescripcion(),
+            producto.getArtesano().getUbicacion()
+        );
     }
     
 }

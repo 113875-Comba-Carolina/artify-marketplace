@@ -33,6 +33,9 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/registro/**").permitAll()
                 .requestMatchers("/api/test/**").permitAll()
                 
+                // Endpoints públicos de productos (lectura)
+                .requestMatchers("GET", "/api/productos/**").permitAll()
+                
                 // Endpoints para ADMIN
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/actuator/**").hasRole("ADMIN")
