@@ -1,6 +1,5 @@
 package com.carolinacomba.marketplace.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshTokenRequest {
-    @NotBlank(message = "El refresh token es requerido")
-    private String refreshToken;
+public class EstadisticasResponse {
+    private long totalProductos;
+    private long productosActivos;
+    private long productosInactivos;
 }

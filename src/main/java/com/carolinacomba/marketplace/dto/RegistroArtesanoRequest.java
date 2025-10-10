@@ -20,11 +20,11 @@ public class RegistroArtesanoRequest {
     @Email(message = "Debe ser un email válido")
     private String email;
 
-    @NotBlank(message = "La contraseña es requerida")
-    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
+    @NotBlank(message = "La contrasena es requerida")
+    @Size(min = 6, message = "La contrasena debe tener al menos 6 caracteres")
     private String password;
 
-    @Size(max = 200, message = "El nombre del emprendimiento no puede exceder 200 caracteres")
+    @Size(max = 100, message = "El nombre del emprendimiento no puede exceder 100 caracteres")
     private String nombreEmprendimiento;
 
     @Size(max = 1000, message = "La descripción no puede exceder 1000 caracteres")

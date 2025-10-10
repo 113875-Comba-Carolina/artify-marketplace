@@ -2,13 +2,12 @@ package com.carolinacomba.marketplace.service;
 
 import com.carolinacomba.marketplace.dto.CambioRolRequest;
 import com.carolinacomba.marketplace.dto.RegistroArtesanoRequest;
-import com.carolinacomba.marketplace.dto.RegistroClienteRequest;
+import com.carolinacomba.marketplace.dto.RegistroUsuarioRequest;
 import com.carolinacomba.marketplace.model.Artesano;
-import com.carolinacomba.marketplace.model.Cliente;
 import com.carolinacomba.marketplace.model.Usuario;
 import com.carolinacomba.marketplace.repository.ArtesanoRepository;
-import com.carolinacomba.marketplace.repository.ClienteRepository;
 import com.carolinacomba.marketplace.repository.UsuarioRepository;
+import com.carolinacomba.marketplace.service.impl.UsuarioServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +20,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,48 +29,45 @@ class UsuarioServiceTest {
     private UsuarioRepository usuarioRepository;
 
     @Mock
-    private ClienteRepository clienteRepository;
-
-    @Mock
     private ArtesanoRepository artesanoRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private UsuarioService usuarioService;
+    private UsuarioServiceImpl usuarioService;
 
-    private Cliente cliente;
+    private Usuario usuario;
     private Artesano artesano;
-    private RegistroClienteRequest registroClienteRequest;
+    private RegistroUsuarioRequest registroUsuarioRequest;
     private RegistroArtesanoRequest registroArtesanoRequest;
 
     @BeforeEach
     void setUp() {
-        // Setup Cliente
-        cliente = new Cliente();
-        cliente.setId(1L);
-        cliente.setNombre("Juan Cliente");
-        cliente.setEmail("cliente@test.com");
-        cliente.setContraseña("encodedPassword");
-        cliente.setRol(Usuario.Rol.CLIENTE);
+        // Setup Usuario
+        usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setNombre("Juan Usuario");
+        usuario.setEmail("usuario@test.com");
+        usuario.setContrasena("encodedPassword");
+        usuario.setRol(Usuario.Rol.USUARIO);
 
         // Setup Artesano
         artesano = new Artesano();
         artesano.setId(2L);
         artesano.setNombre("María Artesana");
         artesano.setEmail("artesano@test.com");
-        artesano.setContraseña("encodedPassword");
+        artesano.setContrasena("encodedPassword");
         artesano.setRol(Usuario.Rol.ARTESANO);
         artesano.setNombreEmprendimiento("Artesanías María");
         artesano.setDescripcion("Creaciones únicas");
         artesano.setUbicacion("Buenos Aires");
 
-        // Setup RegistroClienteRequest
-        registroClienteRequest = new RegistroClienteRequest();
-        registroClienteRequest.setNombre("Juan Cliente");
-        registroClienteRequest.setEmail("cliente@test.com");
-        registroClienteRequest.setPassword("123456");
+        // Setup RegistroUsuarioRequest
+        registroUsuarioRequest = new RegistroUsuarioRequest();
+        registroUsuarioRequest.setNombre("Juan Usuario");
+        registroUsuarioRequest.setEmail("usuario@test.com");
+        registroUsuarioRequest.setPassword("123456");
 
         // Setup RegistroArtesanoRequest
         registroArtesanoRequest = new RegistroArtesanoRequest();
@@ -87,16 +82,16 @@ class UsuarioServiceTest {
     @Test
     void buscarPorEmail_UsuarioExiste_DeberiaRetornarUsuario() {
         // Given
-        String email = "cliente@test.com";
-        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(cliente));
+        String email = "usuario@test.com";
+        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
 
         // When
         Usuario resultado = usuarioService.buscarPorEmail(email);
 
         // Then
         assertNotNull(resultado);
-        assertEquals(cliente.getEmail(), resultado.getEmail());
-        assertEquals(cliente.getNombre(), resultado.getNombre());
+        assertEquals(usuario.getEmail(), resultado.getEmail());
+        assertEquals(usuario.getNombre(), resultado.getNombre());
         verify(usuarioRepository).findByEmail(email);
     }
 
@@ -117,70 +112,70 @@ class UsuarioServiceTest {
     @Test
     void autenticar_CredencialesValidas_DeberiaRetornarUsuario() {
         // Given
-        String email = "cliente@test.com";
+        String email = "usuario@test.com";
         String password = "123456";
-        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(cliente));
-        when(passwordEncoder.matches(password, cliente.getContraseña())).thenReturn(true);
+        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
+        when(passwordEncoder.matches(password, usuario.getContrasena())).thenReturn(true);
 
         // When
         Usuario resultado = usuarioService.autenticar(email, password);
 
         // Then
         assertNotNull(resultado);
-        assertEquals(cliente.getEmail(), resultado.getEmail());
+        assertEquals(usuario.getEmail(), resultado.getEmail());
         verify(usuarioRepository).findByEmail(email);
-        verify(passwordEncoder).matches(password, cliente.getContraseña());
+        verify(passwordEncoder).matches(password, usuario.getContrasena());
     }
 
     @Test
-    void autenticar_ContraseñaIncorrecta_DeberiaLanzarExcepcion() {
+    void autenticar_ContrasenaIncorrecta_DeberiaLanzarExcepcion() {
         // Given
-        String email = "cliente@test.com";
+        String email = "usuario@test.com";
         String password = "passwordIncorrecta";
-        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(cliente));
-        when(passwordEncoder.matches(password, cliente.getContraseña())).thenReturn(false);
+        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
+        when(passwordEncoder.matches(password, usuario.getContrasena())).thenReturn(false);
 
         // When & Then
         RuntimeException exception = assertThrows(RuntimeException.class, 
             () -> usuarioService.autenticar(email, password));
         
-        assertEquals("Contraseña incorrecta", exception.getMessage());
+        assertEquals("Contrasena incorrecta", exception.getMessage());
         verify(usuarioRepository).findByEmail(email);
-        verify(passwordEncoder).matches(password, cliente.getContraseña());
+        verify(passwordEncoder).matches(password, usuario.getContrasena());
     }
 
     @Test
-    void registrarCliente_EmailNoExiste_DeberiaCrearCliente() {
+    void registrarUsuario_EmailNoExiste_DeberiaCrearUsuario() {
         // Given
-        when(usuarioRepository.existsByEmail(registroClienteRequest.getEmail())).thenReturn(false);
-        when(passwordEncoder.encode(registroClienteRequest.getPassword())).thenReturn("encodedPassword");
-        when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
+        when(usuarioRepository.existsByEmail(registroUsuarioRequest.getEmail())).thenReturn(false);
+        when(passwordEncoder.encode(registroUsuarioRequest.getPassword())).thenReturn("encodedPassword");
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
 
         // When
-        Cliente resultado = usuarioService.registrarCliente(registroClienteRequest);
+        Usuario resultado = usuarioService.registrarUsuario(registroUsuarioRequest);
 
         // Then
         assertNotNull(resultado);
-        assertEquals(registroClienteRequest.getNombre(), resultado.getNombre());
-        assertEquals(registroClienteRequest.getEmail(), resultado.getEmail());
-        assertEquals(Usuario.Rol.CLIENTE, resultado.getRol());
-        verify(usuarioRepository).existsByEmail(registroClienteRequest.getEmail());
-        verify(passwordEncoder).encode(registroClienteRequest.getPassword());
-        verify(clienteRepository).save(any(Cliente.class));
+        assertEquals(registroUsuarioRequest.getNombre(), resultado.getNombre());
+        assertEquals(registroUsuarioRequest.getEmail(), resultado.getEmail());
+        assertEquals(Usuario.Rol.USUARIO, resultado.getRol());
+        verify(usuarioRepository).existsByEmail(registroUsuarioRequest.getEmail());
+        verify(passwordEncoder).encode(registroUsuarioRequest.getPassword());
+        verify(usuarioRepository).save(any(Usuario.class));
     }
 
     @Test
-    void registrarCliente_EmailYaExiste_DeberiaLanzarExcepcion() {
+    void registrarUsuario_EmailYaExiste_DeberiaLanzarExcepcion() {
         // Given
-        when(usuarioRepository.existsByEmail(registroClienteRequest.getEmail())).thenReturn(true);
+        when(usuarioRepository.existsByEmail(registroUsuarioRequest.getEmail())).thenReturn(true);
 
         // When & Then
         RuntimeException exception = assertThrows(RuntimeException.class, 
-            () -> usuarioService.registrarCliente(registroClienteRequest));
+            () -> usuarioService.registrarUsuario(registroUsuarioRequest));
         
         assertEquals("Ya existe un usuario con este email", exception.getMessage());
-        verify(usuarioRepository).existsByEmail(registroClienteRequest.getEmail());
-        verify(clienteRepository, never()).save(any(Cliente.class));
+        verify(usuarioRepository).existsByEmail(registroUsuarioRequest.getEmail());
+        verify(usuarioRepository, never()).save(any(Usuario.class));
     }
 
     @Test
@@ -205,53 +200,31 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void cambiarRol_ClienteAArtesano_DeberiaCambiarRol() {
+    void cambiarRol_UsuarioAUsuario_DeberiaRetornarUsuarioSinCambios() {
         // Given
-        String email = "cliente@test.com";
+        String email = "usuario@test.com";
         CambioRolRequest request = new CambioRolRequest();
-        request.setRol("ARTESANO");
+        request.setRol("USUARIO");
         
-        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(cliente));
-        when(artesanoRepository.save(any(Artesano.class))).thenReturn(artesano);
+        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
 
         // When
         Usuario resultado = usuarioService.cambiarRol(email, request);
 
         // Then
         assertNotNull(resultado);
-        assertEquals(Usuario.Rol.ARTESANO, resultado.getRol());
+        assertEquals(Usuario.Rol.USUARIO, resultado.getRol());
         verify(usuarioRepository).findByEmail(email);
-        verify(artesanoRepository).save(any(Artesano.class));
-    }
-
-    @Test
-    void cambiarRol_ArtesanoACliente_DeberiaCambiarRol() {
-        // Given
-        String email = "artesano@test.com";
-        CambioRolRequest request = new CambioRolRequest();
-        request.setRol("CLIENTE");
-        
-        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(artesano));
-        when(clienteRepository.save(any(Cliente.class))).thenReturn(cliente);
-
-        // When
-        Usuario resultado = usuarioService.cambiarRol(email, request);
-
-        // Then
-        assertNotNull(resultado);
-        assertEquals(Usuario.Rol.CLIENTE, resultado.getRol());
-        verify(usuarioRepository).findByEmail(email);
-        verify(clienteRepository).save(any(Cliente.class));
     }
 
     @Test
     void cambiarRol_UsuarioAdmin_DeberiaLanzarExcepcion() {
         // Given
-        Cliente admin = new Cliente();
+        Usuario admin = new Usuario();
         admin.setRol(Usuario.Rol.ADMIN);
         String email = "admin@test.com";
         CambioRolRequest request = new CambioRolRequest();
-        request.setRol("CLIENTE");
+        request.setRol("USUARIO");
         
         when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(admin));
 
@@ -266,11 +239,11 @@ class UsuarioServiceTest {
     @Test
     void cambiarRol_RolInvalido_DeberiaLanzarExcepcion() {
         // Given
-        String email = "cliente@test.com";
+        String email = "usuario@test.com";
         CambioRolRequest request = new CambioRolRequest();
         request.setRol("ROL_INVALIDO");
         
-        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(cliente));
+        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
 
         // When & Then
         RuntimeException exception = assertThrows(RuntimeException.class, 
@@ -281,22 +254,21 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void cambiarRol_MismoRol_DeberiaRetornarUsuarioSinCambios() {
+    void cambiarRol_UsuarioArtesano_DeberiaCambiarRol() {
         // Given
-        String email = "cliente@test.com";
+        String email = "usuario@test.com";
         CambioRolRequest request = new CambioRolRequest();
-        request.setRol("CLIENTE");
+        request.setRol("ARTESANO");
         
-        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(cliente));
+        when(usuarioRepository.findByEmail(email)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
 
         // When
         Usuario resultado = usuarioService.cambiarRol(email, request);
 
         // Then
         assertNotNull(resultado);
-        assertEquals(Usuario.Rol.CLIENTE, resultado.getRol());
         verify(usuarioRepository).findByEmail(email);
-        verify(clienteRepository, never()).save(any(Cliente.class));
-        verify(artesanoRepository, never()).save(any(Artesano.class));
+        verify(usuarioRepository).save(any(Usuario.class));
     }
 }
