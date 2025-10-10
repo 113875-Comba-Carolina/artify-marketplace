@@ -28,6 +28,12 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     // Buscar productos activos por artesano con paginación
     Page<Producto> findByArtesanoAndEsActivoTrue(Artesano artesano, Pageable pageable);
     
+    // Buscar productos inactivos por artesano
+    List<Producto> findByArtesanoAndEsActivoFalse(Artesano artesano);
+    
+    // Buscar productos inactivos por artesano con paginación
+    Page<Producto> findByArtesanoAndEsActivoFalse(Artesano artesano, Pageable pageable);
+    
     // Buscar productos por categoría
     List<Producto> findByCategoria(CategoriaProducto categoria);
     

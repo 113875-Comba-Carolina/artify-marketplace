@@ -2,6 +2,7 @@ package com.carolinacomba.marketplace.service;
 
 import com.carolinacomba.marketplace.dto.ProductoRequest;
 import com.carolinacomba.marketplace.dto.ProductoResponse;
+import com.carolinacomba.marketplace.dto.ProductoWithImageRequest;
 import com.carolinacomba.marketplace.model.Artesano;
 import com.carolinacomba.marketplace.model.CategoriaProducto;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,9 @@ public interface IProductoService {
     
     // Crear un nuevo producto
     ProductoResponse crearProducto(ProductoRequest productoRequest, Artesano artesano);
+    
+    // Crear un nuevo producto con imagen
+    ProductoResponse crearProductoConImagen(ProductoWithImageRequest productoRequest, Artesano artesano);
     
     // Obtener un producto por ID
     ProductoResponse obtenerProductoPorId(Long id);
@@ -29,6 +33,9 @@ public interface IProductoService {
     
     // Obtener productos por artesano con paginación
     Page<ProductoResponse> obtenerProductosPorArtesano(Artesano artesano, Pageable pageable);
+    
+    // Obtener productos activos por artesano con paginación
+    Page<ProductoResponse> obtenerProductosActivosPorArtesano(Artesano artesano, Pageable pageable);
     
     // Obtener productos por categoría
     List<ProductoResponse> obtenerProductosPorCategoria(CategoriaProducto categoria);
@@ -49,11 +56,26 @@ public interface IProductoService {
     // Actualizar un producto
     ProductoResponse actualizarProducto(Long id, ProductoRequest productoRequest, Artesano artesano);
     
+    // Actualizar un producto con imagen
+    ProductoResponse actualizarProductoConImagen(Long id, ProductoWithImageRequest productoRequest, Artesano artesano);
+    
     // Eliminar un producto (soft delete)
     void eliminarProducto(Long id, Artesano artesano);
     
     // Activar/Desactivar producto
     ProductoResponse cambiarEstadoProducto(Long id, Boolean esActivo, Artesano artesano);
+    
+    // Desactivar producto (soft delete)
+    ProductoResponse desactivarProducto(Long id, Artesano artesano);
+    
+    // Activar producto
+    ProductoResponse activarProducto(Long id, Artesano artesano);
+    
+    // Eliminar producto definitivamente (solo si está inactivo)
+    void eliminarProductoDefinitivamente(Long id, Artesano artesano);
+    
+    // Obtener productos inactivos del artesano
+    Page<ProductoResponse> obtenerProductosInactivos(Artesano artesano, Pageable pageable);
     
     // Obtener productos con stock disponible
     List<ProductoResponse> obtenerProductosConStock();

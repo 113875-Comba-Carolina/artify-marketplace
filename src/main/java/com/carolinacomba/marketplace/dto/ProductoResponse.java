@@ -1,6 +1,7 @@
 package com.carolinacomba.marketplace.dto;
 
 import com.carolinacomba.marketplace.model.CategoriaProducto;
+import com.carolinacomba.marketplace.model.EstadoProducto;
 import com.carolinacomba.marketplace.model.Producto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,8 @@ public class ProductoResponse {
     private Integer stock;
     private String imagenUrl;
     private Boolean esActivo;
+    private EstadoProducto estado;
+    private Boolean disponibleParaCompra;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
     private ArtesanoInfo artesano;
@@ -48,6 +51,8 @@ public class ProductoResponse {
         this.stock = producto.getStock();
         this.imagenUrl = producto.getImagenUrl();
         this.esActivo = producto.getEsActivo();
+        this.estado = producto.getEstado();
+        this.disponibleParaCompra = producto.isDisponibleParaCompra();
         this.fechaCreacion = producto.getFechaCreacion();
         this.fechaActualizacion = producto.getFechaActualizacion();
         this.artesano = new ArtesanoInfo(

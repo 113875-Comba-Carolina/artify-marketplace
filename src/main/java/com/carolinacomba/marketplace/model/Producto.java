@@ -89,5 +89,79 @@ public class Producto {
         fechaActualizacion = LocalDateTime.now();
     }
     
+    // Métodos de negocio para manejo de estados
+    
+    /**
+     * Determina el estado actual del producto
+     */
+    public EstadoProducto getEstado() {
+        return EstadoProducto.determinarEstado(this.esActivo, this.stock);
+    }
+    
+    /**
+     * Verifica si el producto está disponible para compra
+     */
+    public boolean isDisponibleParaCompra() {
+        return this.esActivo && this.stock != null && this.stock > 0;
+    }
+    
+    /**
+     * Verifica si el producto está sin stock
+     */
+    public boolean isSinStock() {
+        return this.stock == null || this.stock <= 0;
+    }
+    
+    /**
+     * Verifica si el producto está inactivo
+     */
+    public boolean isInactivo() {
+        return !this.esActivo;
+    }
+    
+    /**
+     * Desactiva el producto (soft delete)
+     */
+    public void desactivar() {
+        this.esActivo = false;
+        this.fechaActualizacion = LocalDateTime.now();
+    }
+    
+    /**
+     * Activa el producto
+     */
+    public void activar() {
+        this.esActivo = true;
+        this.fechaActualizacion = LocalDateTime.now();
+    }
+    
+    /**
+     * Reduce el stock del producto
+     * @param cantidad La cantidad a reducir
+     * @return true si se pudo reducir, false si no hay suficiente stock
+     */
+    public boolean reducirStock(Integer cantidad) {
+        if (cantidad == null || cantidad <= 0) {
+            return false;
+        }
+        if (this.stock == null || this.stock < cantidad) {
+            return false;
+        }
+        this.stock -= cantidad;
+        this.fechaActualizacion = LocalDateTime.now();
+        return true;
+    }
+    
+    /**
+     * Aumenta el stock del producto
+     * @param cantidad La cantidad a aumentar
+     */
+    public void aumentarStock(Integer cantidad) {
+        if (cantidad != null && cantidad > 0) {
+            this.stock = (this.stock == null ? 0 : this.stock) + cantidad;
+            this.fechaActualizacion = LocalDateTime.now();
+        }
+    }
+    
 }
 
