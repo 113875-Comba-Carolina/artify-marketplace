@@ -6,6 +6,8 @@ import com.carolinacomba.marketplace.dto.RegistroUsuarioRequest;
 import com.carolinacomba.marketplace.model.Artesano;
 import com.carolinacomba.marketplace.model.Usuario;
 
+import java.util.List;
+
 public interface IUsuarioService {
     
     Usuario buscarPorEmail(String email);
@@ -23,4 +25,14 @@ public interface IUsuarioService {
     Artesano buscarArtesanoPorEmail(String email);
     
     Usuario cambiarRol(String email, CambioRolRequest request);
+    
+    Usuario findByEmail(String email);
+    
+    List<Object[]> findEmprendimientoFieldsByEmail(String email);
+    
+    boolean verificarPassword(Usuario usuario, String password);
+    
+    Usuario save(Usuario usuario);
+    
+    void delete(Long id);
 }

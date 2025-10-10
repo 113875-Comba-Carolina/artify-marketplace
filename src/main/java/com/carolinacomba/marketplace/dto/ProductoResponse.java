@@ -56,12 +56,12 @@ public class ProductoResponse {
         this.fechaCreacion = producto.getFechaCreacion();
         this.fechaActualizacion = producto.getFechaActualizacion();
         this.artesano = new ArtesanoInfo(
-            producto.getArtesano().getId(),
-            producto.getArtesano().getNombre(),
-            producto.getArtesano().getEmail(),
-            producto.getArtesano().getNombreEmprendimiento(),
-            producto.getArtesano().getDescripcion(),
-            producto.getArtesano().getUbicacion()
+            producto.getUsuario().getId(),
+            producto.getUsuario().getNombre(),
+            producto.getUsuario().getEmail(),
+            producto.getUsuario().getNombreEmprendimiento(),
+            producto.getUsuario().getDescripcion(),
+            producto.getUsuario().getUbicacion()
         );
     }
     

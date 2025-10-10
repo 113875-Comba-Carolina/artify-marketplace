@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "artesanos")
+//@Table(name = "artesanos")
 @DiscriminatorValue("ARTESANO")
 @Data
 @EqualsAndHashCode(callSuper = true)

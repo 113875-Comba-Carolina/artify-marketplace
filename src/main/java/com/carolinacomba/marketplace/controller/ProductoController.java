@@ -6,8 +6,10 @@ import com.carolinacomba.marketplace.dto.ProductoResponse;
 import com.carolinacomba.marketplace.dto.ProductoWithImageRequest;
 import com.carolinacomba.marketplace.model.Artesano;
 import com.carolinacomba.marketplace.model.CategoriaProducto;
+import com.carolinacomba.marketplace.model.Usuario;
 import com.carolinacomba.marketplace.repository.ArtesanoRepository;
 import com.carolinacomba.marketplace.service.IProductoService;
+import com.carolinacomba.marketplace.service.IUsuarioService;
 import com.carolinacomba.marketplace.service.ImageUploadService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class ProductoController {
     
     private final IProductoService productoService;
     private final ArtesanoRepository artesanoRepository;
+    private final IUsuarioService usuarioService;
     private final ImageUploadService imageUploadService;
     
     // ENDPOINTS PÚBLICOS
@@ -182,10 +185,18 @@ public class ProductoController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         try {
+            System.out.println("=== DEBUG MIS PRODUCTOS ACTIVOS ===");
             Artesano artesano = obtenerArtesanoAutenticado();
+            System.out.println("Artesano obtenido: " + artesano.getId());
             Pageable pageable = PageRequest.of(page, size);
             return ResponseEntity.ok(productoService.obtenerProductosActivosPorArtesano(artesano, pageable));
         } catch (RuntimeException e) {
+            System.out.println("ERROR en misProductosActivos: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            System.out.println("ERROR GENERAL en misProductosActivos: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
@@ -193,11 +204,19 @@ public class ProductoController {
     @GetMapping("/mis-estadisticas")
     public ResponseEntity<EstadisticasResponse> misEstadisticas() {
         try {
+            System.out.println("=== DEBUG MIS ESTADISTICAS ===");
             Artesano artesano = obtenerArtesanoAutenticado();
+            System.out.println("Artesano obtenido: " + artesano.getId());
             long total = productoService.contarProductosPorArtesano(artesano);
             long activos = productoService.contarProductosActivosPorArtesano(artesano);
             return ResponseEntity.ok(new EstadisticasResponse(total, activos, total - activos));
         } catch (RuntimeException e) {
+            System.out.println("ERROR en misEstadisticas: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            System.out.println("ERROR GENERAL en misEstadisticas: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
@@ -252,7 +271,35 @@ public class ProductoController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         
+        System.out.println("=== DEBUG OBTENER ARTESANO AUTENTICADO ===");
+        System.out.println("Email autenticado: " + email);
+        
+        // Buscar en la tabla Artesano primero
         return artesanoRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Artesano no encontrado"));
+            .orElseGet(() -> {
+                System.out.println("No se encontró en tabla Artesano, buscando en Usuario...");
+                // Si no se encuentra en la tabla Artesano, buscar en Usuario con rol ARTESANO
+                Usuario usuario = usuarioService.findByEmail(email);
+                System.out.println("Usuario encontrado: " + (usuario != null));
+                if (usuario != null) {
+                    System.out.println("Usuario rol: " + usuario.getRol());
+                }
+                
+                if (usuario != null && usuario.getRol() == Usuario.Rol.ARTESANO) {
+                    System.out.println("Creando Artesano temporal desde Usuario");
+                    // Crear un objeto Artesano temporal desde el Usuario
+                    Artesano artesano = new Artesano();
+                    artesano.setId(usuario.getId());
+                    artesano.setNombre(usuario.getNombre());
+                    artesano.setEmail(usuario.getEmail());
+                    artesano.setRol(usuario.getRol());
+                    artesano.setNombreEmprendimiento(usuario.getNombreEmprendimiento());
+                    artesano.setDescripcion(usuario.getDescripcion());
+                    artesano.setUbicacion(usuario.getUbicacion());
+                    return artesano;
+                }
+                System.out.println("ERROR: Artesano no encontrado");
+                throw new RuntimeException("Artesano no encontrado");
+            });
     }
 }

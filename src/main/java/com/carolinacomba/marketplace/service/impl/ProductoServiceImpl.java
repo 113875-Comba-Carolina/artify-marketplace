@@ -31,6 +31,10 @@ public class ProductoServiceImpl implements IProductoService {
     
     @Override
     public ProductoResponse crearProducto(ProductoRequest productoRequest, Artesano artesano) {
+        System.out.println("=== DEBUG CREAR PRODUCTO ===");
+        System.out.println("Artesano ID: " + artesano.getId());
+        System.out.println("Artesano Email: " + artesano.getEmail());
+        
         Producto producto = new Producto();
         producto.setNombre(productoRequest.getNombre());
         producto.setDescripcion(productoRequest.getDescripcion());
@@ -38,10 +42,12 @@ public class ProductoServiceImpl implements IProductoService {
         producto.setCategoria(productoRequest.getCategoria());
         producto.setStock(productoRequest.getStock());
         producto.setImagenUrl(productoRequest.getImagenUrl());
-        producto.setArtesano(artesano);
+        producto.setUsuario(artesano);
         producto.setEsActivo(true);
         
+        System.out.println("Guardando producto...");
         Producto productoGuardado = productoRepository.save(producto);
+        System.out.println("Producto guardado con ID: " + productoGuardado.getId());
         return new ProductoResponse(productoGuardado);
     }
     
@@ -96,7 +102,7 @@ public class ProductoServiceImpl implements IProductoService {
     @Override
     @Transactional(readOnly = true)
     public List<ProductoResponse> obtenerProductosPorArtesano(Artesano artesano) {
-        List<Producto> productos = productoRepository.findByArtesanoAndEsActivoTrue(artesano);
+        List<Producto> productos = productoRepository.findByUsuarioAndEsActivoTrue(artesano);
         return productos.stream()
             .map(ProductoResponse::new)
             .collect(Collectors.toList());
@@ -105,14 +111,20 @@ public class ProductoServiceImpl implements IProductoService {
     @Override
     @Transactional(readOnly = true)
     public Page<ProductoResponse> obtenerProductosPorArtesano(Artesano artesano, Pageable pageable) {
-        Page<Producto> productos = productoRepository.findByArtesano(artesano, pageable);
+        Page<Producto> productos = productoRepository.findByUsuario(artesano, pageable);
         return productos.map(ProductoResponse::new);
     }
     
     @Override
     @Transactional(readOnly = true)
     public Page<ProductoResponse> obtenerProductosActivosPorArtesano(Artesano artesano, Pageable pageable) {
-        Page<Producto> productos = productoRepository.findByArtesanoAndEsActivoTrue(artesano, pageable);
+        System.out.println("=== DEBUG OBTENER PRODUCTOS ACTIVOS ===");
+        System.out.println("Artesano ID: " + artesano.getId());
+        System.out.println("Artesano Email: " + artesano.getEmail());
+        
+        // Buscar por ID del usuario en lugar del objeto completo
+        Page<Producto> productos = productoRepository.findByUsuarioIdAndEsActivoTrue(artesano.getId(), pageable);
+        System.out.println("Productos encontrados: " + productos.getTotalElements());
         return productos.map(ProductoResponse::new);
     }
     
@@ -162,7 +174,7 @@ public class ProductoServiceImpl implements IProductoService {
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
         // Verificar que el producto pertenece al artesano
-        if (!producto.getArtesano().getId().equals(artesano.getId())) {
+        if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para actualizar este producto");
         }
         
@@ -183,7 +195,7 @@ public class ProductoServiceImpl implements IProductoService {
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
         // Verificar que el producto pertenece al artesano
-        if (!producto.getArtesano().getId().equals(artesano.getId())) {
+        if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para actualizar este producto");
         }
         
@@ -225,7 +237,7 @@ public class ProductoServiceImpl implements IProductoService {
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
         // Verificar que el producto pertenece al artesano
-        if (!producto.getArtesano().getId().equals(artesano.getId())) {
+        if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para desactivar este producto");
         }
         
@@ -241,7 +253,7 @@ public class ProductoServiceImpl implements IProductoService {
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
         // Verificar que el producto pertenece al artesano
-        if (!producto.getArtesano().getId().equals(artesano.getId())) {
+        if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para activar este producto");
         }
         
@@ -257,7 +269,7 @@ public class ProductoServiceImpl implements IProductoService {
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
         // Verificar que el producto pertenece al artesano
-        if (!producto.getArtesano().getId().equals(artesano.getId())) {
+        if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para eliminar este producto");
         }
         
@@ -273,7 +285,7 @@ public class ProductoServiceImpl implements IProductoService {
     @Override
     @Transactional(readOnly = true)
     public Page<ProductoResponse> obtenerProductosInactivos(Artesano artesano, Pageable pageable) {
-        Page<Producto> productos = productoRepository.findByArtesanoAndEsActivoFalse(artesano, pageable);
+        Page<Producto> productos = productoRepository.findByUsuarioAndEsActivoFalse(artesano, pageable);
         return productos.map(ProductoResponse::new);
     }
     
@@ -283,7 +295,7 @@ public class ProductoServiceImpl implements IProductoService {
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
         // Verificar que el producto pertenece al artesano
-        if (!producto.getArtesano().getId().equals(artesano.getId())) {
+        if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para cambiar el estado de este producto");
         }
         
@@ -320,19 +332,23 @@ public class ProductoServiceImpl implements IProductoService {
     @Override
     @Transactional(readOnly = true)
     public boolean productoPerteneceAArtesano(Long productoId, Artesano artesano) {
-        return productoRepository.existsByIdAndArtesano(productoId, artesano);
+        return productoRepository.existsByIdAndUsuario(productoId, artesano);
     }
     
     @Override
     @Transactional(readOnly = true)
     public long contarProductosPorArtesano(Artesano artesano) {
-        return productoRepository.countByArtesano(artesano);
+        System.out.println("=== DEBUG CONTAR PRODUCTOS ===");
+        System.out.println("Artesano ID: " + artesano.getId());
+        return productoRepository.countByUsuarioId(artesano.getId());
     }
     
     @Override
     @Transactional(readOnly = true)
     public long contarProductosActivosPorArtesano(Artesano artesano) {
-        return productoRepository.countByArtesanoAndEsActivoTrue(artesano);
+        System.out.println("=== DEBUG CONTAR PRODUCTOS ACTIVOS ===");
+        System.out.println("Artesano ID: " + artesano.getId());
+        return productoRepository.countByUsuarioIdAndEsActivoTrue(artesano.getId());
     }
 }
 
