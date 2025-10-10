@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -120,5 +122,30 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuario.setRol(nuevoRol);
         
         return usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public Usuario findByEmail(String email) {
+        return usuarioRepository.findByEmail(email).orElse(null);
+    }
+    
+    @Override
+    public List<Object[]> findEmprendimientoFieldsByEmail(String email) {
+        return usuarioRepository.findEmprendimientoFieldsByEmail(email);
+    }
+
+    @Override
+    public boolean verificarPassword(Usuario usuario, String password) {
+        return passwordEncoder.matches(password, usuario.getContrasena());
+    }
+
+    @Override
+    public Usuario save(Usuario usuario) {
+        return usuarioRepository.save(usuario);
+    }
+
+    @Override
+    public void delete(Long id) {
+        usuarioRepository.deleteById(id);
     }
 }

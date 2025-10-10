@@ -58,21 +58,21 @@ public class Producto {
     @Column(name = "fecha_actualizacion")
     private LocalDateTime fechaActualizacion;
     
-    // Relación con el artesano que creó el producto
+    // Relación con el usuario que creó el producto (puede ser artesano o usuario normal)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artesano_id", nullable = false)
-    private Artesano artesano;
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
     
     // Constructor personalizado para inicializar fecha de creación
     public Producto(String nombre, String descripcion, BigDecimal precio, CategoriaProducto categoria, 
-                    Integer stock, String imagenUrl, Artesano artesano) {
+                    Integer stock, String imagenUrl, Usuario usuario) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.categoria = categoria;
         this.stock = stock;
         this.imagenUrl = imagenUrl;
-        this.artesano = artesano;
+        this.usuario = usuario;
         this.esActivo = true;
         this.fechaCreacion = LocalDateTime.now();
     }
