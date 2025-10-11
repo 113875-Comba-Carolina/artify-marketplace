@@ -1,13 +1,17 @@
 package com.carolinacomba.marketplace.controller;
 
 import com.carolinacomba.marketplace.dto.*;
+import com.carolinacomba.marketplace.model.Usuario;
 import com.carolinacomba.marketplace.service.MercadoPagoService;
+import com.carolinacomba.marketplace.service.IUsuarioService;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +20,9 @@ public class PaymentController {
 
     @Autowired
     private MercadoPagoService mercadoPagoService;
+    
+    @Autowired
+    private IUsuarioService usuarioService;
 
     /**
      * Crea una preferencia de pago para Checkout Pro
@@ -33,7 +40,12 @@ public class PaymentController {
             System.out.println("Pending URL: " + preferenceRequest.getPendingUrl());
             System.out.println("Auto Return: " + preferenceRequest.getAutoReturn());
             
-            PreferenceResponse response = mercadoPagoService.createPreference(preferenceRequest);
+            // Obtener usuario actual
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String email = auth.getName();
+            Usuario usuario = usuarioService.buscarPorEmail(email);
+            
+            PreferenceResponse response = mercadoPagoService.createPreference(preferenceRequest, usuario);
             
             if (response.isSuccess()) {
                 return ResponseEntity.ok(response);

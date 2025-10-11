@@ -51,6 +51,9 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     // Buscar todos los productos activos con paginación
     Page<Producto> findByEsActivoTrue(Pageable pageable);
     
+    // Buscar producto por nombre exacto
+    java.util.Optional<Producto> findByNombre(String nombre);
+    
     // Buscar productos por nombre (búsqueda parcial)
     List<Producto> findByNombreContainingIgnoreCaseAndEsActivoTrue(String nombre);
     

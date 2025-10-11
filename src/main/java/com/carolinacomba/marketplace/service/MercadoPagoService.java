@@ -4,6 +4,7 @@ import com.carolinacomba.marketplace.dto.PaymentRequest;
 import com.carolinacomba.marketplace.dto.PaymentResponse;
 import com.carolinacomba.marketplace.dto.CreatePreferenceRequest;
 import com.carolinacomba.marketplace.dto.PreferenceResponse;
+import com.carolinacomba.marketplace.model.Usuario;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 
@@ -12,9 +13,10 @@ public interface MercadoPagoService {
     /**
      * Crea una preferencia de pago para Checkout Pro
      * @param preferenceRequest Datos de la preferencia
+     * @param usuario Usuario que realiza la compra
      * @return Respuesta con la preferencia creada
      */
-    PreferenceResponse createPreference(CreatePreferenceRequest preferenceRequest) throws MPException, MPApiException;
+    PreferenceResponse createPreference(CreatePreferenceRequest preferenceRequest, Usuario usuario) throws MPException, MPApiException;
     
     /**
      * Crea un pago directo (para Checkout API)

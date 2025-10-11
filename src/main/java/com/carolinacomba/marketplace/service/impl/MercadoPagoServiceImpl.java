@@ -1,7 +1,10 @@
 package com.carolinacomba.marketplace.service.impl;
 
 import com.carolinacomba.marketplace.dto.*;
+import com.carolinacomba.marketplace.model.Orden;
+import com.carolinacomba.marketplace.model.Usuario;
 import com.carolinacomba.marketplace.service.MercadoPagoService;
+import com.carolinacomba.marketplace.service.OrdenService;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.client.preference.PreferenceItemRequest;
@@ -11,12 +14,15 @@ import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class MercadoPagoServiceImpl implements MercadoPagoService {
 
     @Value("${mercadopago.public.key}")
@@ -25,8 +31,10 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
     @Value("${mercadopago.environment}")
     private String environment;
 
+    private final OrdenService ordenService;
+
     @Override
-    public PreferenceResponse createPreference(CreatePreferenceRequest request) throws MPException, MPApiException {
+    public PreferenceResponse createPreference(CreatePreferenceRequest request, Usuario usuario) throws MPException, MPApiException {
         try {
             System.out.println("=== DEBUG: Creando preferencia ===");
             System.out.println("Items recibidos: " + request.getItems().size());
@@ -96,6 +104,22 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
             System.out.println("=== DEBUG: Preferencia creada exitosamente ===");
             System.out.println("ID: " + preference.getId());
             System.out.println("Init Point: " + preference.getInitPoint());
+            
+            // Crear orden en la base de datos
+            System.out.println("=== DEBUG: Creando orden en la base de datos ===");
+            List<CarritoItem> carritoItems = request.getItems().stream()
+                    .map(item -> CarritoItem.builder()
+                            .productoId(0L) // Por ahora usamos 0, se puede mejorar después
+                            .nombreProducto(item.getTitle())
+                            .imagenUrl(item.getPictureUrl())
+                            .categoria(item.getCategoryId())
+                            .cantidad(item.getQuantity())
+                            .precio(BigDecimal.valueOf(item.getUnitPrice()))
+                            .build())
+                    .collect(Collectors.toList());
+            
+            Orden orden = ordenService.crearOrden(usuario, request.getExternalReference(), carritoItems);
+            System.out.println("=== DEBUG: Orden creada con ID: " + orden.getId() + " ===");
             
             // Construir respuesta
             PreferenceResponse response = new PreferenceResponse();
