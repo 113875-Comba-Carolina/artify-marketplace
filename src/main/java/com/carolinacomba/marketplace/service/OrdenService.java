@@ -22,4 +22,6 @@ public interface OrdenService {
     Orden obtenerOrdenPorExternalReference(String externalReference);
     
     List<Orden> obtenerTodasLasOrdenes();
+    
+    void reducirStockProductos(Long ordenId);
 }

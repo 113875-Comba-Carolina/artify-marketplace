@@ -237,6 +237,12 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                                 // Actualizar el estado de la orden
                                 ordenService.actualizarEstadoOrden(orden.getMercadoPagoId(), payment.getStatus());
                                 
+                                // Si el pago fue aprobado, reducir el stock de los productos
+                                if ("approved".equals(payment.getStatus())) {
+                                    ordenService.reducirStockProductos(orden.getId());
+                                    System.out.println("Webhook: Stock reducido para orden " + orden.getId());
+                                }
+                                
                                 System.out.println("Webhook: Orden " + orden.getId() + " actualizada a estado " + payment.getStatus());
                             } else {
                                 System.out.println("Webhook: No se encontró orden con external_reference: " + externalReference);
