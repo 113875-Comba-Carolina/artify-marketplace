@@ -104,7 +104,8 @@ public class PaymentController {
     @GetMapping("/debug/ordenes")
     public ResponseEntity<?> listarOrdenes() {
         try {
-            return (ResponseEntity<?>) mercadoPagoService.listarOrdenesParaDebug();
+            Object ordenes = mercadoPagoService.listarOrdenesParaDebug();
+            return ResponseEntity.ok(ordenes);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error listando órdenes: " + e.getMessage());

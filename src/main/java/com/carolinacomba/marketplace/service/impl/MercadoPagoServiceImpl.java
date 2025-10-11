@@ -20,7 +20,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -276,31 +278,27 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
     @Override
     public Object listarOrdenesParaDebug() {
         try {
-            System.out.println("=== LISTANDO ÓRDENES PARA DEBUG ===");
-            
             // Obtener todas las órdenes
             List<Orden> ordenes = ordenService.obtenerTodasLasOrdenes();
             
-            System.out.println("Total de órdenes encontradas: " + ordenes.size());
-            
+            // Crear una lista simple para debug
+            List<Map<String, Object>> ordenesDebug = new ArrayList<>();
             for (Orden orden : ordenes) {
-                System.out.println("=== ORDEN ===");
-                System.out.println("ID: " + orden.getId());
-                System.out.println("External Reference: '" + orden.getExternalReference() + "'");
-                System.out.println("External Reference Length: " + (orden.getExternalReference() != null ? orden.getExternalReference().length() : "null"));
-                System.out.println("Estado: " + orden.getEstado());
-                System.out.println("MercadoPago ID: " + orden.getMercadoPagoId());
-                System.out.println("Total: " + orden.getTotal());
-                System.out.println("Fecha: " + orden.getFechaCreacion());
-                System.out.println("Usuario: " + (orden.getUsuario() != null ? orden.getUsuario().getEmail() : "null"));
-                System.out.println("========================");
+                Map<String, Object> ordenInfo = new HashMap<>();
+                ordenInfo.put("id", orden.getId());
+                ordenInfo.put("externalReference", orden.getExternalReference());
+                ordenInfo.put("estado", orden.getEstado());
+                ordenInfo.put("mercadoPagoId", orden.getMercadoPagoId());
+                ordenInfo.put("total", orden.getTotal());
+                ordenInfo.put("fechaCreacion", orden.getFechaCreacion());
+                ordenInfo.put("usuario", orden.getUsuario() != null ? orden.getUsuario().getEmail() : "null");
+                ordenInfo.put("itemsCount", orden.getItems() != null ? orden.getItems().size() : 0);
+                ordenesDebug.add(ordenInfo);
             }
             
-            return ordenes;
-            
+            return ordenesDebug;
         } catch (Exception e) {
             System.out.println("Error listando órdenes: " + e.getMessage());
-            e.printStackTrace();
             return "Error: " + e.getMessage();
         }
     }
