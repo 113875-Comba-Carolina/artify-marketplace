@@ -44,23 +44,12 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
     @Override
     public PreferenceResponse createPreference(CreatePreferenceRequest request, Usuario usuario) throws MPException, MPApiException {
         try {
-            System.out.println("=== DEBUG: Creando preferencia ===");
-            System.out.println("Items recibidos: " + request.getItems().size());
-            
             // Crear cliente de preferencias
             PreferenceClient client = new PreferenceClient();
             
             // Construir items
             List<PreferenceItemRequest> items = new ArrayList<>();
             for (ItemRequest item : request.getItems()) {
-                System.out.println("=== DEBUG: Procesando item ===");
-                System.out.println("Title: " + item.getTitle());
-                System.out.println("Description: " + item.getDescription());
-                System.out.println("Quantity: " + item.getQuantity());
-                System.out.println("Unit Price: " + item.getUnitPrice());
-                System.out.println("Picture URL: " + item.getPictureUrl());
-                System.out.println("Category ID: " + item.getCategoryId());
-                
                 PreferenceItemRequest itemRequest = PreferenceItemRequest.builder()
                         .title(item.getTitle())
                         .description(item.getDescription())
@@ -70,7 +59,6 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                         .categoryId(item.getCategoryId())
                         .build();
                 items.add(itemRequest);
-                System.out.println("Item creado exitosamente");
             }
             
             // Construir preferencia
@@ -80,11 +68,6 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                     .notificationUrl(request.getNotificationUrl());
             
             // Agregar URLs de retorno si están definidas
-            System.out.println("=== DEBUG: Configurando URLs de retorno ===");
-            System.out.println("Success URL: " + request.getSuccessUrl());
-            System.out.println("Failure URL: " + request.getFailureUrl());
-            System.out.println("Pending URL: " + request.getPendingUrl());
-            
             if (request.getSuccessUrl() != null || request.getFailureUrl() != null || request.getPendingUrl() != null) {
                 PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
                         .success(request.getSuccessUrl())
@@ -92,29 +75,14 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                         .pending(request.getPendingUrl())
                         .build();
                 builder.backUrls(backUrls);
-                System.out.println("Back URLs configuradas exitosamente");
             }
             
-            // NO configuramos auto return para evitar el error de validación
-            System.out.println("=== DEBUG: Auto return NO configurado ===");
-            System.out.println("Auto Return solicitado: " + request.getAutoReturn());
-            System.out.println("Success URL disponible: " + (request.getSuccessUrl() != null));
-            System.out.println("Auto return NO configurado para evitar error de validación de Mercado Pago");
-            
             PreferenceRequest preferenceRequest = builder.build();
-            
-            System.out.println("=== DEBUG: Creando preferencia en Mercado Pago ===");
-            System.out.println("PreferenceRequest: " + preferenceRequest);
             
             // Crear preferencia
             Preference preference = client.create(preferenceRequest);
             
-            System.out.println("=== DEBUG: Preferencia creada exitosamente ===");
-            System.out.println("ID: " + preference.getId());
-            System.out.println("Init Point: " + preference.getInitPoint());
-            
             // Crear orden en la base de datos
-            System.out.println("=== DEBUG: Creando orden en la base de datos ===");
             List<CarritoItem> carritoItems = request.getItems().stream()
                     .map(item -> CarritoItem.builder()
                             .productoId(0L) // Por ahora usamos 0, se puede mejorar después
@@ -127,7 +95,6 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                     .collect(Collectors.toList());
             
             Orden orden = ordenService.crearOrden(usuario, request.getExternalReference(), carritoItems);
-            System.out.println("=== DEBUG: Orden creada con ID: " + orden.getId() + " ===");
             
             // Construir respuesta
             PreferenceResponse response = new PreferenceResponse();
@@ -196,33 +163,22 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
     @Override
     public String getPaymentStatusByReference(String externalReference) {
         try {
-            System.out.println("=== CONSULTANDO PAGO POR EXTERNAL_REFERENCE ===");
-            System.out.println("External Reference: " + externalReference);
-            
             // Buscar la orden en la base de datos
             Orden orden = ordenService.obtenerOrdenPorExternalReference(externalReference);
             if (orden == null) {
-                System.out.println("No se encontró orden con external_reference: " + externalReference);
                 return "orden_no_encontrada";
             }
             
-            System.out.println("Orden encontrada: " + orden.getId());
-            System.out.println("Estado actual: " + orden.getEstado());
-            
             // Si ya tiene mercadoPagoId, consultar el estado en Mercado Pago
             if (orden.getMercadoPagoId() != null) {
-                System.out.println("Consultando estado en Mercado Pago...");
                 String status = getPaymentStatus(orden.getMercadoPagoId());
-                System.out.println("Estado en Mercado Pago: " + status);
                 return status;
             } else {
-                System.out.println("La orden no tiene mercadoPagoId asignado");
                 return "sin_mercado_pago_id";
             }
             
         } catch (Exception e) {
             System.out.println("Error consultando pago por external_reference: " + e.getMessage());
-            e.printStackTrace();
             return "error";
         }
     }
@@ -235,30 +191,20 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
     @Override
     public void procesarNotificacion(String notification) {
         try {
-            System.out.println("=== PROCESANDO NOTIFICACIÓN ===");
-            System.out.println("Notificación: " + notification);
-            
             // Parsear la notificación JSON
             JsonNode notificationNode = objectMapper.readTree(notification);
             
             // Extraer el tipo de notificación
             String type = notificationNode.get("type").asText();
-            System.out.println("Tipo de notificación: " + type);
             
             if ("payment".equals(type)) {
                 // Obtener el ID del pago
                 String paymentId = notificationNode.get("data").get("id").asText();
-                System.out.println("Payment ID: " + paymentId);
                 
                 // Verificar si es una notificación de prueba
-                // Los IDs de prueba suelen ser números pequeños o contienen "123456"
                 if ("123456".equals(paymentId) || paymentId.startsWith("123456") || 
                     paymentId.length() < 10 || paymentId.matches("\\d{4,8}")) {
-                    System.out.println("=== NOTIFICACIÓN DE PRUEBA DETECTADA ===");
-                    System.out.println("Payment ID: " + paymentId);
-                    System.out.println("Esta es una notificación de prueba de Mercado Pago");
-                    System.out.println("El webhook está funcionando correctamente");
-                    System.out.println("En una transacción real, aquí se procesaría el pago");
+                    System.out.println("Webhook: Notificación de prueba recibida (ID: " + paymentId + ")");
                     return; // Salir sin procesar más
                 }
                 
@@ -268,19 +214,11 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                     Payment payment = paymentClient.get(Long.parseLong(paymentId));
                     
                     if (payment != null) {
-                        System.out.println("=== DETALLES DEL PAGO ===");
-                        System.out.println("ID: " + payment.getId());
-                        System.out.println("Status: " + payment.getStatus());
-                        System.out.println("External Reference: " + payment.getExternalReference());
-                        
                         // Buscar la orden por external_reference
                         String externalReference = payment.getExternalReference();
                         if (externalReference != null) {
                             Orden orden = ordenService.obtenerOrdenPorExternalReference(externalReference);
                             if (orden != null) {
-                                System.out.println("=== ACTUALIZANDO ORDEN ===");
-                                System.out.println("Orden encontrada: " + orden.getId());
-                                
                                 // Actualizar el mercadoPagoId si no está establecido
                                 if (orden.getMercadoPagoId() == null) {
                                     orden.setMercadoPagoId(payment.getId().toString());
@@ -289,25 +227,20 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                                 // Actualizar el estado de la orden
                                 ordenService.actualizarEstadoOrden(orden.getMercadoPagoId(), payment.getStatus());
                                 
-                                System.out.println("Orden actualizada exitosamente");
+                                System.out.println("Webhook: Orden " + orden.getId() + " actualizada a estado " + payment.getStatus());
                             } else {
-                                System.out.println("No se encontró orden con external_reference: " + externalReference);
+                                System.out.println("Webhook: No se encontró orden con external_reference: " + externalReference);
                             }
                         } else {
-                            System.out.println("No se encontró external_reference en el pago");
+                            System.out.println("Webhook: No se encontró external_reference en el pago");
                         }
                     } else {
-                        System.out.println("No se pudo obtener el pago desde Mercado Pago");
+                        System.out.println("Webhook: No se pudo obtener el pago desde Mercado Pago");
                     }
                 } catch (MPApiException e) {
-                    System.out.println("=== ERROR AL OBTENER PAGO ===");
-                    System.out.println("Status: " + e.getApiResponse().getStatusCode());
-                    System.out.println("Content: " + e.getApiResponse().getContent());
-                    System.out.println("Message: " + e.getMessage());
-                    System.out.println("Esto puede ocurrir si el pago no existe o hay un problema de autenticación");
+                    System.out.println("Webhook: Error al obtener pago - " + e.getMessage());
                 } catch (Exception e) {
-                    System.out.println("Error inesperado al obtener pago: " + e.getMessage());
-                    e.printStackTrace();
+                    System.out.println("Webhook: Error inesperado - " + e.getMessage());
                 }
             } else {
                 System.out.println("Tipo de notificación no manejado: " + type);

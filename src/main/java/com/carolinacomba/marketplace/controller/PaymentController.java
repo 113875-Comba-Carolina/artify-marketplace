@@ -33,30 +33,10 @@ public class PaymentController {
     @PostMapping("/preference")
     public ResponseEntity<?> createPreference(@Valid @RequestBody CreatePreferenceRequest preferenceRequest, HttpServletRequest request) {
         try {
-            System.out.println("=== DEBUG: Datos recibidos ===");
-            System.out.println("Items: " + preferenceRequest.getItems());
-            System.out.println("External Reference: " + preferenceRequest.getExternalReference());
-            System.out.println("Success URL: " + preferenceRequest.getSuccessUrl());
-            System.out.println("Failure URL: " + preferenceRequest.getFailureUrl());
-            System.out.println("Pending URL: " + preferenceRequest.getPendingUrl());
-            System.out.println("Auto Return: " + preferenceRequest.getAutoReturn());
-            
-            // Debug: Verificar headers de autenticación
-            String authHeader = request.getHeader("Authorization");
-            System.out.println("=== DEBUG: Headers de autenticación ===");
-            System.out.println("Authorization header: " + authHeader);
-            System.out.println("ngrok-skip-browser-warning: " + request.getHeader("ngrok-skip-browser-warning"));
-            
             // Obtener usuario actual
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = auth.getName();
-            System.out.println("=== DEBUG: Usuario autenticado ===");
-            System.out.println("Email del usuario autenticado: " + email);
-            System.out.println("Tipo de autenticación: " + (auth != null ? auth.getClass().getSimpleName() : "null"));
-            System.out.println("Detalles de autenticación: " + auth);
-            
             Usuario usuario = usuarioService.buscarPorEmail(email);
-            System.out.println("Usuario encontrado: " + (usuario != null ? usuario.getEmail() + " - " + usuario.getNombre() : "null"));
             
             PreferenceResponse response = mercadoPagoService.createPreference(preferenceRequest, usuario);
             
