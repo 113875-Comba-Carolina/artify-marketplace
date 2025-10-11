@@ -46,6 +46,9 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
     @Override
     public PreferenceResponse createPreference(CreatePreferenceRequest request, Usuario usuario) throws MPException, MPApiException {
         try {
+            // Configurar el access token
+            com.mercadopago.MercadoPagoConfig.setAccessToken(accessToken);
+            
             // Crear cliente de preferencias
             PreferenceClient client = new PreferenceClient();
             
@@ -96,7 +99,7 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                             .build())
                     .collect(Collectors.toList());
             
-            Orden orden = ordenService.crearOrden(usuario, request.getExternalReference(), carritoItems);
+            ordenService.crearOrden(usuario, request.getExternalReference(), carritoItems);
             
             // Construir respuesta
             PreferenceResponse response = new PreferenceResponse();
@@ -153,6 +156,9 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
     @Override
     public String getPaymentStatus(String paymentId) {
         try {
+            // Configurar el access token
+            com.mercadopago.MercadoPagoConfig.setAccessToken(accessToken);
+            
             PaymentClient paymentClient = new PaymentClient();
             Payment payment = paymentClient.get(Long.parseLong(paymentId));
             return payment != null ? payment.getStatus() : "not_found";
@@ -203,14 +209,16 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                 // Obtener el ID del pago
                 String paymentId = notificationNode.get("data").get("id").asText();
                 
-                // Verificar si es una notificación de prueba
-                if ("123456".equals(paymentId) || paymentId.startsWith("123456") || 
-                    paymentId.length() < 10 || paymentId.matches("\\d{4,8}")) {
+                // Verificar si es una notificación de prueba (solo para IDs muy específicos)
+                if ("123456".equals(paymentId) || paymentId.startsWith("123456")) {
                     System.out.println("Webhook: Notificación de prueba recibida (ID: " + paymentId + ")");
                     return; // Salir sin procesar más
                 }
                 
                 try {
+                    // Configurar el access token
+                    com.mercadopago.MercadoPagoConfig.setAccessToken(accessToken);
+                    
                     // Obtener los detalles del pago desde Mercado Pago
                     PaymentClient paymentClient = new PaymentClient();
                     Payment payment = paymentClient.get(Long.parseLong(paymentId));
