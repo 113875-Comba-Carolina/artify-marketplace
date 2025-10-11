@@ -1,0 +1,38 @@
+package com.carolinacomba.marketplace.service;
+
+import com.carolinacomba.marketplace.dto.PaymentRequest;
+import com.carolinacomba.marketplace.dto.PaymentResponse;
+import com.carolinacomba.marketplace.dto.CreatePreferenceRequest;
+import com.carolinacomba.marketplace.dto.PreferenceResponse;
+import com.mercadopago.exceptions.MPApiException;
+import com.mercadopago.exceptions.MPException;
+
+public interface MercadoPagoService {
+    
+    /**
+     * Crea una preferencia de pago para Checkout Pro
+     * @param preferenceRequest Datos de la preferencia
+     * @return Respuesta con la preferencia creada
+     */
+    PreferenceResponse createPreference(CreatePreferenceRequest preferenceRequest) throws MPException, MPApiException;
+    
+    /**
+     * Crea un pago directo (para Checkout API)
+     * @param paymentRequest Datos del pago
+     * @return Respuesta del pago
+     */
+    PaymentResponse createPayment(PaymentRequest paymentRequest);
+    
+    /**
+     * Obtiene el estado de un pago
+     * @param paymentId ID del pago
+     * @return Estado del pago
+     */
+    String getPaymentStatus(String paymentId);
+    
+    /**
+     * Obtiene la clave pública de Mercado Pago
+     * @return Clave pública
+     */
+    String getPublicKey();
+}
