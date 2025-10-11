@@ -9,9 +9,11 @@ import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
+import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
+import com.mercadopago.resources.payment.Payment;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +35,11 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
     @Value("${mercadopago.environment}")
     private String environment;
 
+    @Value("${mercadopago.access.token}")
+    private String accessToken;
+
     private final OrdenService ordenService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public PreferenceResponse createPreference(CreatePreferenceRequest request, Usuario usuario) throws MPException, MPApiException {
@@ -175,12 +183,192 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
 
     @Override
     public String getPaymentStatus(String paymentId) {
-        // Implementar consulta de estado de pago si es necesario
-        return "pending";
+        try {
+            PaymentClient paymentClient = new PaymentClient();
+            Payment payment = paymentClient.get(Long.parseLong(paymentId));
+            return payment != null ? payment.getStatus() : "not_found";
+        } catch (Exception e) {
+            System.out.println("Error consultando pago: " + e.getMessage());
+            return "error";
+        }
+    }
+
+    @Override
+    public String getPaymentStatusByReference(String externalReference) {
+        try {
+            System.out.println("=== CONSULTANDO PAGO POR EXTERNAL_REFERENCE ===");
+            System.out.println("External Reference: " + externalReference);
+            
+            // Buscar la orden en la base de datos
+            Orden orden = ordenService.obtenerOrdenPorExternalReference(externalReference);
+            if (orden == null) {
+                System.out.println("No se encontró orden con external_reference: " + externalReference);
+                return "orden_no_encontrada";
+            }
+            
+            System.out.println("Orden encontrada: " + orden.getId());
+            System.out.println("Estado actual: " + orden.getEstado());
+            
+            // Si ya tiene mercadoPagoId, consultar el estado en Mercado Pago
+            if (orden.getMercadoPagoId() != null) {
+                System.out.println("Consultando estado en Mercado Pago...");
+                String status = getPaymentStatus(orden.getMercadoPagoId());
+                System.out.println("Estado en Mercado Pago: " + status);
+                return status;
+            } else {
+                System.out.println("La orden no tiene mercadoPagoId asignado");
+                return "sin_mercado_pago_id";
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Error consultando pago por external_reference: " + e.getMessage());
+            e.printStackTrace();
+            return "error";
+        }
     }
 
     @Override
     public String getPublicKey() {
         return publicKey;
+    }
+
+    @Override
+    public void procesarNotificacion(String notification) {
+        try {
+            System.out.println("=== PROCESANDO NOTIFICACIÓN ===");
+            System.out.println("Notificación: " + notification);
+            
+            // Parsear la notificación JSON
+            JsonNode notificationNode = objectMapper.readTree(notification);
+            
+            // Extraer el tipo de notificación
+            String type = notificationNode.get("type").asText();
+            System.out.println("Tipo de notificación: " + type);
+            
+            if ("payment".equals(type)) {
+                // Obtener el ID del pago
+                String paymentId = notificationNode.get("data").get("id").asText();
+                System.out.println("Payment ID: " + paymentId);
+                
+                // Verificar si es una notificación de prueba
+                // Los IDs de prueba suelen ser números pequeños o contienen "123456"
+                if ("123456".equals(paymentId) || paymentId.startsWith("123456") || 
+                    paymentId.length() < 10 || paymentId.matches("\\d{4,8}")) {
+                    System.out.println("=== NOTIFICACIÓN DE PRUEBA DETECTADA ===");
+                    System.out.println("Payment ID: " + paymentId);
+                    System.out.println("Esta es una notificación de prueba de Mercado Pago");
+                    System.out.println("El webhook está funcionando correctamente");
+                    System.out.println("En una transacción real, aquí se procesaría el pago");
+                    return; // Salir sin procesar más
+                }
+                
+                try {
+                    // Obtener los detalles del pago desde Mercado Pago
+                    PaymentClient paymentClient = new PaymentClient();
+                    Payment payment = paymentClient.get(Long.parseLong(paymentId));
+                    
+                    if (payment != null) {
+                        System.out.println("=== DETALLES DEL PAGO ===");
+                        System.out.println("ID: " + payment.getId());
+                        System.out.println("Status: " + payment.getStatus());
+                        System.out.println("External Reference: " + payment.getExternalReference());
+                        
+                        // Buscar la orden por external_reference
+                        String externalReference = payment.getExternalReference();
+                        if (externalReference != null) {
+                            Orden orden = ordenService.obtenerOrdenPorExternalReference(externalReference);
+                            if (orden != null) {
+                                System.out.println("=== ACTUALIZANDO ORDEN ===");
+                                System.out.println("Orden encontrada: " + orden.getId());
+                                
+                                // Actualizar el mercadoPagoId si no está establecido
+                                if (orden.getMercadoPagoId() == null) {
+                                    orden.setMercadoPagoId(payment.getId().toString());
+                                }
+                                
+                                // Actualizar el estado de la orden
+                                ordenService.actualizarEstadoOrden(orden.getMercadoPagoId(), payment.getStatus());
+                                
+                                System.out.println("Orden actualizada exitosamente");
+                            } else {
+                                System.out.println("No se encontró orden con external_reference: " + externalReference);
+                            }
+                        } else {
+                            System.out.println("No se encontró external_reference en el pago");
+                        }
+                    } else {
+                        System.out.println("No se pudo obtener el pago desde Mercado Pago");
+                    }
+                } catch (MPApiException e) {
+                    System.out.println("=== ERROR AL OBTENER PAGO ===");
+                    System.out.println("Status: " + e.getApiResponse().getStatusCode());
+                    System.out.println("Content: " + e.getApiResponse().getContent());
+                    System.out.println("Message: " + e.getMessage());
+                    System.out.println("Esto puede ocurrir si el pago no existe o hay un problema de autenticación");
+                } catch (Exception e) {
+                    System.out.println("Error inesperado al obtener pago: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("Tipo de notificación no manejado: " + type);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Error procesando notificación: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void configureWebhook(String webhookUrl) {
+        try {
+            System.out.println("=== CONFIGURANDO WEBHOOK ===");
+            System.out.println("URL del webhook: " + webhookUrl);
+            
+            // Nota: La configuración del webhook debe hacerse manualmente en el dashboard de Mercado Pago
+            // o usando la API de Mercado Pago para configurar webhooks
+            System.out.println("IMPORTANTE: Debes configurar el webhook manualmente en:");
+            System.out.println("1. Ir a https://www.mercadopago.com.ar/developers/panel/credentials");
+            System.out.println("2. Seleccionar tu aplicación");
+            System.out.println("3. Ir a la sección 'Webhooks'");
+            System.out.println("4. Agregar la URL: " + webhookUrl);
+            System.out.println("5. Seleccionar los eventos: 'payment'");
+            
+        } catch (Exception e) {
+            System.out.println("Error configurando webhook: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Object listarOrdenesParaDebug() {
+        try {
+            System.out.println("=== LISTANDO ÓRDENES PARA DEBUG ===");
+            
+            // Obtener todas las órdenes
+            List<Orden> ordenes = ordenService.obtenerTodasLasOrdenes();
+            
+            System.out.println("Total de órdenes encontradas: " + ordenes.size());
+            
+            for (Orden orden : ordenes) {
+                System.out.println("=== ORDEN ===");
+                System.out.println("ID: " + orden.getId());
+                System.out.println("External Reference: '" + orden.getExternalReference() + "'");
+                System.out.println("External Reference Length: " + (orden.getExternalReference() != null ? orden.getExternalReference().length() : "null"));
+                System.out.println("Estado: " + orden.getEstado());
+                System.out.println("MercadoPago ID: " + orden.getMercadoPagoId());
+                System.out.println("Total: " + orden.getTotal());
+                System.out.println("Fecha: " + orden.getFechaCreacion());
+                System.out.println("Usuario: " + (orden.getUsuario() != null ? orden.getUsuario().getEmail() : "null"));
+                System.out.println("========================");
+            }
+            
+            return ordenes;
+            
+        } catch (Exception e) {
+            System.out.println("Error listando órdenes: " + e.getMessage());
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
     }
 }

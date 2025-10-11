@@ -18,4 +18,8 @@ public interface OrdenService {
     OrdenResponse obtenerOrdenPorId(Long ordenId, Usuario usuario);
     
     OrdenResponse obtenerOrdenPorMercadoPagoId(String mercadoPagoId);
+    
+    Orden obtenerOrdenPorExternalReference(String externalReference);
+    
+    List<Orden> obtenerTodasLasOrdenes();
 }

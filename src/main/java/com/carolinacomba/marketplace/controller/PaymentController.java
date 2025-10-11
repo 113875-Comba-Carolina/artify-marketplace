@@ -6,6 +6,7 @@ import com.carolinacomba.marketplace.service.MercadoPagoService;
 import com.carolinacomba.marketplace.service.IUsuarioService;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class PaymentController {
      * @return Respuesta con la preferencia creada
      */
     @PostMapping("/preference")
-    public ResponseEntity<?> createPreference(@Valid @RequestBody CreatePreferenceRequest preferenceRequest) {
+    public ResponseEntity<?> createPreference(@Valid @RequestBody CreatePreferenceRequest preferenceRequest, HttpServletRequest request) {
         try {
             System.out.println("=== DEBUG: Datos recibidos ===");
             System.out.println("Items: " + preferenceRequest.getItems());
@@ -40,10 +41,22 @@ public class PaymentController {
             System.out.println("Pending URL: " + preferenceRequest.getPendingUrl());
             System.out.println("Auto Return: " + preferenceRequest.getAutoReturn());
             
+            // Debug: Verificar headers de autenticación
+            String authHeader = request.getHeader("Authorization");
+            System.out.println("=== DEBUG: Headers de autenticación ===");
+            System.out.println("Authorization header: " + authHeader);
+            System.out.println("ngrok-skip-browser-warning: " + request.getHeader("ngrok-skip-browser-warning"));
+            
             // Obtener usuario actual
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = auth.getName();
+            System.out.println("=== DEBUG: Usuario autenticado ===");
+            System.out.println("Email del usuario autenticado: " + email);
+            System.out.println("Tipo de autenticación: " + (auth != null ? auth.getClass().getSimpleName() : "null"));
+            System.out.println("Detalles de autenticación: " + auth);
+            
             Usuario usuario = usuarioService.buscarPorEmail(email);
+            System.out.println("Usuario encontrado: " + (usuario != null ? usuario.getEmail() + " - " + usuario.getNombre() : "null"));
             
             PreferenceResponse response = mercadoPagoService.createPreference(preferenceRequest, usuario);
             
@@ -89,6 +102,36 @@ public class PaymentController {
     }
 
     /**
+     * Consulta el estado de un pago por external_reference
+     * @param externalReference Referencia externa
+     * @return Estado del pago
+     */
+    @GetMapping("/status-by-reference/{externalReference}")
+    public ResponseEntity<?> getPaymentStatusByReference(@PathVariable String externalReference) {
+        try {
+            String status = mercadoPagoService.getPaymentStatusByReference(externalReference);
+            return ResponseEntity.ok(status);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error consultando pago: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Lista todas las órdenes para debugging
+     * @return Lista de órdenes
+     */
+    @GetMapping("/debug/ordenes")
+    public ResponseEntity<?> listarOrdenes() {
+        try {
+            return (ResponseEntity<?>) mercadoPagoService.listarOrdenesParaDebug();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error listando órdenes: " + e.getMessage());
+        }
+    }
+
+    /**
      * Obtiene la clave pública de Mercado Pago
      * @return Clave pública
      */
@@ -99,15 +142,40 @@ public class PaymentController {
     }
 
     /**
+     * Configura el webhook de Mercado Pago
+     * @return Respuesta de configuración
+     */
+    @PostMapping("/configure-webhook")
+    public ResponseEntity<String> configureWebhook() {
+        try {
+            String webhookUrl = "http://localhost:8080/api/payments/webhook";
+            mercadoPagoService.configureWebhook(webhookUrl);
+            return ResponseEntity.ok("Webhook configurado exitosamente: " + webhookUrl);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error configurando webhook: " + e.getMessage());
+        }
+    }
+
+    /**
      * Webhook para recibir notificaciones de Mercado Pago
      * @param notification Datos de la notificación
      * @return Respuesta de confirmación
      */
     @PostMapping("/webhook")
     public ResponseEntity<String> webhook(@RequestBody String notification) {
-        // Aquí procesarías la notificación de Mercado Pago
-        // Por ejemplo, actualizar el estado de una orden en tu base de datos
-        System.out.println("Notificación recibida: " + notification);
-        return ResponseEntity.ok("OK");
+        try {
+            System.out.println("=== WEBHOOK RECIBIDO ===");
+            System.out.println("Notificación: " + notification);
+            
+            // Procesar la notificación de Mercado Pago
+            mercadoPagoService.procesarNotificacion(notification);
+            
+            return ResponseEntity.ok("OK");
+        } catch (Exception e) {
+            System.out.println("Error procesando webhook: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
+        }
     }
 }

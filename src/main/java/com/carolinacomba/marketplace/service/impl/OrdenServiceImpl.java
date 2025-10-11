@@ -77,6 +77,11 @@ public class OrdenServiceImpl implements OrdenService {
         EstadoOrden estadoOrden = mapearEstadoMercadoPago(estado);
         orden.setEstado(estadoOrden);
         
+        // Asegurar que el mercadoPagoId esté establecido
+        if (orden.getMercadoPagoId() == null) {
+            orden.setMercadoPagoId(mercadoPagoId);
+        }
+        
         return ordenRepository.save(orden);
     }
 
@@ -107,6 +112,17 @@ public class OrdenServiceImpl implements OrdenService {
                 .orElseThrow(() -> new RuntimeException("Orden no encontrada: " + mercadoPagoId));
         
         return convertirAOrdenResponse(orden);
+    }
+
+    @Override
+    public Orden obtenerOrdenPorExternalReference(String externalReference) {
+        return ordenRepository.findByExternalReference(externalReference)
+                .orElse(null);
+    }
+
+    @Override
+    public List<Orden> obtenerTodasLasOrdenes() {
+        return ordenRepository.findAll();
     }
 
     private EstadoOrden mapearEstadoMercadoPago(String estadoMercadoPago) {

@@ -36,6 +36,13 @@ public class SecurityConfig {
                 // Endpoints públicos de productos (lectura)
                 .requestMatchers("GET", "/api/productos/**").permitAll()
                 
+                // Webhook de Mercado Pago (debe ser público)
+                .requestMatchers("POST", "/api/payments/webhook").permitAll()
+                
+                // Endpoints de consulta de pagos (públicos para debugging)
+                .requestMatchers("GET", "/api/payments/status-by-reference/**").permitAll()
+                .requestMatchers("GET", "/api/payments/debug/**").permitAll()
+                
                 // Endpoints para ADMIN
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/actuator/**").hasRole("ADMIN")
