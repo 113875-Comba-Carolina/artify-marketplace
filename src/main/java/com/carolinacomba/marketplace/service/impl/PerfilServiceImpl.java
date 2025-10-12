@@ -3,6 +3,7 @@ package com.carolinacomba.marketplace.service.impl;
 import com.carolinacomba.marketplace.dto.ArtesanoResponse;
 import com.carolinacomba.marketplace.dto.UsuarioResponse;
 import com.carolinacomba.marketplace.model.Usuario;
+import com.carolinacomba.marketplace.repository.ArtesanoRepository;
 import com.carolinacomba.marketplace.service.IUsuarioService;
 import com.carolinacomba.marketplace.service.PerfilService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class PerfilServiceImpl implements PerfilService {
 
     private final IUsuarioService usuarioService;
     private final PasswordEncoder passwordEncoder;
+    private final ArtesanoRepository artesanoRepository;
 
     @Override
     public Object obtenerPerfil(String email, String password) {
@@ -70,9 +72,28 @@ public class PerfilServiceImpl implements PerfilService {
             System.out.println("Usuario Email: " + usuario.getEmail());
             System.out.println("Usuario Rol: " + usuario.getRol());
             
-            // Siempre devolver desde Usuario ya que no creamos registros separados en Artesano
-            System.out.println("Devolviendo ArtesanoResponse desde Usuario");
-            ArtesanoResponse response = new ArtesanoResponse(usuario);
+            // Obtener datos del emprendimiento desde la base de datos
+            List<Object[]> emprendimientoFieldsList = usuarioService.findEmprendimientoFieldsByEmail(email);
+            String nombreEmprendimiento = null;
+            String descripcion = null;
+            String ubicacion = null;
+            
+            if (emprendimientoFieldsList != null && !emprendimientoFieldsList.isEmpty()) {
+                Object[] emprendimientoFields = emprendimientoFieldsList.get(0);
+                if (emprendimientoFields.length >= 3) {
+                    nombreEmprendimiento = (String) emprendimientoFields[0];
+                    descripcion = (String) emprendimientoFields[1];
+                    ubicacion = (String) emprendimientoFields[2];
+                    System.out.println("Datos del emprendimiento encontrados:");
+                    System.out.println("Nombre Emprendimiento: " + nombreEmprendimiento);
+                    System.out.println("Descripción: " + descripcion);
+                    System.out.println("Ubicación: " + ubicacion);
+                }
+            }
+            
+            // Crear ArtesanoResponse con los datos del emprendimiento
+            System.out.println("Devolviendo ArtesanoResponse desde Usuario con datos del emprendimiento");
+            ArtesanoResponse response = new ArtesanoResponse(usuario, nombreEmprendimiento, descripcion, ubicacion);
             System.out.println("Response creado - Nombre Emprendimiento: '" + response.getNombreEmprendimiento() + "'");
             return response;
         }
@@ -101,16 +122,64 @@ public class PerfilServiceImpl implements PerfilService {
 
         // Si es artesano, actualizar también los datos específicos
         if (usuario.getRol() == Usuario.Rol.ARTESANO) {
-            // Los campos del emprendimiento se manejan a través de la entidad Artesano
-            // No se pueden actualizar directamente desde Usuario
-            System.out.println("Usuario es artesano, los campos del emprendimiento se manejan por separado");
+            // Actualizar campos del emprendimiento usando consulta SQL nativa
+            String nombreEmprendimiento = (String) perfilData.get("nombreEmprendimiento");
+            String descripcion = (String) perfilData.get("descripcion");
+            String ubicacion = (String) perfilData.get("ubicacion");
+            
+            if (nombreEmprendimiento != null || descripcion != null || ubicacion != null) {
+                System.out.println("Actualizando campos del emprendimiento:");
+                System.out.println("Nombre Emprendimiento: " + nombreEmprendimiento);
+                System.out.println("Descripción: " + descripcion);
+                System.out.println("Ubicación: " + ubicacion);
+                
+                // Obtener valores actuales para los campos que no se están actualizando
+                List<Object[]> emprendimientoFields = usuarioService.findEmprendimientoFieldsByEmail(email);
+                String currentNombreEmprendimiento = nombreEmprendimiento;
+                String currentDescripcion = descripcion;
+                String currentUbicacion = ubicacion;
+                
+                if (emprendimientoFields != null && !emprendimientoFields.isEmpty()) {
+                    Object[] fields = emprendimientoFields.get(0);
+                    if (fields.length >= 3) {
+                        if (currentNombreEmprendimiento == null) currentNombreEmprendimiento = (String) fields[0];
+                        if (currentDescripcion == null) currentDescripcion = (String) fields[1];
+                        if (currentUbicacion == null) currentUbicacion = (String) fields[2];
+                    }
+                }
+                
+                // Actualizar usando consulta SQL nativa
+                artesanoRepository.updateEmprendimientoFields(
+                    usuario.getId(),
+                    currentNombreEmprendimiento,
+                    currentDescripcion,
+                    currentUbicacion
+                );
+                
+                System.out.println("Campos del emprendimiento actualizados exitosamente");
+            }
         }
 
         Usuario usuarioActualizado = usuarioService.save(usuario);
 
-        // Si es artesano, devolver ArtesanoResponse
+        // Si es artesano, devolver ArtesanoResponse con datos actualizados
         if (usuarioActualizado.getRol() == Usuario.Rol.ARTESANO) {
-            return new ArtesanoResponse(usuarioActualizado);
+            // Obtener datos actualizados del emprendimiento
+            List<Object[]> emprendimientoFields = usuarioService.findEmprendimientoFieldsByEmail(email);
+            String nombreEmprendimiento = null;
+            String descripcion = null;
+            String ubicacion = null;
+            
+            if (emprendimientoFields != null && !emprendimientoFields.isEmpty()) {
+                Object[] fields = emprendimientoFields.get(0);
+                if (fields.length >= 3) {
+                    nombreEmprendimiento = (String) fields[0];
+                    descripcion = (String) fields[1];
+                    ubicacion = (String) fields[2];
+                }
+            }
+            
+            return new ArtesanoResponse(usuarioActualizado, nombreEmprendimiento, descripcion, ubicacion);
         }
 
         return new UsuarioResponse(usuarioActualizado);
@@ -175,9 +244,22 @@ public class PerfilServiceImpl implements PerfilService {
             Usuario usuarioActualizado = usuarioService.save(usuario);
             System.out.println("Usuario actualizado - ID: " + usuarioActualizado.getId() + ", Rol: " + usuarioActualizado.getRol());
 
-            // Crear registro en tabla Artesano con los datos específicos
-            System.out.println("Creando registro de artesano...");
-            // Aquí necesitaríamos crear un Artesano, pero por ahora solo devolvemos el usuario
+            // Actualizar los campos del emprendimiento directamente en la base de datos
+            System.out.println("Actualizando campos del emprendimiento en la base de datos...");
+            System.out.println("Nombre Emprendimiento: " + artesanoData.get("nombreEmprendimiento"));
+            System.out.println("Descripción: " + artesanoData.get("descripcion"));
+            System.out.println("Ubicación: " + artesanoData.get("ubicacion"));
+            
+            // Usar una consulta SQL nativa para actualizar los campos del emprendimiento
+            // Esto evita el conflicto de concurrencia optimista
+            artesanoRepository.updateEmprendimientoFields(
+                usuarioActualizado.getId(),
+                artesanoData.get("nombreEmprendimiento"),
+                artesanoData.get("descripcion"),
+                artesanoData.get("ubicacion")
+            );
+            
+            System.out.println("Campos del emprendimiento actualizados exitosamente");
             System.out.println("Usuario convertido a artesano exitosamente");
 
             System.out.println("=== CONVERSIÓN EXITOSA ===");

@@ -41,4 +41,15 @@ public class ArtesanoResponse {
             this.ubicacion = artesano.getUbicacion();
         }
     }
+
+    public ArtesanoResponse(Usuario usuario, String nombreEmprendimiento, String descripcion, String ubicacion) {
+        this.id = usuario.getId();
+        this.nombre = usuario.getNombre();
+        this.email = usuario.getEmail();
+        this.rol = usuario.getRol().toString();
+        this.telefono = usuario.getTelefono();
+        this.nombreEmprendimiento = nombreEmprendimiento;
+        this.descripcion = descripcion;
+        this.ubicacion = ubicacion;
+    }
 }
