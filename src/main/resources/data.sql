@@ -33,87 +33,89 @@ INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario, nombre_emprend
 ('Carmen Díaz', 'carmen.diaz@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Velas Aromáticas', 'Velas de cera de soja con esencias naturales', 'Rosario, Santa Fe', '3516789012');
 
 -- ===========================================
--- PRODUCTOS DE CAROLINA COMBA (Artesanías Únicas)
--- ===========================================
-INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Mate de Calabaza', 'Mate tradicional hecho con calabaza, curado a mano. Incluye bombilla de acero inoxidable.', 22000.00, 'MATE', 15, 'https://i.ibb.co/N20Km6Mp/mate-calabaza-cuidar-argentino-yerba-600x600.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Vela Aromática Lavanda', 'Vela de cera de soja con esencia de lavanda. Hecha a mano.', 9000.00, 'AROMAS_VELAS', 25, 'https://i.ibb.co/QFf5xNgs/61me6rf-R5v-L.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Taza de Cerámica Pintada', 'Taza de cerámica esmaltada con diseño único pintado a mano. Capacidad 300ml. Plato incluido.', 10000.00, 'CERAMICA', 8, 'https://i.ibb.co/PXMNwjz/taza-ceramica.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Pulsera de Cuero Trenzado', 'Pulsera de cuero genuino trenzado a mano. Ajustable.', 8000.00, 'CUERO', 20, 'https://i.ibb.co/6JvTR2fm/designed-with-edit-org-2021-08-17t140402-4961-bdd918c323319df47116292094026773-640-0.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Collar de Plata 925', 'Collar de plata 925. Incluye cadena de 45cm.', 25000.00, 'JOYERIA_ARTESANAL', 5, 'https://i.ibb.co/cKb9SbZH/img-8489-47f364e566d00f5f4617473497508127-1024-1024.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Cesto de Mimbre Grande', 'Cesto de mimbre natural tejido a mano. Ideal para almacenamiento. 40cm x 30cm.', 28000.00, 'CESTERIA_FIBRAS', 12, 'https://i.ibb.co/vCN2qXBh/archivo-productos-web-finales-0000s-0018s-0000s-0000-canasto-de-mimbre-con-tapa-0652574af8de256be217.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Cuadro de Madera Tallada', 'Cuadro decorativo tallado en madera de pino. 30x20cm.', 15000.00, 'MADERA', 6, 'https://i.ibb.co/Kx81CZD7/il-570x-N-4254232893-oufl.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Jarrón de Vidrio Soplado', 'Jarrón de vidrio soplado a mano con colores únicos. Altura 25cm.', 30000.00, 'VIDRIO', 4, 'https://i.ibb.co/BV6gY581/Sentza-Home-Florerogotacolorhumodevidriosopladoespejosadornosjarravasosjarronjarronesdecoracion03.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Bufanda de Lana Merino', 'Bufanda tejida a mano con lana merino 100%. 150cm de largo.', 10000.00, 'TEXTILES', 18, 'https://i.ibb.co/zV4zB1dF/BUFANDA-FRANCESCO.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Lámpara de Metal Forjado', 'Lámpara de mesa con base de metal forjado a mano. Incluye cable y foco.', 35000.00, 'METALES', 0, 'https://i.ibb.co/R5shYJg/original.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Porta Maceta Cerámico', 'Porta maceta de cerámica con diseño geométrico. Ideal para plantas pequeñas.', 12000.00, 'CERAMICA', 0, 'https://i.ibb.co/example1.jpg', false, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
-('Cuenco de Madera', 'Cuenco de madera de olivo tallado a mano. Perfecto para ensaladas.', 18000.00, 'MADERA', 0, 'https://i.ibb.co/example2.jpg', false, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
-
--- ===========================================
 -- PRODUCTOS DE FRANCISCO COMBA (Cerámica para tu vida)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Set de Tazas Cerámicas', 'Set de 4 tazas de cerámica con esmalte mate. Diseño minimalista.', 15000.00, 'CERAMICA', 12, 'https://i.ibb.co/example3.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Plato Hondo Artesanal', 'Plato hondo de cerámica con textura natural. Ideal para sopas.', 8000.00, 'CERAMICA', 8, 'https://i.ibb.co/example4.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Jarrón Decorativo', 'Jarrón de cerámica con patrón abstracto. Altura 30cm.', 22000.00, 'CERAMICA', 5, 'https://i.ibb.co/example5.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Tazón para Cereal', 'Tazón de cerámica esmaltada con asas. Capacidad 400ml.', 10000.00, 'CERAMICA', 15, 'https://i.ibb.co/example6.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Maceta Cerámica', 'Maceta de cerámica con drenaje. Ideal para plantas de interior.', 12000.00, 'CERAMICA', 0, 'https://i.ibb.co/example7.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Cuenco de Cerámica', 'Cuenco de cerámica con textura rugosa. Perfecto para ensaladas.', 9000.00, 'CERAMICA', 0, 'https://i.ibb.co/example8.jpg', false, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com'));
+('Set de Tazas Cerámicas', 'Set de 4 tazas de cerámica con esmalte mate. Diseño minimalista.', 20000.00, 'CERAMICA', 5, 'https://i.ibb.co/C5HfmJxg/set-de-4-tazas-para-cafe-de-ceramica-beige-y-marron-1000-12-36-247430-1.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
+('Plato Hondo Artesanal', 'Plato hondo de cerámica con textura natural. Ideal para sopas.', 17500.00, 'CERAMICA', 8, 'https://i.ibb.co/V0VJsYRH/D-Q-NP-649958-MLA89458940275-082025-O.webp', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
+('Jarrón Decorativo', 'Jarrón de cerámica con patrón abstracto. Altura 30cm.', 22000.00, 'CERAMICA', 5, 'https://i.ibb.co/Ncb4CTr/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
+('Tazón para Cereal', 'Tazón de cerámica esmaltada con asas. Capacidad 400ml.', 10000.00, 'CERAMICA', 15, 'https://i.ibb.co/PvsXGSm6/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
+('Maceta Cerámica', 'Maceta búho de cerámica con drenaje. Ideal para plantas de interior.', 12000.00, 'CERAMICA', 0, 'https://i.ibb.co/5hWM6M4w/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
+('Cuenco de Cerámica', 'Cuenco de cerámica con textura rugosa. Perfecto para ensaladas.', 9000.00, 'CERAMICA', 0, 'https://i.ibb.co/Pv50pN1T/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com'));
 
 -- ===========================================
 -- PRODUCTOS DE ELENA MORALES (Textiles Artesanales)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Manta de Lana', 'Manta de lana merino tejida a mano. 150x200cm. Colores naturales.', 45000.00, 'TEXTILES', 3, 'https://i.ibb.co/example9.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
-('Bufanda de Alpaca', 'Bufanda de alpaca peruana. 180cm de largo. Suave y cálida.', 18000.00, 'TEXTILES', 10, 'https://i.ibb.co/example10.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
-('Cojín Bordado', 'Cojín de algodón con bordado artesanal. 40x40cm.', 12000.00, 'TEXTILES', 8, 'https://i.ibb.co/example11.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
-('Mantel de Lino', 'Mantel de lino con bordado tradicional. 120x180cm.', 25000.00, 'TEXTILES', 4, 'https://i.ibb.co/example12.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
-('Chal de Seda', 'Chal de seda con estampado floral. 70x180cm.', 35000.00, 'TEXTILES', 0, 'https://i.ibb.co/example13.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
-('Alfombra Tejida', 'Alfombra de lana tejida a mano. 80x120cm. Diseño geométrico.', 55000.00, 'TEXTILES', 0, 'https://i.ibb.co/example14.jpg', false, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com'));
+('Manta de Lana', 'Manta de lana merino tejida a mano. 150x200cm. Colores naturales.', 45000.00, 'TEXTILES', 3, 'https://i.ibb.co/4ZCrmRX2/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
+('Bufanda de Alpaca', 'Bufanda de alpaca peruana. 180cm de largo. Suave y cálida.', 18000.00, 'TEXTILES', 10, 'https://i.ibb.co/8nRXPqx1/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
+('Cojín Bordado', 'Cojín de algodón con bordado artesanal. 40x40cm.', 12000.00, 'TEXTILES', 8, 'https://i.ibb.co/S7R22kyj/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
+('Mantel de Lino', 'Mantel de lino con bordado tradicional. 120x180cm.', 25000.00, 'TEXTILES', 4, 'https://i.ibb.co/PvgJfgcv/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
+('Chal de Seda', 'Chal de seda con estampado floral. 70x180cm.', 35000.00, 'TEXTILES', 0, 'https://i.ibb.co/LdrVZSWm/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
+('Alfombra Tejida', 'Alfombra de lana tejida a mano. 80x120cm. Diseño geométrico.', 55000.00, 'TEXTILES', 0, 'https://i.ibb.co/qF9GSQ01/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com'));
 
 -- ===========================================
 -- PRODUCTOS DE ROBERTO VEGA (Maderas del Sur)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Tabla de Madera', 'Tabla de cortar de madera de roble. 40x25cm. Tratada con aceite natural.', 15000.00, 'MADERA', 6, 'https://i.ibb.co/example15.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
-('Porta Vino', 'Porta vino de madera reciclada. Para 6 botellas.', 25000.00, 'MADERA', 4, 'https://i.ibb.co/example16.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
-('Caja de Madera', 'Caja de madera de pino con tapa deslizante. 30x20x10cm.', 18000.00, 'MADERA', 8, 'https://i.ibb.co/example17.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
-('Soporte para Libros', 'Soporte para libros de madera de nogal. Par de piezas.', 12000.00, 'MADERA', 10, 'https://i.ibb.co/example18.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
-('Lámpara de Madera', 'Lámpara de mesa con base de madera torneada. Incluye cable.', 30000.00, 'MADERA', 0, 'https://i.ibb.co/example19.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
-('Reloj de Pared', 'Reloj de pared de madera con números tallados. 30cm diámetro.', 22000.00, 'MADERA', 0, 'https://i.ibb.co/example20.jpg', false, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com'));
+('Tabla de Madera', 'Tabla de cortar de madera de roble. 40x25cm. Tratada con aceite natural.', 15000.00, 'MADERA', 6, 'https://i.ibb.co/G3fBTKm9/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
+('Porta Vino', 'Porta vino de madera reciclada. Para 6 botellas.', 25000.00, 'MADERA', 4, 'https://i.ibb.co/bjLyp3vB/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
+('Caja de Madera', 'Caja de madera de pino con tapa deslizante. 30x20x10cm.', 18000.00, 'MADERA', 8, 'https://i.ibb.co/5b13HkS/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
+('Soporte para Libros', 'Soporte para libros de madera de nogal. Par de piezas.', 12000.00, 'MADERA', 10, 'https://i.ibb.co/xKmr41c9/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
+('Lámpara de Madera', 'Lámpara de mesa con base de madera torneada. Incluye cable.', 120000.00, 'MADERA', 0, 'https://i.ibb.co/nNZSM780/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
+('Reloj de Pared', 'Reloj de pared de madera con números tallados. 30cm diámetro.', 22000.00, 'MADERA', 0, 'https://i.ibb.co/Y4VmyLF7/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com'));
 
 -- ===========================================
 -- PRODUCTOS DE ISABEL RUIZ (Joyas Naturales)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Collar de Amatista', 'Collar con piedra de amatista en plata 925. Cadena 45cm.', 28000.00, 'JOYERIA_ARTESANAL', 5, 'https://i.ibb.co/example21.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
-('Anillo de Cuarzo', 'Anillo de cuarzo rosa en plata 925. Tallas 6-8.', 15000.00, 'JOYERIA_ARTESANAL', 8, 'https://i.ibb.co/example22.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
-('Pulsera de Ágata', 'Pulsera de ágata con cierre de plata. Ajustable.', 12000.00, 'JOYERIA_ARTESANAL', 12, 'https://i.ibb.co/example23.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
-('Aros de Turquesa', 'Aros de turquesa en plata 925. Gancho de seguridad.', 18000.00, 'JOYERIA_ARTESANAL', 6, 'https://i.ibb.co/example24.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
-('Dije de Jade', 'Dije de jade verde en plata 925. Con cadena incluida.', 20000.00, 'JOYERIA_ARTESANAL', 0, 'https://i.ibb.co/example25.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
-('Broche de Ópalo', 'Broche de ópalo en plata 925. Para ropa o bolso.', 25000.00, 'JOYERIA_ARTESANAL', 0, 'https://i.ibb.co/example26.jpg', false, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com'));
+('Collar de Amatista', 'Collar con piedra de amatista en plata 925. Cadena 45cm.', 228000.00, 'JOYERIA_ARTESANAL', 5, 'https://i.ibb.co/PztHKsk6/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
+('Anillo de Cuarzo', 'Anillo de cuarzo rosa en plata 925. Tallas 6-8.', 150000.00, 'JOYERIA_ARTESANAL', 8, 'https://i.ibb.co/gZSk2PXF/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
+('Pulsera de Ágata', 'Pulsera de ágata con cierre de plata. Ajustable.', 120000.00, 'JOYERIA_ARTESANAL', 12, 'https://i.ibb.co/wrK6zwLP/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
+('Aros Turquesa', 'Aros turquesa en plata 925. Gancho de seguridad.', 99000.00, 'JOYERIA_ARTESANAL', 6, 'https://i.ibb.co/SD0JWGnL/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
+('Dije de Jade', 'Dije de jade verde en plata 925. Con cadena incluida.', 100000.00, 'JOYERIA_ARTESANAL', 0, 'https://i.ibb.co/s9t8q8G9/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
+('Broche de Ópalo', 'Broche de ópalo en plata 925. Para ropa o bolso.', 80000.00, 'JOYERIA_ARTESANAL', 0, 'https://i.ibb.co/hx0PWtQv/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com'));
 
 -- ===========================================
 -- PRODUCTOS DE MIGUEL TORRES (Cuero Artesanal)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Billetera de Cuero', 'Billetera de cuero genuino con costura visible. 12cm x 9cm.', 18000.00, 'CUERO', 10, 'https://i.ibb.co/example27.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
-('Cinturón de Cuero', 'Cinturón de cuero vacuno con hebilla de acero. 100cm de largo.', 25000.00, 'CUERO', 6, 'https://i.ibb.co/example28.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
-('Bolso de Cuero', 'Bolso de cuero con asas de cuero. 35x25x10cm.', 45000.00, 'CUERO', 4, 'https://i.ibb.co/example29.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
-('Porta Documentos', 'Porta documentos de cuero con cierre de cremallera.', 22000.00, 'CUERO', 8, 'https://i.ibb.co/example30.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
-('Guantes de Cuero', 'Guantes de cuero para moto. Tallas M y L.', 30000.00, 'CUERO', 0, 'https://i.ibb.co/example31.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
-('Cartera de Cuero', 'Cartera de cuero con múltiples compartimentos.', 35000.00, 'CUERO', 0, 'https://i.ibb.co/example32.jpg', false, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com'));
+('Billetera de Cuero', 'Billetera de cuero genuino con costura visible. 12cm x 9cm.', 18000.00, 'CUERO', 10, 'https://i.ibb.co/ycSnTGqv/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
+('Cinturón de Cuero', 'Cinturón de cuero vacuno con hebilla de acero. 100cm de largo.', 25000.00, 'CUERO', 6, 'https://i.ibb.co/chwJCZ0p/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
+('Bolso de Cuero', 'Bolso de cuero con asas de cuero. 35x25x10cm.', 45000.00, 'CUERO', 4, 'https://i.ibb.co/hx8dHpfZ/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
+('Porta Documentos', 'Porta documentos de cuero con cierre de cremallera.', 22000.00, 'CUERO', 8, 'https://i.ibb.co/6RxdQ00W/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
+('Guantes de Cuero', 'Guantes de cuero para moto. Tallas M y L.', 30000.00, 'CUERO', 0, 'https://i.ibb.co/8Lh9kYm2/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
+('Cartera de Cuero', 'Cartera de cuero con múltiples compartimentos.', 35000.00, 'CUERO', 0, 'https://i.ibb.co/Ps1v01dS/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com'));
 
 -- ===========================================
 -- PRODUCTOS DE CARMEN DÍAZ (Velas Aromáticas)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Vela de Lavanda', 'Vela de cera de soja con esencia de lavanda. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 15, 'https://i.ibb.co/example33.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
-('Vela de Vainilla', 'Vela de cera de soja con esencia de vainilla. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 12, 'https://i.ibb.co/example34.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
-('Vela de Eucalipto', 'Vela de cera de soja con esencia de eucalipto. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 10, 'https://i.ibb.co/example35.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
-('Vela de Canela', 'Vela de cera de soja con esencia de canela. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 8, 'https://i.ibb.co/example36.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
-('Set de Velas', 'Set de 3 velas aromáticas de 100g cada una. Lavanda, vainilla y eucalipto.', 20000.00, 'AROMAS_VELAS', 0, 'https://i.ibb.co/example37.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
-('Vela de Rosa', 'Vela de cera de soja con esencia de rosa. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 0, 'https://i.ibb.co/example38.jpg', false, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com'));
+('Vela de Lavanda', 'Vela de cera de soja con esencia de lavanda. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 15, 'https://i.ibb.co/8gm8Ktrb/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
+('Vela de Vainilla', 'Vela de cera de soja con esencia de vainilla. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 12, 'https://i.ibb.co/RqhyDHF/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
+('Vela de Eucalipto', 'Vela de cera de soja con esencia de eucalipto. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 10, 'https://i.ibb.co/GvdT2mTb/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
+('Vela de Canela', 'Vela de cera de soja con esencia de canela. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 8, 'https://i.ibb.co/nSqPLqh/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
+('Set de Velas', 'Set de 3 velas aromáticas de 100g cada una. Lavanda, vainilla y eucalipto.', 20000.00, 'AROMAS_VELAS', 0, 'https://i.ibb.co/Xfvm274g/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
+('Vela de Rosa', 'Vela de cera de soja con esencia de rosa. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 0, 'https://i.ibb.co/YB4Qns8y/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com'));
+
+
+-- ===========================================
+-- PRODUCTOS DE CAROLINA COMBA (Artesanías Únicas)
+-- ===========================================
+INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES
+                                                                                                                             ('Mate de Calabaza', 'Mate tradicional hecho con calabaza, curado a mano. Incluye bombilla de acero inoxidable.', 22000.00, 'MATE', 15, 'https://i.ibb.co/N20Km6Mp/mate-calabaza-cuidar-argentino-yerba-600x600.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Vela Aromática Lavanda', 'Vela de cera de soja con esencia de lavanda. Hecha a mano.', 9000.00, 'AROMAS_VELAS', 25, 'https://i.ibb.co/QFf5xNgs/61me6rf-R5v-L.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Taza de Cerámica Pintada', 'Taza de cerámica esmaltada con diseño único pintado a mano. Capacidad 300ml. Plato incluido.', 10000.00, 'CERAMICA', 8, 'https://i.ibb.co/PXMNwjz/taza-ceramica.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Pulsera de Cuero Trenzado', 'Pulsera de cuero genuino trenzado a mano. Ajustable.', 8000.00, 'CUERO', 20, 'https://i.ibb.co/6JvTR2fm/designed-with-edit-org-2021-08-17t140402-4961-bdd918c323319df47116292094026773-640-0.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Collar de Plata 925', 'Collar de plata 925. Incluye cadena de 45cm.', 25000.00, 'JOYERIA_ARTESANAL', 5, 'https://i.ibb.co/cKb9SbZH/img-8489-47f364e566d00f5f4617473497508127-1024-1024.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Cesto de Mimbre Grande', 'Cesto de mimbre natural tejido a mano. Ideal para almacenamiento. 40cm x 30cm.', 28000.00, 'CESTERIA_FIBRAS', 12, 'https://i.ibb.co/vCN2qXBh/archivo-productos-web-finales-0000s-0018s-0000s-0000-canasto-de-mimbre-con-tapa-0652574af8de256be217.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Cuadro de Madera Tallada', 'Cuadro decorativo tallado en madera de pino. 30x20cm.', 15000.00, 'MADERA', 6, 'https://i.ibb.co/Kx81CZD7/il-570x-N-4254232893-oufl.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Jarrón de Vidrio Soplado', 'Jarrón de vidrio soplado a mano con colores únicos. Altura 25cm.', 30000.00, 'VIDRIO', 4, 'https://i.ibb.co/BV6gY581/Sentza-Home-Florerogotacolorhumodevidriosopladoespejosadornosjarravasosjarronjarronesdecoracion03.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Bufanda de Lana Merino', 'Bufanda tejida a mano con lana merino 100%. 150cm de largo.', 10000.00, 'TEXTILES', 18, 'https://i.ibb.co/zV4zB1dF/BUFANDA-FRANCESCO.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Lámpara de Metal Forjado', 'Lámpara de mesa con base de metal forjado a mano. Incluye cable y foco.', 35000.00, 'METALES', 0, 'https://i.ibb.co/R5shYJg/original.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Porta Maceta Cerámico', 'Porta maceta de cerámica con diseño geométrico. Ideal para plantas pequeñas.', 12000.00, 'CERAMICA', 0, 'https://i.ibb.co/example1.jpg', false, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com')),
+                                                                                                                             ('Cuenco de Madera', 'Cuenco de madera de olivo tallado a mano. Perfecto para ensaladas.', 18000.00, 'MADERA', 0, 'https://i.ibb.co/example2.jpg', false, NOW(), (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
 
 -- ===========================================
 -- ÓRDENES Y COMPRAS
@@ -186,9 +188,9 @@ INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_cr
 ('MP123456799', 'ORDER-20241211-001', 'PAGADO', 30000.00, '2024-12-11 10:15:00', '2024-12-11 10:20:00', (SELECT id FROM usuarios WHERE email = 'luis.fernandez@gmail.com'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
--- Luis: Lámpara de Madera + Aros de Turquesa
+-- Luis: Lámpara de Madera + Aros Turquesa
 ((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241211-001'), (SELECT id FROM productos WHERE nombre = 'Lámpara de Madera'), 1, 30000.00, 30000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241211-001'), (SELECT id FROM productos WHERE nombre = 'Aros de Turquesa'), 1, 0.00, 0.00); -- Sin stock
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241211-001'), (SELECT id FROM productos WHERE nombre = 'Aros Turquesa'), 1, 0.00, 0.00); -- Sin stock
 
 -- Órdenes de Sofia López
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 

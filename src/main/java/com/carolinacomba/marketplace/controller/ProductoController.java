@@ -74,6 +74,18 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.obtenerProductosPorCategoria(categoria, pageable));
     }
     
+    @GetMapping("/buscar-avanzada")
+    public ResponseEntity<Page<ProductoResponse>> buscarProductosAvanzada(
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) CategoriaProducto categoria,
+            @RequestParam(required = false) BigDecimal precioMin,
+            @RequestParam(required = false) BigDecimal precioMax,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(productoService.buscarProductosAvanzada(nombre, categoria, precioMin, precioMax, pageable));
+    }
+    
     // ENDPOINTS PRIVADOS (Solo artesanos y admin)
     @PostMapping
     public ResponseEntity<ProductoResponse> crearProducto(@Valid @RequestBody ProductoRequest request) {
