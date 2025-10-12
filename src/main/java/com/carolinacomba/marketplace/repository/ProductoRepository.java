@@ -109,5 +109,8 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     // Obtener productos por usuario ordenados por fecha de creación
     @Query("SELECT p FROM Producto p WHERE p.usuario = :usuario ORDER BY p.fechaCreacion DESC")
     List<Producto> findByUsuarioOrderByFechaCreacionDesc(Usuario usuario);
+    
+    // Contar productos activos
+    long countByEsActivoTrue();
 }
 

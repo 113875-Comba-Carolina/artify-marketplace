@@ -39,7 +39,7 @@ INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url
 ('Set de Tazas Cerámicas', 'Set de 4 tazas de cerámica con esmalte mate. Diseño minimalista.', 20000.00, 'CERAMICA', 5, 'https://i.ibb.co/C5HfmJxg/set-de-4-tazas-para-cafe-de-ceramica-beige-y-marron-1000-12-36-247430-1.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
 ('Plato Hondo Artesanal', 'Plato hondo de cerámica con textura natural. Ideal para sopas.', 17500.00, 'CERAMICA', 8, 'https://i.ibb.co/V0VJsYRH/D-Q-NP-649958-MLA89458940275-082025-O.webp', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
 ('Jarrón Decorativo', 'Jarrón de cerámica con patrón abstracto. Altura 30cm.', 22000.00, 'CERAMICA', 5, 'https://i.ibb.co/Ncb4CTr/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Tazón para Cereal', 'Tazón de cerámica esmaltada con asas. Capacidad 400ml.', 10000.00, 'CERAMICA', 15, 'https://i.ibb.co/PvsXGSm6/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
+('Tazón para Cereal', 'Tazón de cerámica esmaltada con asas. Capacidad 400ml.', 100.00, 'CERAMICA', 15, 'https://i.ibb.co/PvsXGSm6/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
 ('Maceta Cerámica', 'Maceta búho de cerámica con drenaje. Ideal para plantas de interior.', 12000.00, 'CERAMICA', 0, 'https://i.ibb.co/5hWM6M4w/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
 ('Cuenco de Cerámica', 'Cuenco de cerámica con textura rugosa. Perfecto para ensaladas.', 9000.00, 'CERAMICA', 0, 'https://i.ibb.co/Pv50pN1T/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com'));
 

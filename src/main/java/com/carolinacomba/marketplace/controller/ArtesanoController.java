@@ -27,13 +27,9 @@ public class ArtesanoController {
     @Autowired
     private ItemOrdenRepository itemOrdenRepository;
 
-    /**
-     * Endpoint de prueba para verificar la consulta de estadísticas
-     */
     @GetMapping("/test-stats")
     public ResponseEntity<?> testStats() {
         try {
-            // Obtener usuario autenticado
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = auth.getName();
             Usuario artesano = usuarioService.buscarPorEmail(email);
@@ -42,7 +38,6 @@ public class ArtesanoController {
                 return ResponseEntity.badRequest().body("Usuario no encontrado");
             }
             
-            // Ejecutar consulta directamente
             Object[] stats = itemOrdenRepository.findEstadisticasVentasPorArtesano(artesano.getId());
             
             Map<String, Object> result = new HashMap<>();
@@ -57,55 +52,35 @@ public class ArtesanoController {
         }
     }
 
-
-    /**
-     * Obtiene todas las ventas del artesano autenticado
-     */
     @GetMapping("/ventas")
     public ResponseEntity<?> obtenerMisVentas() {
         try {
-            System.out.println("=== OBTENER VENTAS ===");
-            
-            // Obtener usuario autenticado
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = auth.getName();
-            System.out.println("Email autenticado: " + email);
-            
+
             Usuario artesano = usuarioService.buscarPorEmail(email);
-            System.out.println("Artesano encontrado: " + (artesano != null ? artesano.getNombre() : "null"));
-            
+
             if (artesano == null) {
-                System.out.println("ERROR: Usuario no encontrado");
                 return ResponseEntity.badRequest().body("Usuario no encontrado");
             }
             
-            // Verificar que es artesano
-            System.out.println("Rol del usuario: " + artesano.getRol());
             if (!"ARTESANO".equals(artesano.getRol().toString())) {
-                System.out.println("ERROR: No es artesano");
                 return ResponseEntity.badRequest().body("Acceso denegado: Solo artesanos pueden acceder a esta información");
             }
             
-            System.out.println("Obteniendo ventas para artesano ID: " + artesano.getId());
             List<Map<String, Object>> ventas = artesanoService.obtenerVentasPorArtesano(artesano);
-            System.out.println("Ventas encontradas: " + ventas.size());
-            
+
             return ResponseEntity.ok(ventas);
             
         } catch (Exception e) {
-            System.out.println("ERROR en obtenerMisVentas: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error obteniendo ventas: " + e.getMessage());
         }
     }
 
-    /**
-     * Obtiene las ventas del artesano filtradas por estado
-     */
     @GetMapping("/ventas/estado/{estado}")
     public ResponseEntity<?> obtenerVentasPorEstado(@PathVariable String estado) {
         try {
-            // Obtener usuario autenticado
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = auth.getName();
             Usuario artesano = usuarioService.buscarPorEmail(email);
@@ -114,7 +89,6 @@ public class ArtesanoController {
                 return ResponseEntity.badRequest().body("Usuario no encontrado");
             }
             
-            // Verificar que es artesano
             if (!"ARTESANO".equals(artesano.getRol().toString())) {
                 return ResponseEntity.badRequest().body("Acceso denegado: Solo artesanos pueden acceder a esta información");
             }
@@ -127,13 +101,9 @@ public class ArtesanoController {
         }
     }
 
-    /**
-     * Obtiene estadísticas de ventas del artesano
-     */
     @GetMapping("/estadisticas")
     public ResponseEntity<?> obtenerEstadisticas() {
         try {
-            // Obtener usuario autenticado
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = auth.getName();
             Usuario artesano = usuarioService.buscarPorEmail(email);
@@ -141,8 +111,7 @@ public class ArtesanoController {
             if (artesano == null) {
                 return ResponseEntity.badRequest().body("Usuario no encontrado");
             }
-            
-            // Verificar que es artesano
+
             if (!"ARTESANO".equals(artesano.getRol().toString())) {
                 return ResponseEntity.badRequest().body("Acceso denegado: Solo artesanos pueden acceder a esta información");
             }

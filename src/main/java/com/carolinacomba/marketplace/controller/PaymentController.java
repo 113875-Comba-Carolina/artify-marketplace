@@ -25,15 +25,9 @@ public class PaymentController {
     @Autowired
     private IUsuarioService usuarioService;
 
-    /**
-     * Crea una preferencia de pago para Checkout Pro
-     * @param preferenceRequest Datos de la preferencia
-     * @return Respuesta con la preferencia creada
-     */
     @PostMapping("/preference")
     public ResponseEntity<?> createPreference(@Valid @RequestBody CreatePreferenceRequest preferenceRequest, HttpServletRequest request) {
         try {
-            // Obtener usuario actual
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = auth.getName();
             Usuario usuario = usuarioService.buscarPorEmail(email);
@@ -54,11 +48,6 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Crea un pago directo (para Checkout API)
-     * @param paymentRequest Datos del pago
-     * @return Respuesta del pago
-     */
     @PostMapping("/create")
     public ResponseEntity<PaymentResponse> createPayment(@Valid @RequestBody PaymentRequest paymentRequest) {
         PaymentResponse response = mercadoPagoService.createPayment(paymentRequest);
@@ -70,22 +59,12 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Obtiene el estado de un pago
-     * @param paymentId ID del pago
-     * @return Estado del pago
-     */
     @GetMapping("/status/{paymentId}")
     public ResponseEntity<String> getPaymentStatus(@PathVariable String paymentId) {
         String status = mercadoPagoService.getPaymentStatus(paymentId);
         return ResponseEntity.ok(status);
     }
 
-    /**
-     * Consulta el estado de un pago por external_reference
-     * @param externalReference Referencia externa
-     * @return Estado del pago
-     */
     @GetMapping("/status-by-reference/{externalReference}")
     public ResponseEntity<?> getPaymentStatusByReference(@PathVariable String externalReference) {
         try {
@@ -97,10 +76,6 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Lista todas las órdenes para debugging
-     * @return Lista de órdenes
-     */
     @GetMapping("/debug/ordenes")
     public ResponseEntity<?> listarOrdenes() {
         try {
@@ -112,49 +87,20 @@ public class PaymentController {
         }
     }
 
-    /**
-     * Obtiene la clave pública de Mercado Pago
-     * @return Clave pública
-     */
     @GetMapping("/public-key")
     public ResponseEntity<String> getPublicKey() {
         String publicKey = mercadoPagoService.getPublicKey();
         return ResponseEntity.ok(publicKey);
     }
 
-    /**
-     * Configura el webhook de Mercado Pago
-     * @return Respuesta de configuración
-     */
-    @PostMapping("/configure-webhook")
-    public ResponseEntity<String> configureWebhook() {
-        try {
-            String webhookUrl = "http://localhost:8080/api/payments/webhook";
-            mercadoPagoService.configureWebhook(webhookUrl);
-            return ResponseEntity.ok("Webhook configurado exitosamente: " + webhookUrl);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error configurando webhook: " + e.getMessage());
-        }
-    }
 
-    /**
-     * Webhook para recibir notificaciones de Mercado Pago
-     * @param notification Datos de la notificación
-     * @return Respuesta de confirmación
-     */
     @PostMapping("/webhook")
     public ResponseEntity<String> webhook(@RequestBody String notification) {
         try {
-            System.out.println("=== WEBHOOK RECIBIDO ===");
-            System.out.println("Notificación: " + notification);
-            
-            // Procesar la notificación de Mercado Pago
             mercadoPagoService.procesarNotificacion(notification);
             
             return ResponseEntity.ok("OK");
         } catch (Exception e) {
-            System.out.println("Error procesando webhook: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
         }
