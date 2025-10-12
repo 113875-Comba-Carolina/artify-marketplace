@@ -9,11 +9,13 @@ public class UsuarioResponse {
     private String nombre;
     private String email;
     private String rol;
+    private String telefono;
 
     public UsuarioResponse(Usuario usuario) {
         this.id = usuario.getId();
         this.nombre = usuario.getNombre();
         this.email = usuario.getEmail();
         this.rol = usuario.getRol().toString();
+        this.telefono = usuario.getTelefono();
     }
 }

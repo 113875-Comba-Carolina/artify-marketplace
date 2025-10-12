@@ -29,12 +29,20 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                // Endpoints públicos para registro
-                .requestMatchers("/api/auth/registro/**").permitAll()
+                // Endpoints públicos para registro y autenticación
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/registro/**").permitAll()
                 .requestMatchers("/api/test/**").permitAll()
                 
                 // Endpoints públicos de productos (lectura)
                 .requestMatchers("GET", "/api/productos/**").permitAll()
+                
+                // Webhook de Mercado Pago (debe ser público)
+                .requestMatchers("POST", "/api/payments/webhook").permitAll()
+                
+                // Endpoints de consulta de pagos (públicos para debugging)
+                .requestMatchers("GET", "/api/payments/status-by-reference/**").permitAll()
+                .requestMatchers("GET", "/api/payments/debug/**").permitAll()
                 
                 // Endpoints para ADMIN
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")

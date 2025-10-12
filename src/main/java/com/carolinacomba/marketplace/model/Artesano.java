@@ -13,15 +13,15 @@ import lombok.EqualsAndHashCode;
 public class Artesano extends Usuario {
 
     @Size(max = 200, message = "El nombre del emprendimiento no puede exceder 200 caracteres")
-    @Column(name = "nombre_emprendimiento", length = 200)
+    @Column(name = "nombre_emprendimiento", length = 200, nullable = true)
     private String nombreEmprendimiento;
 
     @Size(max = 1000, message = "La descripción no puede exceder 1000 caracteres")
-    @Column(length = 1000)
+    @Column(name = "descripcion", length = 1000, nullable = true)
     private String descripcion;
 
     @Size(max = 100, message = "La ubicación no puede exceder 100 caracteres")
-    @Column(length = 100)
+    @Column(name = "ubicacion", length = 100, nullable = true)
     private String ubicacion;
 
     public Artesano() {

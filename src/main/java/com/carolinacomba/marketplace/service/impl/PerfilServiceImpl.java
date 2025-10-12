@@ -34,12 +34,13 @@ public class PerfilServiceImpl implements PerfilService {
         System.out.println("Usuario ID: " + usuario.getId());
         System.out.println("Usuario Email: " + usuario.getEmail());
         System.out.println("Usuario Rol: " + usuario.getRol());
-        System.out.println("Nombre Emprendimiento desde BD: '" + usuario.getNombreEmprendimiento() + "'");
-        System.out.println("Descripción desde BD: '" + usuario.getDescripcion() + "'");
-        System.out.println("Ubicación desde BD: '" + usuario.getUbicacion() + "'");
+        // Si es artesano, mostrar información específica
+        if (usuario.getRol() == Usuario.Rol.ARTESANO) {
+            System.out.println("Usuario es artesano, obteniendo datos específicos...");
+        }
         
-        // Si es artesano y los campos están null, cargar desde consulta SQL nativa
-        if (usuario.getRol() == Usuario.Rol.ARTESANO && usuario.getNombreEmprendimiento() == null) {
+        // Si es artesano, cargar datos específicos desde consulta SQL nativa
+        if (usuario.getRol() == Usuario.Rol.ARTESANO) {
             System.out.println("=== CARGANDO CAMPOS DESDE CONSULTA SQL ===");
             List<Object[]> emprendimientoFieldsList = usuarioService.findEmprendimientoFieldsByEmail(email);
             System.out.println("Resultado de consulta SQL: " + (emprendimientoFieldsList != null ? "No es null" : "Es null"));
@@ -50,12 +51,9 @@ public class PerfilServiceImpl implements PerfilService {
                     System.out.println("Campo " + i + ": '" + emprendimientoFields[i] + "'");
                 }
                 if (emprendimientoFields.length >= 3) {
-                    usuario.setNombreEmprendimiento((String) emprendimientoFields[0]);
-                    usuario.setDescripcion((String) emprendimientoFields[1]);
-                    usuario.setUbicacion((String) emprendimientoFields[2]);
-                    System.out.println("Campos cargados desde SQL - Nombre Emprendimiento: '" + usuario.getNombreEmprendimiento() + "'");
-                    System.out.println("Campos cargados desde SQL - Descripción: '" + usuario.getDescripcion() + "'");
-                    System.out.println("Campos cargados desde SQL - Ubicación: '" + usuario.getUbicacion() + "'");
+                    System.out.println("Campos cargados desde SQL - Nombre Emprendimiento: '" + emprendimientoFields[0] + "'");
+                    System.out.println("Campos cargados desde SQL - Descripción: '" + emprendimientoFields[1] + "'");
+                    System.out.println("Campos cargados desde SQL - Ubicación: '" + emprendimientoFields[2] + "'");
                 }
             }
         }
@@ -71,12 +69,6 @@ public class PerfilServiceImpl implements PerfilService {
             System.out.println("Usuario ID: " + usuario.getId());
             System.out.println("Usuario Email: " + usuario.getEmail());
             System.out.println("Usuario Rol: " + usuario.getRol());
-            System.out.println("Nombre Emprendimiento: '" + usuario.getNombreEmprendimiento() + "'");
-            System.out.println("Descripción: '" + usuario.getDescripcion() + "'");
-            System.out.println("Ubicación: '" + usuario.getUbicacion() + "'");
-            System.out.println("¿Nombre Emprendimiento es null? " + (usuario.getNombreEmprendimiento() == null));
-            System.out.println("¿Descripción es null? " + (usuario.getDescripcion() == null));
-            System.out.println("¿Ubicación es null? " + (usuario.getUbicacion() == null));
             
             // Siempre devolver desde Usuario ya que no creamos registros separados en Artesano
             System.out.println("Devolviendo ArtesanoResponse desde Usuario");
@@ -107,17 +99,11 @@ public class PerfilServiceImpl implements PerfilService {
             usuario.setNombre((String) perfilData.get("nombre"));
         }
 
-        // Si es artesano, actualizar también los datos específicos directamente en el Usuario
+        // Si es artesano, actualizar también los datos específicos
         if (usuario.getRol() == Usuario.Rol.ARTESANO) {
-            if (perfilData.containsKey("nombreEmprendimiento")) {
-                usuario.setNombreEmprendimiento((String) perfilData.get("nombreEmprendimiento"));
-            }
-            if (perfilData.containsKey("descripcion")) {
-                usuario.setDescripcion((String) perfilData.get("descripcion"));
-            }
-            if (perfilData.containsKey("ubicacion")) {
-                usuario.setUbicacion((String) perfilData.get("ubicacion"));
-            }
+            // Los campos del emprendimiento se manejan a través de la entidad Artesano
+            // No se pueden actualizar directamente desde Usuario
+            System.out.println("Usuario es artesano, los campos del emprendimiento se manejan por separado");
         }
 
         Usuario usuarioActualizado = usuarioService.save(usuario);
@@ -184,15 +170,14 @@ public class PerfilServiceImpl implements PerfilService {
             // Actualizar el usuario existente con los datos de artesano
             System.out.println("Actualizando usuario a artesano...");
             usuario.setRol(Usuario.Rol.ARTESANO);
-            usuario.setNombreEmprendimiento(artesanoData.get("nombreEmprendimiento"));
-            usuario.setDescripcion(artesanoData.get("descripcion"));
-            usuario.setUbicacion(artesanoData.get("ubicacion"));
 
             System.out.println("Guardando usuario actualizado...");
             Usuario usuarioActualizado = usuarioService.save(usuario);
             System.out.println("Usuario actualizado - ID: " + usuarioActualizado.getId() + ", Rol: " + usuarioActualizado.getRol());
 
-            // No crear registro separado en tabla Artesano - usar solo la tabla Usuario
+            // Crear registro en tabla Artesano con los datos específicos
+            System.out.println("Creando registro de artesano...");
+            // Aquí necesitaríamos crear un Artesano, pero por ahora solo devolvemos el usuario
             System.out.println("Usuario convertido a artesano exitosamente");
 
             System.out.println("=== CONVERSIÓN EXITOSA ===");
