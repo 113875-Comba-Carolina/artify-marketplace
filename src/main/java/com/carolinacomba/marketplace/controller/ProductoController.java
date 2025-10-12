@@ -287,16 +287,14 @@ public class ProductoController {
                 
                 if (usuario != null && usuario.getRol() == Usuario.Rol.ARTESANO) {
                     System.out.println("Creando Artesano temporal desde Usuario");
-                    // Crear un objeto Artesano temporal desde el Usuario
-                    Artesano artesano = new Artesano();
-                    artesano.setId(usuario.getId());
-                    artesano.setNombre(usuario.getNombre());
-                    artesano.setEmail(usuario.getEmail());
-                    artesano.setRol(usuario.getRol());
-                    artesano.setNombreEmprendimiento(usuario.getNombreEmprendimiento());
-                    artesano.setDescripcion(usuario.getDescripcion());
-                    artesano.setUbicacion(usuario.getUbicacion());
-                    return artesano;
+                    // Si el usuario es artesano, devolverlo directamente
+                    if (usuario instanceof Artesano) {
+                        return (Artesano) usuario;
+                    }
+                    
+                    // Si no es artesano, crear uno temporal (esto no debería pasar)
+                    System.out.println("ERROR: Usuario no es artesano");
+                    throw new RuntimeException("Usuario no es artesano");
                 }
                 System.out.println("ERROR: Artesano no encontrado");
                 throw new RuntimeException("Artesano no encontrado");

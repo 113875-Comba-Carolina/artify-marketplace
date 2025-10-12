@@ -32,4 +32,7 @@ public class RegistroArtesanoRequest {
 
     @Size(max = 100, message = "La ubicación no puede exceder 100 caracteres")
     private String ubicacion;
+
+    @Size(max = 20, message = "El teléfono no puede exceder 20 caracteres")
+    private String telefono;
 }

@@ -55,13 +55,25 @@ public class ProductoResponse {
         this.disponibleParaCompra = producto.isDisponibleParaCompra();
         this.fechaCreacion = producto.getFechaCreacion();
         this.fechaActualizacion = producto.getFechaActualizacion();
+        // Construir información del artesano
+        String nombreEmprendimiento = null;
+        String descripcion = null;
+        String ubicacion = null;
+        
+        if (producto.getUsuario() instanceof com.carolinacomba.marketplace.model.Artesano) {
+            com.carolinacomba.marketplace.model.Artesano artesano = (com.carolinacomba.marketplace.model.Artesano) producto.getUsuario();
+            nombreEmprendimiento = artesano.getNombreEmprendimiento();
+            descripcion = artesano.getDescripcion();
+            ubicacion = artesano.getUbicacion();
+        }
+        
         this.artesano = new ArtesanoInfo(
             producto.getUsuario().getId(),
             producto.getUsuario().getNombre(),
             producto.getUsuario().getEmail(),
-            producto.getUsuario().getNombreEmprendimiento(),
-            producto.getUsuario().getDescripcion(),
-            producto.getUsuario().getUbicacion()
+            nombreEmprendimiento,
+            descripcion,
+            ubicacion
         );
     }
     

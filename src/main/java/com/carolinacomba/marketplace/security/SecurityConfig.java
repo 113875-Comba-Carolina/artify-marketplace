@@ -29,7 +29,8 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authz -> authz
-                // Endpoints públicos para registro
+                // Endpoints públicos para registro y autenticación
+                .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/registro/**").permitAll()
                 .requestMatchers("/api/test/**").permitAll()
                 
