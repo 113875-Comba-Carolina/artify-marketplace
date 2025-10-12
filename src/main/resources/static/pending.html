@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Pendiente - Mercado Pago</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .pending-icon {
+            font-size: 64px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        .info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .button {
+            background: #00a650;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background: #008f47;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="pending-icon">⏳</div>
+        <h1>Pago Pendiente</h1>
+        <p>Tu pago está siendo procesado.</p>
+        
+        <div class="info">
+            <h3>¿Qué significa esto?</h3>
+            <p>Tu pago está en proceso de verificación. Esto puede tomar unos minutos.</p>
+            <p>Recibirás una notificación por email una vez que el pago sea confirmado.</p>
+        </div>
+        
+        <div class="info">
+            <h3>Métodos de Pago Pendientes</h3>
+            <ul style="text-align: left; display: inline-block;">
+                <li>Transferencia bancaria</li>
+                <li>Pago en efectivo (Rapipago, Pago Fácil)</li>
+                <li>Boleto bancario</li>
+            </ul>
+        </div>
+        
+        <p>No necesitas hacer nada más. Te notificaremos cuando el pago sea confirmado.</p>
+        
+        <a href="/" class="button">Volver al Inicio</a>
+    </div>
+
+    <script>
+        // Obtener parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentId = urlParams.get('payment_id');
+        const status = urlParams.get('status');
+        
+        // Mostrar información del pago si está disponible
+        if (paymentId) {
+            console.log('Payment ID:', paymentId);
+            console.log('Status:', status);
+        }
+    </script>
+</body>
+</html>

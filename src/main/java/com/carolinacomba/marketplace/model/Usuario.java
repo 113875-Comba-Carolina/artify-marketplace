@@ -41,18 +41,9 @@ public class Usuario {
     @Column(nullable = false, length = 20)
     private Rol rol;
 
-    // Campos específicos de artesano (opcionales para usuarios normales)
-    @Size(max = 200, message = "El nombre del emprendimiento no puede exceder 200 caracteres")
-    @Column(name = "nombre_emprendimiento", length = 200, nullable = true)
-    private String nombreEmprendimiento;
-
-    @Size(max = 1000, message = "La descripción no puede exceder 1000 caracteres")
-    @Column(name = "descripcion", length = 1000, nullable = true)
-    private String descripcion;
-
-    @Size(max = 100, message = "La ubicación no puede exceder 100 caracteres")
-    @Column(name = "ubicacion", length = 100, nullable = true)
-    private String ubicacion;
+    @Size(max = 20, message = "El teléfono no puede exceder 20 caracteres")
+    @Column(name = "telefono", length = 20, nullable = true)
+    private String telefono;
 
     public Usuario(String nombre, String email, String contrasena, Rol rol) {
         this.nombre = nombre;

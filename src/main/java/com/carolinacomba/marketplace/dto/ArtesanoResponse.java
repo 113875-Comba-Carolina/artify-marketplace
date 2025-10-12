@@ -13,6 +13,7 @@ public class ArtesanoResponse {
     private String nombreEmprendimiento;
     private String descripcion;
     private String ubicacion;
+    private String telefono;
 
     public ArtesanoResponse(Artesano artesano) {
         this.id = artesano.getId();
@@ -22,6 +23,7 @@ public class ArtesanoResponse {
         this.nombreEmprendimiento = artesano.getNombreEmprendimiento();
         this.descripcion = artesano.getDescripcion();
         this.ubicacion = artesano.getUbicacion();
+        this.telefono = artesano.getTelefono();
     }
 
     public ArtesanoResponse(Usuario usuario) {
@@ -29,8 +31,14 @@ public class ArtesanoResponse {
         this.nombre = usuario.getNombre();
         this.email = usuario.getEmail();
         this.rol = usuario.getRol().toString();
-        this.nombreEmprendimiento = usuario.getNombreEmprendimiento();
-        this.descripcion = usuario.getDescripcion();
-        this.ubicacion = usuario.getUbicacion();
+        this.telefono = usuario.getTelefono();
+        
+        // Solo asignar campos del emprendimiento si es un artesano
+        if (usuario instanceof Artesano) {
+            Artesano artesano = (Artesano) usuario;
+            this.nombreEmprendimiento = artesano.getNombreEmprendimiento();
+            this.descripcion = artesano.getDescripcion();
+            this.ubicacion = artesano.getUbicacion();
+        }
     }
 }

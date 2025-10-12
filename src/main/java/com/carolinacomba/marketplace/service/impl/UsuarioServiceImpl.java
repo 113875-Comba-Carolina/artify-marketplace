@@ -54,6 +54,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuario.setEmail(request.getEmail());
         usuario.setContrasena(passwordEncoder.encode(request.getPassword()));
         usuario.setRol(Usuario.Rol.USUARIO);
+        usuario.setTelefono(request.getTelefono());
 
         return usuarioRepository.save(usuario);
     }
@@ -74,6 +75,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         artesano.setNombreEmprendimiento(request.getNombreEmprendimiento());
         artesano.setDescripcion(request.getDescripcion());
         artesano.setUbicacion(request.getUbicacion());
+        artesano.setTelefono(request.getTelefono());
 
         return artesanoRepository.save(artesano);
     }
