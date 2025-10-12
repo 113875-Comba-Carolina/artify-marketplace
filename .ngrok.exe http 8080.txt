@@ -1,0 +1,7 @@
+.\ngrok.exe http 8080
+
+.\ngrok.exe start --config ngrok2.yml frontend
+
+
+
+notepad $env:LOCALAPPDATA\ngrok\ngrok.yml

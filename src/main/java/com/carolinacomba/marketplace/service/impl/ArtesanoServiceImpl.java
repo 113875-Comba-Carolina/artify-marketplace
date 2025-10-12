@@ -59,6 +59,7 @@ public class ArtesanoServiceImpl implements ArtesanoService {
                 venta.put("fechaCreacion", resultado[7]);
                 venta.put("compradorNombre", resultado[8]);
                 venta.put("compradorEmail", resultado[9]);
+                venta.put("imagenUrl", resultado[10]);
                 ventas.add(venta);
                 
                 System.out.println("Venta agregada: " + resultado[2] + " - " + resultado[8]);
@@ -91,6 +92,7 @@ public class ArtesanoServiceImpl implements ArtesanoService {
             venta.put("fechaCreacion", resultado[7]);
             venta.put("compradorNombre", resultado[8]);
             venta.put("compradorEmail", resultado[9]);
+            venta.put("imagenUrl", resultado[10]);
             ventas.add(venta);
         }
         

@@ -2,6 +2,7 @@ package com.carolinacomba.marketplace.repository;
 
 import com.carolinacomba.marketplace.model.Artesano;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -20,4 +21,8 @@ public interface ArtesanoRepository extends JpaRepository<Artesano, Long> {
     
     @Query("SELECT a FROM Artesano a WHERE a.nombreEmprendimiento LIKE %:busqueda% OR a.descripcion LIKE %:busqueda%")
     List<Artesano> buscarPorTexto(@Param("busqueda") String busqueda);
+    
+    @Modifying
+    @Query("UPDATE Usuario u SET u.nombreEmprendimiento = :nombreEmprendimiento, u.descripcion = :descripcion, u.ubicacion = :ubicacion WHERE u.id = :id")
+    void updateEmprendimientoFields(@Param("id") Long id, @Param("nombreEmprendimiento") String nombreEmprendimiento, @Param("descripcion") String descripcion, @Param("ubicacion") String ubicacion);
 } 

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -41,7 +42,7 @@ public class ProductoController {
     @GetMapping
     public ResponseEntity<Page<ProductoResponse>> obtenerProductos(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "50") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(productoService.obtenerTodosLosProductos(pageable));
     }
@@ -59,7 +60,7 @@ public class ProductoController {
     public ResponseEntity<Page<ProductoResponse>> buscarProductos(
             @RequestParam String nombre,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "50") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(productoService.buscarProductosPorNombre(nombre, pageable));
     }
@@ -68,9 +69,21 @@ public class ProductoController {
     public ResponseEntity<Page<ProductoResponse>> productosPorCategoria(
             @PathVariable CategoriaProducto categoria,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "50") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(productoService.obtenerProductosPorCategoria(categoria, pageable));
+    }
+    
+    @GetMapping("/buscar-avanzada")
+    public ResponseEntity<Page<ProductoResponse>> buscarProductosAvanzada(
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) CategoriaProducto categoria,
+            @RequestParam(required = false) BigDecimal precioMin,
+            @RequestParam(required = false) BigDecimal precioMax,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(productoService.buscarProductosAvanzada(nombre, categoria, precioMin, precioMax, pageable));
     }
     
     // ENDPOINTS PRIVADOS (Solo artesanos y admin)
@@ -286,15 +299,28 @@ public class ProductoController {
                 }
                 
                 if (usuario != null && usuario.getRol() == Usuario.Rol.ARTESANO) {
-                    System.out.println("Creando Artesano temporal desde Usuario");
-                    // Si el usuario es artesano, devolverlo directamente
-                    if (usuario instanceof Artesano) {
-                        return (Artesano) usuario;
+                    System.out.println("Usuario es artesano, creando Artesano temporal");
+                    // Crear un Artesano temporal con los datos del Usuario
+                    Artesano artesano = new Artesano();
+                    artesano.setId(usuario.getId());
+                    artesano.setNombre(usuario.getNombre());
+                    artesano.setEmail(usuario.getEmail());
+                    artesano.setContrasena(usuario.getContrasena());
+                    artesano.setRol(usuario.getRol());
+                    artesano.setTelefono(usuario.getTelefono());
+                    
+                    // Obtener datos del emprendimiento desde la base de datos
+                    List<Object[]> emprendimientoFields = usuarioService.findEmprendimientoFieldsByEmail(email);
+                    if (emprendimientoFields != null && !emprendimientoFields.isEmpty()) {
+                        Object[] fields = emprendimientoFields.get(0);
+                        if (fields.length >= 3) {
+                            artesano.setNombreEmprendimiento((String) fields[0]);
+                            artesano.setDescripcion((String) fields[1]);
+                            artesano.setUbicacion((String) fields[2]);
+                        }
                     }
                     
-                    // Si no es artesano, crear uno temporal (esto no debería pasar)
-                    System.out.println("ERROR: Usuario no es artesano");
-                    throw new RuntimeException("Usuario no es artesano");
+                    return artesano;
                 }
                 System.out.println("ERROR: Artesano no encontrado");
                 throw new RuntimeException("Artesano no encontrado");
