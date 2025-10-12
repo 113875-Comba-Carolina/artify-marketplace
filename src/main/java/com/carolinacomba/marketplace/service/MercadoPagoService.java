@@ -51,11 +51,6 @@ public interface MercadoPagoService {
      */
     void procesarNotificacion(String notification);
     
-    /**
-     * Configura el webhook de Mercado Pago
-     * @param webhookUrl URL del webhook
-     */
-    void configureWebhook(String webhookUrl);
     
     /**
      * Lista todas las órdenes para debugging

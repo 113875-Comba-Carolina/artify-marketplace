@@ -198,17 +198,13 @@ public class ProductoController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         try {
-            System.out.println("=== DEBUG MIS PRODUCTOS ACTIVOS ===");
             Artesano artesano = obtenerArtesanoAutenticado();
-            System.out.println("Artesano obtenido: " + artesano.getId());
             Pageable pageable = PageRequest.of(page, size);
             return ResponseEntity.ok(productoService.obtenerProductosActivosPorArtesano(artesano, pageable));
         } catch (RuntimeException e) {
-            System.out.println("ERROR en misProductosActivos: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            System.out.println("ERROR GENERAL en misProductosActivos: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
@@ -217,18 +213,14 @@ public class ProductoController {
     @GetMapping("/mis-estadisticas")
     public ResponseEntity<EstadisticasResponse> misEstadisticas() {
         try {
-            System.out.println("=== DEBUG MIS ESTADISTICAS ===");
             Artesano artesano = obtenerArtesanoAutenticado();
-            System.out.println("Artesano obtenido: " + artesano.getId());
             long total = productoService.contarProductosPorArtesano(artesano);
             long activos = productoService.contarProductosActivosPorArtesano(artesano);
             return ResponseEntity.ok(new EstadisticasResponse(total, activos, total - activos));
         } catch (RuntimeException e) {
-            System.out.println("ERROR en misEstadisticas: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            System.out.println("ERROR GENERAL en misEstadisticas: " + e.getMessage());
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
@@ -278,29 +270,16 @@ public class ProductoController {
         }
     }
     
-    
-    // Método auxiliar para obtener el artesano autenticado
     private Artesano obtenerArtesanoAutenticado() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         
-        System.out.println("=== DEBUG OBTENER ARTESANO AUTENTICADO ===");
-        System.out.println("Email autenticado: " + email);
-        
-        // Buscar en la tabla Artesano primero
+
         return artesanoRepository.findByEmail(email)
             .orElseGet(() -> {
-                System.out.println("No se encontró en tabla Artesano, buscando en Usuario...");
-                // Si no se encuentra en la tabla Artesano, buscar en Usuario con rol ARTESANO
                 Usuario usuario = usuarioService.findByEmail(email);
-                System.out.println("Usuario encontrado: " + (usuario != null));
-                if (usuario != null) {
-                    System.out.println("Usuario rol: " + usuario.getRol());
-                }
                 
                 if (usuario != null && usuario.getRol() == Usuario.Rol.ARTESANO) {
-                    System.out.println("Usuario es artesano, creando Artesano temporal");
-                    // Crear un Artesano temporal con los datos del Usuario
                     Artesano artesano = new Artesano();
                     artesano.setId(usuario.getId());
                     artesano.setNombre(usuario.getNombre());
@@ -309,7 +288,6 @@ public class ProductoController {
                     artesano.setRol(usuario.getRol());
                     artesano.setTelefono(usuario.getTelefono());
                     
-                    // Obtener datos del emprendimiento desde la base de datos
                     List<Object[]> emprendimientoFields = usuarioService.findEmprendimientoFieldsByEmail(email);
                     if (emprendimientoFields != null && !emprendimientoFields.isEmpty()) {
                         Object[] fields = emprendimientoFields.get(0);
@@ -322,7 +300,6 @@ public class ProductoController {
                     
                     return artesano;
                 }
-                System.out.println("ERROR: Artesano no encontrado");
                 throw new RuntimeException("Artesano no encontrado");
             });
     }

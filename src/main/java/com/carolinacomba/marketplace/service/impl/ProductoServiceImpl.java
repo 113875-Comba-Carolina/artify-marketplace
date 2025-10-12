@@ -31,10 +31,6 @@ public class ProductoServiceImpl implements IProductoService {
     
     @Override
     public ProductoResponse crearProducto(ProductoRequest productoRequest, Artesano artesano) {
-        System.out.println("=== DEBUG CREAR PRODUCTO ===");
-        System.out.println("Artesano ID: " + artesano.getId());
-        System.out.println("Artesano Email: " + artesano.getEmail());
-        
         Producto producto = new Producto();
         producto.setNombre(productoRequest.getNombre());
         producto.setDescripcion(productoRequest.getDescripcion());
@@ -45,9 +41,7 @@ public class ProductoServiceImpl implements IProductoService {
         producto.setUsuario(artesano);
         producto.setEsActivo(true);
         
-        System.out.println("Guardando producto...");
         Producto productoGuardado = productoRepository.save(producto);
-        System.out.println("Producto guardado con ID: " + productoGuardado.getId());
         return new ProductoResponse(productoGuardado);
     }
     
@@ -55,7 +49,6 @@ public class ProductoServiceImpl implements IProductoService {
     public ProductoResponse crearProductoConImagen(ProductoWithImageRequest productoRequest, Artesano artesano) {
         String imagenUrl = null;
         
-        // Si se proporcionó una imagen, subirla a ImgBB
         if (productoRequest.hasImage()) {
             try {
                 imagenUrl = imageUploadService.uploadImage(productoRequest.getImagen());
@@ -63,7 +56,6 @@ public class ProductoServiceImpl implements IProductoService {
                 throw new RuntimeException("Error al subir la imagen: " + e.getMessage(), e);
             }
         } else if (productoRequest.hasImageUrl()) {
-            // Si se proporcionó una URL de imagen existente, usarla
             imagenUrl = productoRequest.getImagenUrl();
         }
         
@@ -118,13 +110,8 @@ public class ProductoServiceImpl implements IProductoService {
     @Override
     @Transactional(readOnly = true)
     public Page<ProductoResponse> obtenerProductosActivosPorArtesano(Artesano artesano, Pageable pageable) {
-        System.out.println("=== DEBUG OBTENER PRODUCTOS ACTIVOS ===");
-        System.out.println("Artesano ID: " + artesano.getId());
-        System.out.println("Artesano Email: " + artesano.getEmail());
         
-        // Buscar por ID del usuario en lugar del objeto completo
         Page<Producto> productos = productoRepository.findByUsuarioIdAndEsActivoTrue(artesano.getId(), pageable);
-        System.out.println("Productos encontrados: " + productos.getTotalElements());
         return productos.map(ProductoResponse::new);
     }
     
@@ -194,14 +181,12 @@ public class ProductoServiceImpl implements IProductoService {
         Producto producto = productoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
-        // Verificar que el producto pertenece al artesano
         if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para actualizar este producto");
         }
         
-        String imagenUrl = producto.getImagenUrl(); // Mantener la imagen actual por defecto
+        String imagenUrl = producto.getImagenUrl();
         
-        // Si se proporcionó una nueva imagen, subirla a ImgBB
         if (productoRequest.hasImage()) {
             try {
                 imagenUrl = imageUploadService.uploadImage(productoRequest.getImagen());
@@ -209,11 +194,9 @@ public class ProductoServiceImpl implements IProductoService {
                 throw new RuntimeException("Error al subir la imagen: " + e.getMessage(), e);
             }
         } else if (productoRequest.hasImageUrl()) {
-            // Si se proporcionó una URL de imagen existente, usarla
             imagenUrl = productoRequest.getImagenUrl();
         }
         
-        // Actualizar los campos del producto
         producto.setNombre(productoRequest.getNombre());
         producto.setDescripcion(productoRequest.getDescripcion());
         producto.setPrecio(productoRequest.getPrecio());
@@ -227,7 +210,6 @@ public class ProductoServiceImpl implements IProductoService {
     
     @Override
     public void eliminarProducto(Long id, Artesano artesano) {
-        // Este método ahora llama a desactivarProducto para mantener consistencia
         desactivarProducto(id, artesano);
     }
     
@@ -236,12 +218,10 @@ public class ProductoServiceImpl implements IProductoService {
         Producto producto = productoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
-        // Verificar que el producto pertenece al artesano
         if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para desactivar este producto");
         }
         
-        // Desactivar el producto
         producto.desactivar();
         Producto productoActualizado = productoRepository.save(producto);
         return new ProductoResponse(productoActualizado);
@@ -252,12 +232,10 @@ public class ProductoServiceImpl implements IProductoService {
         Producto producto = productoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
-        // Verificar que el producto pertenece al artesano
         if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para activar este producto");
         }
         
-        // Activar el producto
         producto.activar();
         Producto productoActualizado = productoRepository.save(producto);
         return new ProductoResponse(productoActualizado);
@@ -268,17 +246,14 @@ public class ProductoServiceImpl implements IProductoService {
         Producto producto = productoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
-        // Verificar que el producto pertenece al artesano
         if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para eliminar este producto");
         }
         
-        // Solo permitir eliminación definitiva si está inactivo
         if (producto.getEsActivo()) {
             throw new RuntimeException("No se puede eliminar definitivamente un producto activo. Primero debe desactivarlo.");
         }
         
-        // Eliminación definitiva
         productoRepository.delete(producto);
     }
     
@@ -294,7 +269,6 @@ public class ProductoServiceImpl implements IProductoService {
         Producto producto = productoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
         
-        // Verificar que el producto pertenece al artesano
         if (!producto.getUsuario().getId().equals(artesano.getId())) {
             throw new RuntimeException("No tienes permisos para cambiar el estado de este producto");
         }
@@ -338,16 +312,12 @@ public class ProductoServiceImpl implements IProductoService {
     @Override
     @Transactional(readOnly = true)
     public long contarProductosPorArtesano(Artesano artesano) {
-        System.out.println("=== DEBUG CONTAR PRODUCTOS ===");
-        System.out.println("Artesano ID: " + artesano.getId());
         return productoRepository.countByUsuarioId(artesano.getId());
     }
     
     @Override
     @Transactional(readOnly = true)
     public long contarProductosActivosPorArtesano(Artesano artesano) {
-        System.out.println("=== DEBUG CONTAR PRODUCTOS ACTIVOS ===");
-        System.out.println("Artesano ID: " + artesano.getId());
         return productoRepository.countByUsuarioIdAndEsActivoTrue(artesano.getId());
     }
 }

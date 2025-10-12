@@ -44,6 +44,10 @@ public class SecurityConfig {
                 .requestMatchers("GET", "/api/payments/status-by-reference/**").permitAll()
                 .requestMatchers("GET", "/api/payments/debug/**").permitAll()
                 
+                // Endpoints simples sin autenticación
+                .requestMatchers("GET", "/api/admin/simple-test").permitAll()
+                .requestMatchers("GET", "/api/admin/ping").permitAll()
+                
                 // Endpoints para ADMIN
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/actuator/**").hasRole("ADMIN")

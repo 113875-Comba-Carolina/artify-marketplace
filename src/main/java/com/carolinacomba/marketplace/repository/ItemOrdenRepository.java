@@ -77,4 +77,75 @@ public interface ItemOrdenRepository extends JpaRepository<com.carolinacomba.mar
            "JOIN productos p ON io.producto_id = p.id " +
            "WHERE p.usuario_id = :artesanoId", nativeQuery = true)
     Object[] findEstadisticasVentasPorArtesano(@Param("artesanoId") Long artesanoId);
+    
+    /**
+     * Obtiene estadísticas generales de ventas
+     */
+    @Query(value = "SELECT " +
+           "COALESCE(SUM(io.subtotal), 0), " +
+           "COALESCE(SUM(io.cantidad), 0), " +
+           "COALESCE(AVG(io.subtotal), 0), " +
+           "COALESCE(AVG(o.total), 0) " +
+           "FROM items_orden io " +
+           "JOIN ordenes o ON io.orden_id = o.id " +
+           "WHERE o.estado = 'PAGADO'", nativeQuery = true)
+    Object[] findEstadisticasGenerales();
+    
+    /**
+     * Obtiene top artesanos por ventas
+     */
+    @Query(value = "SELECT " +
+           "u.id, " +
+           "u.nombre, " +
+           "u.email, " +
+           "u.nombre_emprendimiento, " +
+           "COUNT(DISTINCT o.id) as total_ventas, " +
+           "COALESCE(SUM(io.subtotal), 0) as ingresos, " +
+           "COUNT(DISTINCT p.id) as total_productos " +
+           "FROM items_orden io " +
+           "JOIN ordenes o ON io.orden_id = o.id " +
+           "JOIN productos p ON io.producto_id = p.id " +
+           "JOIN usuarios u ON p.usuario_id = u.id " +
+           "WHERE o.estado = 'PAGADO' " +
+           "GROUP BY u.id, u.nombre, u.email, u.nombre_emprendimiento " +
+           "ORDER BY ingresos DESC " +
+           "LIMIT 10", nativeQuery = true)
+    List<Object[]> findTopArtesanos();
+    
+    /**
+     * Obtiene productos más vendidos
+     */
+    @Query(value = "SELECT " +
+           "p.id, " +
+           "p.nombre, " +
+           "p.categoria, " +
+           "p.imagen_url, " +
+           "u.nombre as artesano_nombre, " +
+           "SUM(io.cantidad) as cantidad_vendida, " +
+           "COALESCE(SUM(io.subtotal), 0) as ingresos " +
+           "FROM items_orden io " +
+           "JOIN ordenes o ON io.orden_id = o.id " +
+           "JOIN productos p ON io.producto_id = p.id " +
+           "JOIN usuarios u ON p.usuario_id = u.id " +
+           "WHERE o.estado = 'PAGADO' " +
+           "GROUP BY p.id, p.nombre, p.categoria, p.imagen_url, u.nombre " +
+           "ORDER BY cantidad_vendida DESC " +
+           "LIMIT 10", nativeQuery = true)
+    List<Object[]> findTopProductos();
+    
+    /**
+     * Obtiene ventas por categoría
+     */
+    @Query(value = "SELECT " +
+           "p.categoria, " +
+           "COUNT(DISTINCT o.id) as total_ventas, " +
+           "COALESCE(SUM(io.subtotal), 0) as ingresos, " +
+           "COUNT(DISTINCT p.id) as total_productos " +
+           "FROM items_orden io " +
+           "JOIN ordenes o ON io.orden_id = o.id " +
+           "JOIN productos p ON io.producto_id = p.id " +
+           "WHERE o.estado = 'PAGADO' " +
+           "GROUP BY p.categoria " +
+           "ORDER BY ingresos DESC", nativeQuery = true)
+    List<Object[]> findVentasPorCategoria();
 }
