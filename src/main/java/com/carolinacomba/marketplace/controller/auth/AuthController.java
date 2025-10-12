@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -74,11 +75,17 @@ public class AuthController {
             response.put("rol", usuario.getRol());
             
             // Si es artesano, incluir datos adicionales
-            if (usuario instanceof Artesano) {
-                Artesano artesano = (Artesano) usuario;
-                response.put("nombreEmprendimiento", artesano.getNombreEmprendimiento());
-                response.put("descripcion", artesano.getDescripcion());
-                response.put("ubicacion", artesano.getUbicacion());
+            if (usuario.getRol() == Usuario.Rol.ARTESANO) {
+                // Obtener datos del emprendimiento desde la base de datos
+                List<Object[]> emprendimientoFields = usuarioService.findEmprendimientoFieldsByEmail(email);
+                if (emprendimientoFields != null && !emprendimientoFields.isEmpty()) {
+                    Object[] fields = emprendimientoFields.get(0);
+                    if (fields.length >= 3) {
+                        response.put("nombreEmprendimiento", fields[0]);
+                        response.put("descripcion", fields[1]);
+                        response.put("ubicacion", fields[2]);
+                    }
+                }
             }
             
             return ResponseEntity.ok(response);
