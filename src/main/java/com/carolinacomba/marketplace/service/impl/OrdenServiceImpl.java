@@ -132,25 +132,15 @@ public class OrdenServiceImpl implements OrdenService {
             Orden orden = ordenRepository.findById(ordenId)
                     .orElseThrow(() -> new RuntimeException("Orden no encontrada: " + ordenId));
             
-            // Reducir stock de cada producto en la orden
             for (ItemOrden item : orden.getItems()) {
                 Producto producto = item.getProducto();
                 Integer cantidadComprada = item.getCantidad();
                 
                 boolean stockReducido = producto.reducirStock(cantidadComprada);
-                if (stockReducido) {
-                    System.out.println("Stock reducido para producto " + producto.getId() + 
-                                     " (" + producto.getNombre() + "): " + cantidadComprada + " unidades");
-                } else {
-                    System.out.println("ERROR: No se pudo reducir stock para producto " + producto.getId() + 
-                                     " (" + producto.getNombre() + "). Stock actual: " + producto.getStock());
-                }
             }
             
-            System.out.println("Stock actualizado para orden " + ordenId);
-            
+
         } catch (Exception e) {
-            System.out.println("Error reduciendo stock para orden " + ordenId + ": " + e.getMessage());
             e.printStackTrace();
         }
     }

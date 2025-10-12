@@ -74,7 +74,6 @@ public class AdminServiceImpl implements AdminService {
             Long totalOrdenes = ordenRepository.count();
             estadisticas.put("totalOrdenes", totalOrdenes);
             
-            // Órdenes por estado
             Long ordenesPagadas = ordenRepository.countByEstado(EstadoOrden.PAGADO);
             Long ordenesPendientes = ordenRepository.countByEstado(EstadoOrden.PENDIENTE);
             Long ordenesCanceladas = ordenRepository.countByEstado(EstadoOrden.CANCELADO);
@@ -112,8 +111,7 @@ public class AdminServiceImpl implements AdminService {
                 topArtesanos.add(artesano);
             }
             
-        } catch (Exception e) {
-            System.out.println("Error obteniendo top artesanos: " + e.getMessage());
+        } catch (Exception ignored) {
         }
         
         return topArtesanos;
@@ -138,8 +136,7 @@ public class AdminServiceImpl implements AdminService {
                 topProductos.add(producto);
             }
             
-        } catch (Exception e) {
-            System.out.println("Error obteniendo top productos: " + e.getMessage());
+        } catch (Exception ignored) {
         }
         
         return topProductos;
@@ -161,8 +158,7 @@ public class AdminServiceImpl implements AdminService {
                 ventasPorCategoria.add(categoria);
             }
             
-        } catch (Exception e) {
-            System.out.println("Error obteniendo ventas por categoría: " + e.getMessage());
+        } catch (Exception ignored) {
         }
         
         return ventasPorCategoria;
@@ -173,7 +169,6 @@ public class AdminServiceImpl implements AdminService {
         List<Map<String, Object>> actividad = new ArrayList<>();
         
         try {
-            // Actividad reciente de órdenes
             List<Object[]> ordenesRecientes = ordenRepository.findActividadReciente();
             
             for (Object[] orden : ordenesRecientes) {
@@ -186,7 +181,6 @@ public class AdminServiceImpl implements AdminService {
             }
             
         } catch (Exception e) {
-            System.out.println("Error obteniendo actividad reciente: " + e.getMessage());
         }
         
         return actividad;
