@@ -178,9 +178,17 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
         try {
             JsonNode notificationNode = objectMapper.readTree(notification);
             
+            if (notificationNode.get("type") == null) {
+                return;
+            }
+            
             String type = notificationNode.get("type").asText();
             
             if ("payment".equals(type)) {
+                if (notificationNode.get("data") == null || notificationNode.get("data").get("id") == null) {
+                    return;
+                }
+                
                 String paymentId = notificationNode.get("data").get("id").asText();
                 
                 if ("123456".equals(paymentId) || paymentId.startsWith("123456")) {
