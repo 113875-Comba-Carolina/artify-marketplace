@@ -86,6 +86,15 @@ public class ProductoServiceImpl implements IProductoService {
     
     @Override
     @Transactional(readOnly = true)
+    public List<ProductoResponse> obtenerTodosLosProductosSinPaginacion() {
+        List<Producto> productos = productoRepository.findByEsActivoTrue();
+        return productos.stream()
+            .map(ProductoResponse::new)
+            .collect(Collectors.toList());
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
     public Page<ProductoResponse> obtenerTodosLosProductos(Pageable pageable) {
         Page<Producto> productos = productoRepository.findByEsActivoTrue(pageable);
         return productos.map(ProductoResponse::new);

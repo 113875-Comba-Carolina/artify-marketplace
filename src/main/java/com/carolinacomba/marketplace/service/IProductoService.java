@@ -25,6 +25,9 @@ public interface IProductoService {
     // Obtener todos los productos activos
     List<ProductoResponse> obtenerTodosLosProductos();
     
+    // Obtener todos los productos activos sin paginación (para frontend)
+    List<ProductoResponse> obtenerTodosLosProductosSinPaginacion();
+    
     // Obtener todos los productos activos con paginación
     Page<ProductoResponse> obtenerTodosLosProductos(Pageable pageable);
     

@@ -47,6 +47,11 @@ public class ProductoController {
         return ResponseEntity.ok(productoService.obtenerTodosLosProductos(pageable));
     }
     
+    @GetMapping("/todos")
+    public ResponseEntity<List<ProductoResponse>> obtenerTodosLosProductos() {
+        return ResponseEntity.ok(productoService.obtenerTodosLosProductosSinPaginacion());
+    }
+    
     @GetMapping("/{id}")
     public ResponseEntity<ProductoResponse> obtenerProducto(@PathVariable Long id) {
         try {
