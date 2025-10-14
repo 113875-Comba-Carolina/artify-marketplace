@@ -74,10 +74,17 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                 builder.backUrls(backUrls);
             }
             
+            // NO configurar autoReturn para mantener el botón "Volver a la tienda"
+            // El autoReturn hace que MercadoPago redirija automáticamente sin mostrar el botón
+            // Solo configurar autoReturn si es explícitamente true
+            if (request.getAutoReturn() != null && request.getAutoReturn()) {
+                builder.autoReturn("approved");
+            }
+
             PreferenceRequest preferenceRequest = builder.build();
-            
+
             Preference preference = client.create(preferenceRequest);
-            
+
             List<CarritoItem> carritoItems = request.getItems().stream()
                     .map(item -> CarritoItem.builder()
                             .productoId(0L)
@@ -89,7 +96,13 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                             .build())
                     .collect(Collectors.toList());
             
-            ordenService.crearOrden(usuario, request.getExternalReference(), carritoItems);
+            // Verificar si ya existe una orden con este externalReference
+            Orden ordenExistente = ordenService.obtenerOrdenPorExternalReference(request.getExternalReference());
+            
+            if (ordenExistente == null) {
+                // Solo crear orden si no existe (flujo del carrito)
+                ordenService.crearOrden(usuario, request.getExternalReference(), carritoItems);
+            }
             
             PreferenceResponse response = new PreferenceResponse();
             response.setId(preference.getId());
