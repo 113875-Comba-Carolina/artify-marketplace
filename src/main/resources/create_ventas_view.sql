@@ -58,3 +58,4 @@ JOIN productos p ON io.producto_id = p.id
 JOIN usuarios artesano ON p.usuario_id = artesano.id
 GROUP BY artesano.id, artesano.nombre, artesano.email;
 
+

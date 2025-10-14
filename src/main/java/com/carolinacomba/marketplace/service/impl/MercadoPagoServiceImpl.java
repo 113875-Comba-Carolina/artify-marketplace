@@ -74,8 +74,15 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                 builder.backUrls(backUrls);
             }
             
+            // NO configurar autoReturn para mantener el botón "Volver a la tienda"
+            // El autoReturn hace que MercadoPago redirija automáticamente sin mostrar el botón
+            // Solo configurar autoReturn si es explícitamente true
+            if (request.getAutoReturn() != null && request.getAutoReturn()) {
+                builder.autoReturn("approved");
+            }
+
             PreferenceRequest preferenceRequest = builder.build();
-            
+
             Preference preference = client.create(preferenceRequest);
             
             List<CarritoItem> carritoItems = request.getItems().stream()
