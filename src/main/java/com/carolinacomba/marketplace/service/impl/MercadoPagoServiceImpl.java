@@ -102,9 +102,6 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
             if (ordenExistente == null) {
                 // Solo crear orden si no existe (flujo del carrito)
                 ordenService.crearOrden(usuario, request.getExternalReference(), carritoItems);
-            } else {
-                // Orden ya existe (flujo de mis-órdenes), no crear nueva
-                System.out.println("Orden existente encontrada: " + ordenExistente.getId() + " - No se creará nueva orden");
             }
             
             PreferenceResponse response = new PreferenceResponse();
