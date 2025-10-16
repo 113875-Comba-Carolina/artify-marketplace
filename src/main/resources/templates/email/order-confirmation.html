@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Orden</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+        .order-title {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .order-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .order-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .items-table th,
+        .items-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .items-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #8B4513;
+            text-align: right;
+            margin-top: 20px;
+        }
+        .status {
+            display: inline-block;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🎨 Artify Marketplace</div>
+            <h1 class="order-title">¡Orden Confirmada!</h1>
+        </div>
+
+        <div class="content">
+            <p>Hola <strong th:text="${nombreCliente}">Cliente</strong>,</p>
+            <p>¡Gracias por tu compra! Tu orden ha sido confirmada y está siendo procesada.</p>
+
+            <div class="order-info">
+                <div class="order-number">Orden #<span th:text="${numeroOrden}">12345</span></div>
+                <p><strong>Fecha:</strong> <span th:text="${#temporals.format(fechaOrden, 'dd/MM/yyyy HH:mm')}">01/01/2024 10:00</span></p>
+                <p><strong>Estado:</strong> <span class="status" th:text="${estadoOrden}">Confirmada</span></p>
+                <p><strong>Dirección de envío:</strong> <span th:text="${direccionEnvio}">Dirección del cliente</span></p>
+            </div>
+
+            <h3>Productos en tu orden:</h3>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Artesano</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${items}">
+                        <td th:text="${item.nombreProducto}">Nombre del producto</td>
+                        <td th:text="${item.cantidad}">1</td>
+                        <td th:text="${#numbers.formatDecimal(item.precio, 1, 2)}">$0.00</td>
+                        <td th:text="${item.nombreArtesano}">Nombre del artesano</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="total">
+                <strong>Total: $<span th:text="${#numbers.formatDecimal(total, 1, 2)}">0.00</span></strong>
+            </div>
+
+            <div style="background-color: #e8f5e8; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <h4>📦 Próximos pasos:</h4>
+                <ul>
+                    <li>Tu orden será preparada por los artesanos</li>
+                    <li>Los artesanos se pondrán en contacto contigo por WhatsApp</li>
+                    <li>Podrás comunicarte directamente con ellos para coordinar el envío</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Gracias por elegir productos artesanales únicos.</p>
+            <p>Si tienes alguna pregunta sobre tu orden, contáctanos.</p>
+            <p><strong>Equipo Artify Marketplace</strong></p>
+        </div>
+    </div>
+</body>
+</html>

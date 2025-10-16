@@ -13,90 +13,90 @@ INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario) VALUES
 
 -- Insertar usuarios normales
 INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario, telefono) VALUES 
-('Juan Perez', 'juanperez@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3517845202'),
-('María González', 'maria.gonzalez@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3512345678'),
-('Carlos Rodríguez', 'carlos.rodriguez@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3518765432'),
-('Ana Martínez', 'ana.martinez@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3519876543'),
-('Luis Fernández', 'luis.fernandez@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3514567890'),
-('Sofia López', 'sofia.lopez@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3513456789'),
-('Diego Herrera', 'diego.herrera@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3515678901'),
-('Valentina Silva', 'valentina.silva@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3516789012');
+('Juan Perez', 'juanperez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3517845202'),
+('María González', 'maria.gonzalez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3512345678'),
+('Carlos Rodríguez', 'carlos.rodriguez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3518765432'),
+('Ana Martínez', 'ana.martinez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3519876543'),
+('Luis Fernández', 'luis.fernandez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3514567890'),
+('Sofia López', 'sofia.lopez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3513456789'),
+('Diego Herrera', 'diego.herrera@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3515678901'),
+('Valentina Silva', 'valentina.silva@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3516789012');
 
 -- Insertar artesanos con datos específicos (herencia SINGLE_TABLE)
 INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario, nombre_emprendimiento, descripcion, ubicacion, telefono) VALUES 
 ('Carolina Comba', 'carolinacomba422@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Artesanías Únicas', 'Creaciones únicas hechas a mano con amor y dedicación', 'Villa María, Córdoba', '3534216181'),
-('Francisco Comba', 'fran@gmail.com', '$2a$10$piZ/tQZ3ZXn06Mw7pjzSSOdqiFyot0Ql.9iBwjLNG4WhS2TfvEbui', 'ARTESANO', 'ARTESANO', 'Cerámica para tu vida', 'me gusta hacer cosas de ceramica', 'Cordoba, Argentina', '3512345678'),
-('Elena Morales', 'elena.morales@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Textiles Artesanales', 'Tejidos únicos en lana y algodón orgánico', 'Buenos Aires, Argentina', '3519876543'),
-('Roberto Vega', 'roberto.vega@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Maderas del Sur', 'Muebles y objetos decorativos en madera reciclada', 'Bariloche, Río Negro', '3514567890'),
-('Isabel Ruiz', 'isabel.ruiz@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Joyas Naturales', 'Bisutería artesanal con piedras semipreciosas', 'Mendoza, Argentina', '3513456789'),
-('Miguel Torres', 'miguel.torres@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Cuero Artesanal', 'Accesorios y artículos de cuero genuino', 'Córdoba, Argentina', '3515678901'),
-('Carmen Díaz', 'carmen.diaz@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Velas Aromáticas', 'Velas de cera de soja con esencias naturales', 'Rosario, Santa Fe', '3516789012');
+('Francisco Comba', 'fran@gnail.con', '$2a$10$piZ/tQZ3ZXn06Mw7pjzSSOdqiFyot0Ql.9iBwjLNG4WhS2TfvEbui', 'ARTESANO', 'ARTESANO', 'Cerámica para tu vida', 'me gusta hacer cosas de ceramica', 'Cordoba, Argentina', '3512345678'),
+('Elena Morales', 'elena.morales@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Textiles Artesanales', 'Tejidos únicos en lana y algodón orgánico', 'Buenos Aires, Argentina', '3519876543'),
+('Roberto Vega', 'roberto.vega@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Maderas del Sur', 'Muebles y objetos decorativos en madera reciclada', 'Bariloche, Río Negro', '3514567890'),
+('Isabel Ruiz', 'isabel.ruiz@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Joyas Naturales', 'Bisutería artesanal con piedras semipreciosas', 'Mendoza, Argentina', '3513456789'),
+('Miguel Torres', 'miguel.torres@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Cuero Artesanal', 'Accesorios y artículos de cuero genuino', 'Córdoba, Argentina', '3515678901'),
+('Carmen Díaz', 'carmen.diaz@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Velas Aromáticas', 'Velas de cera de soja con esencias naturales', 'Rosario, Santa Fe', '3516789012');
 
 -- ===========================================
 -- PRODUCTOS DE FRANCISCO COMBA (Cerámica para tu vida)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Set de Tazas Cerámicas', 'Set de 4 tazas de cerámica con esmalte mate. Diseño minimalista.', 20000.00, 'CERAMICA', 5, 'https://i.ibb.co/C5HfmJxg/set-de-4-tazas-para-cafe-de-ceramica-beige-y-marron-1000-12-36-247430-1.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Plato Hondo Artesanal', 'Plato hondo de cerámica con textura natural. Ideal para sopas.', 17500.00, 'CERAMICA', 8, 'https://i.ibb.co/V0VJsYRH/D-Q-NP-649958-MLA89458940275-082025-O.webp', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Jarrón Decorativo', 'Jarrón de cerámica con patrón abstracto. Altura 30cm.', 22000.00, 'CERAMICA', 5, 'https://i.ibb.co/Ncb4CTr/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Tazón para Cereal', 'Tazón de cerámica esmaltada con asas. Capacidad 400ml.', 100.00, 'CERAMICA', 15, 'https://i.ibb.co/PvsXGSm6/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Maceta Cerámica', 'Maceta búho de cerámica con drenaje. Ideal para plantas de interior.', 12000.00, 'CERAMICA', 0, 'https://i.ibb.co/5hWM6M4w/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com')),
-('Cuenco de Cerámica', 'Cuenco de cerámica con textura rugosa. Perfecto para ensaladas.', 9000.00, 'CERAMICA', 0, 'https://i.ibb.co/Pv50pN1T/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gmail.com'));
+('Set de Tazas Cerámicas', 'Set de 4 tazas de cerámica con esmalte mate. Diseño minimalista.', 20000.00, 'CERAMICA', 5, 'https://i.ibb.co/C5HfmJxg/set-de-4-tazas-para-cafe-de-ceramica-beige-y-marron-1000-12-36-247430-1.jpg', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gnail.con')),
+('Plato Hondo Artesanal', 'Plato hondo de cerámica con textura natural. Ideal para sopas.', 17500.00, 'CERAMICA', 8, 'https://i.ibb.co/V0VJsYRH/D-Q-NP-649958-MLA89458940275-082025-O.webp', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gnail.con')),
+('Jarrón Decorativo', 'Jarrón de cerámica con patrón abstracto. Altura 30cm.', 22000.00, 'CERAMICA', 5, 'https://i.ibb.co/Ncb4CTr/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gnail.con')),
+('Tazón para Cereal', 'Tazón de cerámica esmaltada con asas. Capacidad 400ml.', 100.00, 'CERAMICA', 15, 'https://i.ibb.co/PvsXGSm6/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gnail.con')),
+('Maceta Cerámica', 'Maceta búho de cerámica con drenaje. Ideal para plantas de interior.', 12000.00, 'CERAMICA', 0, 'https://i.ibb.co/5hWM6M4w/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gnail.con')),
+('Cuenco de Cerámica', 'Cuenco de cerámica con textura rugosa. Perfecto para ensaladas.', 9000.00, 'CERAMICA', 0, 'https://i.ibb.co/Pv50pN1T/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'fran@gnail.con'));
 
 -- ===========================================
 -- PRODUCTOS DE ELENA MORALES (Textiles Artesanales)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Manta de Lana', 'Manta de lana merino tejida a mano. 150x200cm. Colores naturales.', 45000.00, 'TEXTILES', 3, 'https://i.ibb.co/4ZCrmRX2/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
-('Bufanda de Alpaca', 'Bufanda de alpaca peruana. 180cm de largo. Suave y cálida.', 18000.00, 'TEXTILES', 10, 'https://i.ibb.co/8nRXPqx1/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
-('Cojín Bordado', 'Cojín de algodón con bordado artesanal. 40x40cm.', 12000.00, 'TEXTILES', 8, 'https://i.ibb.co/S7R22kyj/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
-('Mantel de Lino', 'Mantel de lino con bordado tradicional. 120x180cm.', 25000.00, 'TEXTILES', 4, 'https://i.ibb.co/PvgJfgcv/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
-('Chal de Seda', 'Chal de seda con estampado floral. 70x180cm.', 35000.00, 'TEXTILES', 0, 'https://i.ibb.co/LdrVZSWm/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com')),
-('Alfombra Tejida', 'Alfombra de lana tejida a mano. 80x120cm. Diseño geométrico.', 55000.00, 'TEXTILES', 0, 'https://i.ibb.co/qF9GSQ01/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gmail.com'));
+('Manta de Lana', 'Manta de lana merino tejida a mano. 150x200cm. Colores naturales.', 45000.00, 'TEXTILES', 3, 'https://i.ibb.co/4ZCrmRX2/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gnail.con')),
+('Bufanda de Alpaca', 'Bufanda de alpaca peruana. 180cm de largo. Suave y cálida.', 18000.00, 'TEXTILES', 10, 'https://i.ibb.co/8nRXPqx1/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gnail.con')),
+('Cojín Bordado', 'Cojín de algodón con bordado artesanal. 40x40cm.', 12000.00, 'TEXTILES', 8, 'https://i.ibb.co/S7R22kyj/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gnail.con')),
+('Mantel de Lino', 'Mantel de lino con bordado tradicional. 120x180cm.', 25000.00, 'TEXTILES', 4, 'https://i.ibb.co/PvgJfgcv/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gnail.con')),
+('Chal de Seda', 'Chal de seda con estampado floral. 70x180cm.', 35000.00, 'TEXTILES', 0, 'https://i.ibb.co/LdrVZSWm/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gnail.con')),
+('Alfombra Tejida', 'Alfombra de lana tejida a mano. 80x120cm. Diseño geométrico.', 55000.00, 'TEXTILES', 0, 'https://i.ibb.co/qF9GSQ01/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'elena.morales@gnail.con'));
 
 -- ===========================================
 -- PRODUCTOS DE ROBERTO VEGA (Maderas del Sur)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Tabla de Madera', 'Tabla de cortar de madera de roble. 40x25cm. Tratada con aceite natural.', 15000.00, 'MADERA', 6, 'https://i.ibb.co/G3fBTKm9/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
-('Porta Vino', 'Porta vino de madera reciclada. Para 6 botellas.', 25000.00, 'MADERA', 4, 'https://i.ibb.co/bjLyp3vB/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
-('Caja de Madera', 'Caja de madera de pino con tapa deslizante. 30x20x10cm.', 18000.00, 'MADERA', 8, 'https://i.ibb.co/5b13HkS/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
-('Soporte para Libros', 'Soporte para libros de madera de nogal. Par de piezas.', 12000.00, 'MADERA', 10, 'https://i.ibb.co/xKmr41c9/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
-('Lámpara de Madera', 'Lámpara de mesa con base de madera torneada. Incluye cable.', 120000.00, 'MADERA', 0, 'https://i.ibb.co/nNZSM780/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com')),
-('Reloj de Pared', 'Reloj de pared de madera con números tallados. 30cm diámetro.', 22000.00, 'MADERA', 0, 'https://i.ibb.co/Y4VmyLF7/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gmail.com'));
+('Tabla de Madera', 'Tabla de cortar de madera de roble. 40x25cm. Tratada con aceite natural.', 15000.00, 'MADERA', 6, 'https://i.ibb.co/G3fBTKm9/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gnail.con')),
+('Porta Vino', 'Porta vino de madera reciclada. Para 6 botellas.', 25000.00, 'MADERA', 4, 'https://i.ibb.co/bjLyp3vB/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gnail.con')),
+('Caja de Madera', 'Caja de madera de pino con tapa deslizante. 30x20x10cm.', 18000.00, 'MADERA', 8, 'https://i.ibb.co/5b13HkS/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gnail.con')),
+('Soporte para Libros', 'Soporte para libros de madera de nogal. Par de piezas.', 12000.00, 'MADERA', 10, 'https://i.ibb.co/xKmr41c9/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gnail.con')),
+('Lámpara de Madera', 'Lámpara de mesa con base de madera torneada. Incluye cable.', 120000.00, 'MADERA', 0, 'https://i.ibb.co/nNZSM780/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gnail.con')),
+('Reloj de Pared', 'Reloj de pared de madera con números tallados. 30cm diámetro.', 22000.00, 'MADERA', 0, 'https://i.ibb.co/Y4VmyLF7/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'roberto.vega@gnail.con'));
 
 -- ===========================================
 -- PRODUCTOS DE ISABEL RUIZ (Joyas Naturales)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Collar de Amatista', 'Collar con piedra de amatista en plata 925. Cadena 45cm.', 228000.00, 'JOYERIA_ARTESANAL', 5, 'https://i.ibb.co/PztHKsk6/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
-('Anillo de Cuarzo', 'Anillo de cuarzo rosa en plata 925. Tallas 6-8.', 150000.00, 'JOYERIA_ARTESANAL', 8, 'https://i.ibb.co/gZSk2PXF/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
-('Pulsera de Ágata', 'Pulsera de ágata con cierre de plata. Ajustable.', 120000.00, 'JOYERIA_ARTESANAL', 12, 'https://i.ibb.co/wrK6zwLP/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
-('Aros Turquesa', 'Aros turquesa en plata 925. Gancho de seguridad.', 99000.00, 'JOYERIA_ARTESANAL', 6, 'https://i.ibb.co/SD0JWGnL/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
-('Dije de Jade', 'Dije de jade verde en plata 925. Con cadena incluida.', 100000.00, 'JOYERIA_ARTESANAL', 0, 'https://i.ibb.co/s9t8q8G9/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com')),
-('Broche de Ópalo', 'Broche de ópalo en plata 925. Para ropa o bolso.', 80000.00, 'JOYERIA_ARTESANAL', 0, 'https://i.ibb.co/hx0PWtQv/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gmail.com'));
+('Collar de Amatista', 'Collar con piedra de amatista en plata 925. Cadena 45cm.', 228000.00, 'JOYERIA_ARTESANAL', 5, 'https://i.ibb.co/PztHKsk6/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gnail.con')),
+('Anillo de Cuarzo', 'Anillo de cuarzo rosa en plata 925. Tallas 6-8.', 150000.00, 'JOYERIA_ARTESANAL', 8, 'https://i.ibb.co/gZSk2PXF/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gnail.con')),
+('Pulsera de Ágata', 'Pulsera de ágata con cierre de plata. Ajustable.', 120000.00, 'JOYERIA_ARTESANAL', 12, 'https://i.ibb.co/wrK6zwLP/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gnail.con')),
+('Aros Turquesa', 'Aros turquesa en plata 925. Gancho de seguridad.', 99000.00, 'JOYERIA_ARTESANAL', 6, 'https://i.ibb.co/SD0JWGnL/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gnail.con')),
+('Dije de Jade', 'Dije de jade verde en plata 925. Con cadena incluida.', 100000.00, 'JOYERIA_ARTESANAL', 0, 'https://i.ibb.co/s9t8q8G9/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gnail.con')),
+('Broche de Ópalo', 'Broche de ópalo en plata 925. Para ropa o bolso.', 80000.00, 'JOYERIA_ARTESANAL', 0, 'https://i.ibb.co/hx0PWtQv/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'isabel.ruiz@gnail.con'));
 
 -- ===========================================
 -- PRODUCTOS DE MIGUEL TORRES (Cuero Artesanal)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Billetera de Cuero', 'Billetera de cuero genuino con costura visible. 12cm x 9cm.', 18000.00, 'CUERO', 10, 'https://i.ibb.co/ycSnTGqv/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
-('Cinturón de Cuero', 'Cinturón de cuero vacuno con hebilla de acero. 100cm de largo.', 25000.00, 'CUERO', 6, 'https://i.ibb.co/chwJCZ0p/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
-('Bolso de Cuero', 'Bolso de cuero con asas de cuero. 35x25x10cm.', 45000.00, 'CUERO', 4, 'https://i.ibb.co/hx8dHpfZ/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
-('Porta Documentos', 'Porta documentos de cuero con cierre de cremallera.', 22000.00, 'CUERO', 8, 'https://i.ibb.co/6RxdQ00W/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
-('Guantes de Cuero', 'Guantes de cuero para moto. Tallas M y L.', 30000.00, 'CUERO', 0, 'https://i.ibb.co/8Lh9kYm2/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com')),
-('Cartera de Cuero', 'Cartera de cuero con múltiples compartimentos.', 35000.00, 'CUERO', 0, 'https://i.ibb.co/Ps1v01dS/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gmail.com'));
+('Billetera de Cuero', 'Billetera de cuero genuino con costura visible. 12cm x 9cm.', 18000.00, 'CUERO', 10, 'https://i.ibb.co/ycSnTGqv/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gnail.con')),
+('Cinturón de Cuero', 'Cinturón de cuero vacuno con hebilla de acero. 100cm de largo.', 25000.00, 'CUERO', 6, 'https://i.ibb.co/chwJCZ0p/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gnail.con')),
+('Bolso de Cuero', 'Bolso de cuero con asas de cuero. 35x25x10cm.', 45000.00, 'CUERO', 4, 'https://i.ibb.co/hx8dHpfZ/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gnail.con')),
+('Porta Documentos', 'Porta documentos de cuero con cierre de cremallera.', 22000.00, 'CUERO', 8, 'https://i.ibb.co/6RxdQ00W/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gnail.con')),
+('Guantes de Cuero', 'Guantes de cuero para moto. Tallas M y L.', 30000.00, 'CUERO', 0, 'https://i.ibb.co/8Lh9kYm2/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gnail.con')),
+('Cartera de Cuero', 'Cartera de cuero con múltiples compartimentos.', 35000.00, 'CUERO', 0, 'https://i.ibb.co/Ps1v01dS/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'miguel.torres@gnail.con'));
 
 -- ===========================================
 -- PRODUCTOS DE CARMEN DÍAZ (Velas Aromáticas)
 -- ===========================================
 INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url, es_activo, fecha_creacion, usuario_id) VALUES 
-('Vela de Lavanda', 'Vela de cera de soja con esencia de lavanda. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 15, 'https://i.ibb.co/8gm8Ktrb/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
-('Vela de Vainilla', 'Vela de cera de soja con esencia de vainilla. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 12, 'https://i.ibb.co/RqhyDHF/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
-('Vela de Eucalipto', 'Vela de cera de soja con esencia de eucalipto. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 10, 'https://i.ibb.co/GvdT2mTb/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
-('Vela de Canela', 'Vela de cera de soja con esencia de canela. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 8, 'https://i.ibb.co/nSqPLqh/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
-('Set de Velas', 'Set de 3 velas aromáticas de 100g cada una. Lavanda, vainilla y eucalipto.', 20000.00, 'AROMAS_VELAS', 0, 'https://i.ibb.co/Xfvm274g/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com')),
-('Vela de Rosa', 'Vela de cera de soja con esencia de rosa. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 0, 'https://i.ibb.co/YB4Qns8y/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gmail.com'));
+('Vela de Lavanda', 'Vela de cera de soja con esencia de lavanda. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 15, 'https://i.ibb.co/8gm8Ktrb/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gnail.con')),
+('Vela de Vainilla', 'Vela de cera de soja con esencia de vainilla. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 12, 'https://i.ibb.co/RqhyDHF/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gnail.con')),
+('Vela de Eucalipto', 'Vela de cera de soja con esencia de eucalipto. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 10, 'https://i.ibb.co/GvdT2mTb/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gnail.con')),
+('Vela de Canela', 'Vela de cera de soja con esencia de canela. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 8, 'https://i.ibb.co/nSqPLqh/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gnail.con')),
+('Set de Velas', 'Set de 3 velas aromáticas de 100g cada una. Lavanda, vainilla y eucalipto.', 20000.00, 'AROMAS_VELAS', 0, 'https://i.ibb.co/Xfvm274g/image.png', true, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gnail.con')),
+('Vela de Rosa', 'Vela de cera de soja con esencia de rosa. 200g. 30 horas de duración.', 8000.00, 'AROMAS_VELAS', 0, 'https://i.ibb.co/YB4Qns8y/image.png', false, NOW(), (SELECT id FROM usuarios WHERE email = 'carmen.diaz@gnail.con'));
 
 
 -- ===========================================
@@ -123,11 +123,11 @@ INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url
 
 -- Órdenes de Juan Pérez (compras a diferentes artesanos)
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456789', 'ORDER-20241201-001', 'PAGADO', 31000.00, '2024-12-01 10:30:00', '2024-12-01 10:35:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gmail.com')),
-('MP123456790', 'ORDER-20241202-001', 'PAGADO', 18000.00, '2024-12-02 14:20:00', '2024-12-02 14:25:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gmail.com')),
-('MP123456791', 'ORDER-20241203-001', 'PAGADO', 50000.00, '2024-12-03 09:15:00', '2024-12-03 09:20:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gmail.com')),
-('MP123456792', 'ORDER-20241204-001', 'PAGADO', 46000.00, '2024-12-04 16:45:00', '2024-12-04 16:50:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gmail.com')),
-('MP123456793', 'ORDER-20241210-001', 'PAGADO', 30000.00, '2024-12-10 11:30:00', '2024-12-10 11:35:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gmail.com'));
+('MP123456789', 'ORDER-20241201-001', 'PAGADO', 31000.00, '2024-12-01 10:30:00', '2024-12-01 10:35:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
+('MP123456790', 'ORDER-20241202-001', 'PAGADO', 18000.00, '2024-12-02 14:20:00', '2024-12-02 14:25:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
+('MP123456791', 'ORDER-20241203-001', 'PAGADO', 50000.00, '2024-12-03 09:15:00', '2024-12-03 09:20:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
+('MP123456792', 'ORDER-20241204-001', 'PAGADO', 46000.00, '2024-12-04 16:45:00', '2024-12-04 16:50:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
+('MP123456793', 'ORDER-20241210-001', 'PAGADO', 30000.00, '2024-12-10 11:30:00', '2024-12-10 11:35:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con'));
 
 -- Items de las órdenes de Juan Pérez
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
@@ -148,8 +148,8 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 
 -- Órdenes de María González
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456794', 'ORDER-20241205-001', 'PAGADO', 33000.00, '2024-12-05 15:20:00', '2024-12-05 15:25:00', (SELECT id FROM usuarios WHERE email = 'maria.gonzalez@gmail.com')),
-('MP123456795', 'ORDER-20241206-001', 'PAGADO', 25000.00, '2024-12-06 11:45:00', '2024-12-06 11:50:00', (SELECT id FROM usuarios WHERE email = 'maria.gonzalez@gmail.com'));
+('MP123456794', 'ORDER-20241205-001', 'PAGADO', 33000.00, '2024-12-05 15:20:00', '2024-12-05 15:25:00', (SELECT id FROM usuarios WHERE email = 'maria.gonzalez@gnail.con')),
+('MP123456795', 'ORDER-20241206-001', 'PAGADO', 25000.00, '2024-12-06 11:45:00', '2024-12-06 11:50:00', (SELECT id FROM usuarios WHERE email = 'maria.gonzalez@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- María: Set de Tazas + Bufanda de Alpaca
@@ -161,8 +161,8 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 
 -- Órdenes de Carlos Rodríguez
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456796', 'ORDER-20241207-001', 'PAGADO', 42000.00, '2024-12-07 09:30:00', '2024-12-07 09:35:00', (SELECT id FROM usuarios WHERE email = 'carlos.rodriguez@gmail.com')),
-('MP123456797', 'ORDER-20241208-001', 'PENDIENTE', 18000.00, '2024-12-08 16:15:00', '2024-12-08 16:15:00', (SELECT id FROM usuarios WHERE email = 'carlos.rodriguez@gmail.com'));
+('MP123456796', 'ORDER-20241207-001', 'PAGADO', 42000.00, '2024-12-07 09:30:00', '2024-12-07 09:35:00', (SELECT id FROM usuarios WHERE email = 'carlos.rodriguez@gnail.con')),
+('MP123456797', 'ORDER-20241208-001', 'PENDIENTE', 18000.00, '2024-12-08 16:15:00', '2024-12-08 16:15:00', (SELECT id FROM usuarios WHERE email = 'carlos.rodriguez@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Carlos: Billetera + Cuenco Bordado
@@ -176,7 +176,7 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 
 -- Órdenes de Ana Martínez
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456798', 'ORDER-20241209-001', 'PAGADO', 55000.00, '2024-12-09 14:20:00', '2024-12-09 14:25:00', (SELECT id FROM usuarios WHERE email = 'ana.martinez@gmail.com'));
+('MP123456798', 'ORDER-20241209-001', 'PAGADO', 55000.00, '2024-12-09 14:20:00', '2024-12-09 14:25:00', (SELECT id FROM usuarios WHERE email = 'ana.martinez@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Ana: Manta de Lana + Collar de Amatista
@@ -185,7 +185,7 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 
 -- Órdenes de Luis Fernández
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456799', 'ORDER-20241211-001', 'PAGADO', 30000.00, '2024-12-11 10:15:00', '2024-12-11 10:20:00', (SELECT id FROM usuarios WHERE email = 'luis.fernandez@gmail.com'));
+('MP123456799', 'ORDER-20241211-001', 'PAGADO', 30000.00, '2024-12-11 10:15:00', '2024-12-11 10:20:00', (SELECT id FROM usuarios WHERE email = 'luis.fernandez@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Luis: Lámpara de Madera + Aros Turquesa
@@ -194,7 +194,7 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 
 -- Órdenes de Sofia López
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456800', 'ORDER-20241212-001', 'PAGADO', 25000.00, '2024-12-12 13:30:00', '2024-12-12 13:35:00', (SELECT id FROM usuarios WHERE email = 'sofia.lopez@gmail.com'));
+('MP123456800', 'ORDER-20241212-001', 'PAGADO', 25000.00, '2024-12-12 13:30:00', '2024-12-12 13:35:00', (SELECT id FROM usuarios WHERE email = 'sofia.lopez@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Sofia: Cinturón de Cuero + Porta Vino
@@ -203,7 +203,7 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 
 -- Órdenes de Diego Herrera
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456801', 'ORDER-20241213-001', 'PAGADO', 18000.00, '2024-12-13 16:45:00', '2024-12-13 16:50:00', (SELECT id FROM usuarios WHERE email = 'diego.herrera@gmail.com'));
+('MP123456801', 'ORDER-20241213-001', 'PAGADO', 18000.00, '2024-12-13 16:45:00', '2024-12-13 16:50:00', (SELECT id FROM usuarios WHERE email = 'diego.herrera@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Diego: Caja de Madera + Dije de Jade
@@ -212,7 +212,7 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 
 -- Órdenes de Valentina Silva
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456802', 'ORDER-20241214-001', 'PAGADO', 20000.00, '2024-12-14 12:00:00', '2024-12-14 12:05:00', (SELECT id FROM usuarios WHERE email = 'valentina.silva@gmail.com'));
+('MP123456802', 'ORDER-20241214-001', 'PAGADO', 20000.00, '2024-12-14 12:00:00', '2024-12-14 12:05:00', (SELECT id FROM usuarios WHERE email = 'valentina.silva@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Valentina: Set de Velas + Mantel de Lino
@@ -250,7 +250,7 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 -- Hash BCrypt verificado: $2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
 -- Usuarios disponibles para testing:
 -- admin@artify.com - password (ROL: ADMIN)
--- juanperez@gmail.com - password (ROL: USUARIO) - Tiene 5 órdenes finalizadas
+-- juanperez@gnail.con - password (ROL: USUARIO) - Tiene 5 órdenes finalizadas
 -- carolinacomba422@gmail.com - password (ROL: ARTESANO) - Vendedora de productos
 -- 
 -- Productos de ejemplo creados para carolinacomba422@gmail.com:
@@ -259,7 +259,7 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 -- - Stock variado entre 0 y 25 unidades
 -- - Todos activos y listos para venta
 -- 
--- Órdenes de ejemplo para juanperez@gmail.com:
+-- Órdenes de ejemplo para juanperez@gnail.con:
 -- - 5 órdenes finalizadas (estado PAGADO)
 -- - Total gastado: $175,000
 -- - Productos comprados: Mate, Vela, Taza, Pulsera, Collar (x2), Cesto, Bufanda, Jarrón
