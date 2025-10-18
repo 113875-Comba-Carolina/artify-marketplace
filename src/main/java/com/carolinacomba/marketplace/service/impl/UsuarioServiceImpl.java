@@ -3,10 +3,12 @@ package com.carolinacomba.marketplace.service.impl;
 import com.carolinacomba.marketplace.dto.CambioRolRequest;
 import com.carolinacomba.marketplace.dto.RegistroArtesanoRequest;
 import com.carolinacomba.marketplace.dto.RegistroUsuarioRequest;
+import com.carolinacomba.marketplace.dto.WelcomeEmailData;
 import com.carolinacomba.marketplace.model.Artesano;
 import com.carolinacomba.marketplace.model.Usuario;
 import com.carolinacomba.marketplace.repository.ArtesanoRepository;
 import com.carolinacomba.marketplace.repository.UsuarioRepository;
+import com.carolinacomba.marketplace.service.EmailService;
 import com.carolinacomba.marketplace.service.IUsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +25,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final ArtesanoRepository artesanoRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Override
     public Usuario buscarPorEmail(String email) {
@@ -56,7 +59,22 @@ public class UsuarioServiceImpl implements IUsuarioService {
         usuario.setRol(Usuario.Rol.USUARIO);
         usuario.setTelefono(request.getTelefono());
 
-        return usuarioRepository.save(usuario);
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+
+        // Enviar email de bienvenida
+        try {
+            WelcomeEmailData welcomeData = new WelcomeEmailData(
+                usuario.getNombre(),
+                usuario.getEmail(),
+                "USUARIO"
+            );
+            emailService.sendWelcomeEmail(welcomeData);
+        } catch (Exception e) {
+            // Log el error pero no fallar el registro
+            System.err.println("Error enviando email de bienvenida: " + e.getMessage());
+        }
+
+        return usuarioGuardado;
     }
 
     @Override
@@ -77,7 +95,22 @@ public class UsuarioServiceImpl implements IUsuarioService {
         artesano.setUbicacion(request.getUbicacion());
         artesano.setTelefono(request.getTelefono());
 
-        return artesanoRepository.save(artesano);
+        Artesano artesanoGuardado = artesanoRepository.save(artesano);
+
+        // Enviar email de bienvenida para artesanos
+        try {
+            WelcomeEmailData welcomeData = new WelcomeEmailData(
+                artesano.getNombre(),
+                artesano.getEmail(),
+                "ARTESANO"
+            );
+            emailService.sendWelcomeEmail(welcomeData);
+        } catch (Exception e) {
+            // Log el error pero no fallar el registro
+            System.err.println("Error enviando email de bienvenida: " + e.getMessage());
+        }
+
+        return artesanoGuardado;
     }
 
     @Override

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Nueva Venta!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+        .sale-title {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .sale-info {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .sale-highlight {
+            font-size: 20px;
+            font-weight: bold;
+            color: #155724;
+            margin-bottom: 15px;
+        }
+        .product-details {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .customer-info {
+            background-color: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .celebration {
+            text-align: center;
+            font-size: 18px;
+            color: #8B4513;
+            margin: 20px 0;
+        }
+        .next-steps {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🎨 Artify Marketplace</div>
+            <h1 class="sale-title">¡Nueva Venta! 🎉</h1>
+        </div>
+
+        <div class="content">
+            <p>¡Felicitaciones <strong th:text="${artesanoNombre}">Artesano</strong>!</p>
+            
+            <div class="celebration">
+                🎊 ¡Alguien acaba de comprar uno de tus productos únicos! 🎊
+            </div>
+
+            <div class="sale-info">
+                <div class="sale-highlight">💰 ¡Tienes una nueva venta!</div>
+                <p>Un cliente ha adquirido uno de tus productos artesanales.</p>
+            </div>
+
+            <div class="product-details">
+                <h3>📦 Detalles de la venta:</h3>
+                <p><strong>Producto:</strong> <span th:text="${productoNombre}">Nombre del producto</span></p>
+                <p><strong>Cantidad:</strong> <span th:text="${cantidad}">1</span> unidad(es)</p>
+            </div>
+
+            <div class="customer-info">
+                <h3>👤 Información del cliente:</h3>
+                <p><strong>Cliente:</strong> <span th:text="${clienteNombre}">Nombre del cliente</span></p>
+                <p>Este cliente eligió tu producto entre todas las opciones disponibles.</p>
+            </div>
+
+            <div class="next-steps">
+                <h3>📋 Próximos pasos:</h3>
+                <ul>
+                    <li>✅ Revisa los detalles de la orden en tu panel de ventas</li>
+                    <li>📦 Prepara el producto con cuidado y amor</li>
+                    <li>📮 Organiza el envío cuando esté listo</li>
+                    <li>💬 Mantén comunicación con el cliente si es necesario</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <a th:href="${frontendUrl + '/mis-ventas'}" style="display: inline-block; background-color: #8B4513; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">
+                    📊 Ver mis ventas
+                </a>
+            </div>
+
+            <div style="background-color: #e8f5e8; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                <h4>💡 Consejos para artesanos:</h4>
+                <ul>
+                    <li>Envía el producto en el tiempo acordado</li>
+                    <li>Incluye una nota personal para el cliente</li>
+                    <li>Usa materiales de empaque que reflejen tu marca</li>
+                    <li>Considera incluir información sobre tu proceso creativo</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>¡Sigue creando arte único y especial!</p>
+            <p>Tu creatividad hace que nuestro marketplace sea especial.</p>
+            <p><strong>Equipo Artify Marketplace</strong></p>
+        </div>
+    </div>
+</body>
+</html>
