@@ -1,8 +1,10 @@
 package com.carolinacomba.marketplace.service.impl;
 
 import com.carolinacomba.marketplace.dto.*;
+import com.carolinacomba.marketplace.model.ItemOrden;
 import com.carolinacomba.marketplace.model.Orden;
 import com.carolinacomba.marketplace.model.Usuario;
+import com.carolinacomba.marketplace.service.EmailService;
 import com.carolinacomba.marketplace.service.MercadoPagoService;
 import com.carolinacomba.marketplace.service.OrdenService;
 import com.mercadopago.client.preference.PreferenceClient;
@@ -38,6 +40,7 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
     private String accessToken;
 
     private final OrdenService ordenService;
+    private final EmailService emailService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -227,6 +230,30 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                                 
                                 if ("approved".equals(payment.getStatus())) {
                                     ordenService.reducirStockProductos(orden.getId());
+                                    
+                                    // Enviar email de confirmación de orden al comprador
+                                    try {
+                                        OrderConfirmationEmailData orderData = new OrderConfirmationEmailData(
+                                            orden.getUsuario().getNombre(),
+                                            orden.getUsuario().getEmail(),
+                                            orden.getId(),
+                                            orden.getFechaCreacion(),
+                                            orden.getTotal(),
+                                            convertirItemsParaEmail(orden.getItems()),
+                                            "Dirección de envío pendiente", // TODO: Agregar campo direccionEnvio a Orden
+                                            "CONFIRMADA"
+                                        );
+                                        emailService.sendOrderConfirmationEmail(orderData);
+                                    } catch (Exception e) {
+                                        System.err.println("Error enviando email de confirmación: " + e.getMessage());
+                                    }
+
+                                    // Enviar email de notificación a los artesanos
+                                    try {
+                                        enviarNotificacionesAVendedores(orden);
+                                    } catch (Exception e) {
+                                        System.err.println("Error enviando notificaciones a vendedores: " + e.getMessage());
+                                    }
                                 }
                                 
                             }
@@ -265,5 +292,50 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
+    }
+
+    /**
+     * Convierte los items de la orden al formato necesario para el email
+     */
+    private List<OrderConfirmationEmailData.OrderItemData> convertirItemsParaEmail(List<com.carolinacomba.marketplace.model.ItemOrden> items) {
+        return items.stream()
+            .map(item -> new OrderConfirmationEmailData.OrderItemData(
+                item.getProducto().getNombre(),
+                item.getCantidad(),
+                item.getPrecioUnitario(),
+                item.getProducto().getUsuario().getNombre() // El usuario que creó el producto
+            ))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Envía notificaciones de nueva venta a los artesanos
+     */
+    private void enviarNotificacionesAVendedores(Orden orden) {
+        // Agrupar items por artesano (usuario que creó el producto)
+        Map<String, List<ItemOrden>> itemsPorArtesano = orden.getItems()
+            .stream()
+            .collect(Collectors.groupingBy(item -> item.getProducto().getUsuario().getEmail()));
+
+        // Enviar notificación a cada artesano
+        itemsPorArtesano.forEach((emailArtesano, items) -> {
+            try {
+                Usuario artesano = items.get(0).getProducto().getUsuario();
+                String productoNombre = items.get(0).getProducto().getNombre();
+                Integer cantidad = items.stream()
+                    .mapToInt(ItemOrden::getCantidad)
+                    .sum();
+
+                emailService.sendNewSaleNotificationEmail(
+                    emailArtesano,
+                    artesano.getNombre(),
+                    productoNombre,
+                    cantidad,
+                    orden.getUsuario().getNombre()
+                );
+            } catch (Exception e) {
+                System.err.println("Error enviando notificación de venta a " + emailArtesano + ": " + e.getMessage());
+            }
+        });
     }
 }
