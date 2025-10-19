@@ -73,24 +73,6 @@ public class EmailController {
     }
 
     /**
-     * Endpoint para enviar email de actualización de estado de prueba
-     */
-    @PostMapping("/test/order-status-update")
-    public ResponseEntity<?> testOrderStatusUpdateEmail(@RequestBody Map<String, String> request) {
-        try {
-            emailService.sendOrderStatusUpdateEmail(
-                request.get("email"),
-                request.get("nombre"),
-                Long.parseLong(request.getOrDefault("numeroOrden", "12345")),
-                request.getOrDefault("nuevoEstado", "EN_PROCESO")
-            );
-            return ResponseEntity.ok(Map.of("message", "Email de actualización de estado enviado exitosamente"));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
-    }
-
-    /**
      * Endpoint para enviar email de notificación de nueva venta de prueba
      */
     @PostMapping("/test/new-sale-notification")

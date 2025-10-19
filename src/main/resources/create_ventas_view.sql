@@ -59,3 +59,5 @@ JOIN usuarios artesano ON p.usuario_id = artesano.id
 GROUP BY artesano.id, artesano.nombre, artesano.email;
 
 
+
+

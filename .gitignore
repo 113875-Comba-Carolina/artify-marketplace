@@ -33,3 +33,6 @@ build/
 .vscode/
 *.md
 *.json
+*.bat
+.env
+env.example

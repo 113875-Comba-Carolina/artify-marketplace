@@ -220,6 +220,67 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 ((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241214-001'), (SELECT id FROM productos WHERE nombre = 'Mantel de Lino'), 1, 0.00, 0.00); -- Sin stock
 
 -- ===========================================
+-- ÓRDENES DE CAROLINA COMBA (carolinacomba422@gmail.com) COMO COMPRADORA
+-- ===========================================
+
+-- Orden 1: Carolina compra productos de Francisco (cerámica)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456803', 'ORDER-20241215-001', 'PAGADO', 37500.00, '2024-12-15 09:30:00', '2024-12-15 09:35:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Set de Tazas + Plato Hondo + Jarrón
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241215-001'), (SELECT id FROM productos WHERE nombre = 'Set de Tazas Cerámicas'), 1, 20000.00, 20000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241215-001'), (SELECT id FROM productos WHERE nombre = 'Plato Hondo Artesanal'), 1, 17500.00, 17500.00);
+
+-- Orden 2: Carolina compra productos de Elena (textiles)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456804', 'ORDER-20241216-001', 'PAGADO', 63000.00, '2024-12-16 14:20:00', '2024-12-16 14:25:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Manta de Lana + Bufanda de Alpaca + Cojín Bordado
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241216-001'), (SELECT id FROM productos WHERE nombre = 'Manta de Lana'), 1, 45000.00, 45000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241216-001'), (SELECT id FROM productos WHERE nombre = 'Bufanda de Alpaca'), 1, 18000.00, 18000.00);
+
+-- Orden 3: Carolina compra productos de Roberto (madera)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456805', 'ORDER-20241217-001', 'PAGADO', 55000.00, '2024-12-17 11:45:00', '2024-12-17 11:50:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Tabla de Madera + Porta Vino + Caja de Madera
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241217-001'), (SELECT id FROM productos WHERE nombre = 'Tabla de Madera'), 1, 15000.00, 15000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241217-001'), (SELECT id FROM productos WHERE nombre = 'Porta Vino'), 1, 25000.00, 25000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241217-001'), (SELECT id FROM productos WHERE nombre = 'Caja de Madera'), 1, 18000.00, 18000.00);
+
+-- Orden 4: Carolina compra productos de Isabel (joyería)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456806', 'ORDER-20241218-001', 'PAGADO', 270000.00, '2024-12-18 16:30:00', '2024-12-18 16:35:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Collar de Amatista + Anillo de Cuarzo + Pulsera de Ágata
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241218-001'), (SELECT id FROM productos WHERE nombre = 'Collar de Amatista'), 1, 228000.00, 228000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241218-001'), (SELECT id FROM productos WHERE nombre = 'Anillo de Cuarzo'), 1, 150000.00, 150000.00);
+
+-- Orden 5: Carolina compra productos de Miguel (cuero)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456807', 'ORDER-20241219-001', 'PAGADO', 70000.00, '2024-12-19 13:15:00', '2024-12-19 13:20:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Billetera de Cuero + Cinturón de Cuero + Bolso de Cuero
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241219-001'), (SELECT id FROM productos WHERE nombre = 'Billetera de Cuero'), 1, 18000.00, 18000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241219-001'), (SELECT id FROM productos WHERE nombre = 'Cinturón de Cuero'), 1, 25000.00, 25000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241219-001'), (SELECT id FROM productos WHERE nombre = 'Bolso de Cuero'), 1, 45000.00, 45000.00);
+
+-- Orden 6: Carolina compra productos de Carmen (velas)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456808', 'ORDER-20241220-001', 'PAGADO', 24000.00, '2024-12-20 10:00:00', '2024-12-20 10:05:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Vela de Lavanda + Vela de Vainilla + Vela de Eucalipto
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241220-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Lavanda'), 1, 8000.00, 8000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241220-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Vainilla'), 1, 8000.00, 8000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241220-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Eucalipto'), 1, 8000.00, 8000.00);
+
+-- ===========================================
 -- RESUMEN DE DATOS POBLADOS
 -- ===========================================
 -- 
@@ -236,10 +297,11 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 -- - Diferentes categorías y artesanos
 -- 
 -- ÓRDENES:
--- - 15 órdenes de compra
+-- - 21 órdenes de compra (15 originales + 6 de Carolina como compradora)
 -- - Órdenes pagadas y pendientes
 -- - Compras de diferentes usuarios a diferentes artesanos
 -- - Items con y sin stock
+-- - Carolina Comba tiene 6 órdenes finalizadas como compradora
 -- 
 -- VENTAS:
 -- - Cada artesano tiene ventas registradas
@@ -264,3 +326,11 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 -- - Total gastado: $175,000
 -- - Productos comprados: Mate, Vela, Taza, Pulsera, Collar (x2), Cesto, Bufanda, Jarrón
 -- - Fechas entre diciembre 2024
+-- 
+-- Órdenes de ejemplo para carolinacomba422@gmail.com (como compradora):
+-- - 6 órdenes finalizadas (estado PAGADO)
+-- - Total gastado: $515,500
+-- - Productos comprados: Cerámica (Francisco), Textiles (Elena), Madera (Roberto), 
+--   Joyería (Isabel), Cuero (Miguel), Velas (Carmen)
+-- - Fechas entre 15-20 diciembre 2024
+-- - Diversidad de categorías y artesanos
