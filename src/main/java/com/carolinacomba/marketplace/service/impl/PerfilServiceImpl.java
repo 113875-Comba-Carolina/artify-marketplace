@@ -82,6 +82,10 @@ public class PerfilServiceImpl implements PerfilService {
             usuario.setNombre((String) perfilData.get("nombre"));
         }
 
+        if (perfilData.containsKey("telefono")) {
+            usuario.setTelefono((String) perfilData.get("telefono"));
+        }
+
         if (usuario.getRol() == Usuario.Rol.ARTESANO) {
             String nombreEmprendimiento = (String) perfilData.get("nombreEmprendimiento");
             String descripcion = (String) perfilData.get("descripcion");
