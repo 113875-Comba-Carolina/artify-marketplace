@@ -123,101 +123,162 @@ INSERT INTO productos (nombre, descripcion, precio, categoria, stock, imagen_url
 
 -- Órdenes de Juan Pérez (compras a diferentes artesanos)
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456789', 'ORDER-20241201-001', 'PAGADO', 31000.00, '2024-12-01 10:30:00', '2024-12-01 10:35:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
-('MP123456790', 'ORDER-20241202-001', 'PAGADO', 18000.00, '2024-12-02 14:20:00', '2024-12-02 14:25:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
-('MP123456791', 'ORDER-20241203-001', 'PAGADO', 50000.00, '2024-12-03 09:15:00', '2024-12-03 09:20:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
-('MP123456792', 'ORDER-20241204-001', 'PAGADO', 46000.00, '2024-12-04 16:45:00', '2024-12-04 16:50:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
-('MP123456793', 'ORDER-20241210-001', 'PAGADO', 30000.00, '2024-12-10 11:30:00', '2024-12-10 11:35:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con'));
+('MP123456789', 'ORDER-20250901-001', 'PAGADO', 31000.00, '2025-09-01 10:30:00', '2025-09-01 10:35:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
+('MP123456790', 'ORDER-20250905-001', 'PAGADO', 18000.00, '2025-09-05 14:20:00', '2025-09-05 14:25:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
+('MP123456791', 'ORDER-20250910-001', 'PAGADO', 50000.00, '2025-09-10 09:15:00', '2025-09-10 09:20:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
+('MP123456792', 'ORDER-20250915-001', 'PAGADO', 46000.00, '2025-09-15 16:45:00', '2025-09-15 16:50:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con')),
+('MP123456793', 'ORDER-20250920-001', 'PAGADO', 30000.00, '2025-09-20 11:30:00', '2025-09-20 11:35:00', (SELECT id FROM usuarios WHERE email = 'juanperez@gnail.con'));
 
 -- Items de las órdenes de Juan Pérez
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Orden 1: Mate + Vela
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241201-001'), (SELECT id FROM productos WHERE nombre = 'Mate de Calabaza'), 1, 22000.00, 22000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241201-001'), (SELECT id FROM productos WHERE nombre = 'Vela Aromática Lavanda'), 1, 9000.00, 9000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250901-001'), (SELECT id FROM productos WHERE nombre = 'Mate de Calabaza'), 1, 22000.00, 22000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250901-001'), (SELECT id FROM productos WHERE nombre = 'Vela Aromática Lavanda'), 1, 9000.00, 9000.00),
 -- Orden 2: Taza + Pulsera
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241202-001'), (SELECT id FROM productos WHERE nombre = 'Taza de Cerámica Pintada'), 1, 10000.00, 10000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241202-001'), (SELECT id FROM productos WHERE nombre = 'Pulsera de Cuero Trenzado'), 1, 8000.00, 8000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250905-001'), (SELECT id FROM productos WHERE nombre = 'Taza de Cerámica Pintada'), 1, 10000.00, 10000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250905-001'), (SELECT id FROM productos WHERE nombre = 'Pulsera de Cuero Trenzado'), 1, 8000.00, 8000.00),
 -- Orden 3: Collar x2
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241203-001'), (SELECT id FROM productos WHERE nombre = 'Collar de Plata 925'), 2, 25000.00, 50000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250910-001'), (SELECT id FROM productos WHERE nombre = 'Collar de Plata 925'), 2, 25000.00, 50000.00),
 -- Orden 4: Cesto + Bufanda + Vela
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241204-001'), (SELECT id FROM productos WHERE nombre = 'Cesto de Mimbre Grande'), 1, 28000.00, 28000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241204-001'), (SELECT id FROM productos WHERE nombre = 'Bufanda de Lana Merino'), 1, 10000.00, 10000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241204-001'), (SELECT id FROM productos WHERE nombre = 'Vela Aromática Lavanda'), 1, 9000.00, 9000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250915-001'), (SELECT id FROM productos WHERE nombre = 'Cesto de Mimbre Grande'), 1, 28000.00, 28000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250915-001'), (SELECT id FROM productos WHERE nombre = 'Bufanda de Lana Merino'), 1, 10000.00, 10000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250915-001'), (SELECT id FROM productos WHERE nombre = 'Vela Aromática Lavanda'), 1, 9000.00, 9000.00),
 -- Orden 5: Jarrón
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241210-001'), (SELECT id FROM productos WHERE nombre = 'Jarrón de Vidrio Soplado'), 1, 30000.00, 30000.00);
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250920-001'), (SELECT id FROM productos WHERE nombre = 'Jarrón de Vidrio Soplado'), 1, 30000.00, 30000.00);
 
 -- Órdenes de María González
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456794', 'ORDER-20241205-001', 'PAGADO', 33000.00, '2024-12-05 15:20:00', '2024-12-05 15:25:00', (SELECT id FROM usuarios WHERE email = 'maria.gonzalez@gnail.con')),
-('MP123456795', 'ORDER-20241206-001', 'PAGADO', 25000.00, '2024-12-06 11:45:00', '2024-12-06 11:50:00', (SELECT id FROM usuarios WHERE email = 'maria.gonzalez@gnail.con'));
+('MP123456794', 'ORDER-20250925-001', 'PAGADO', 33000.00, '2025-09-25 15:20:00', '2025-09-25 15:25:00', (SELECT id FROM usuarios WHERE email = 'maria.gonzalez@gnail.con')),
+('MP123456795', 'ORDER-20250930-001', 'PAGADO', 25000.00, '2025-09-30 11:45:00', '2025-09-30 11:50:00', (SELECT id FROM usuarios WHERE email = 'maria.gonzalez@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- María: Set de Tazas + Bufanda de Alpaca
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241205-001'), (SELECT id FROM productos WHERE nombre = 'Set de Tazas Cerámicas'), 1, 15000.00, 15000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241205-001'), (SELECT id FROM productos WHERE nombre = 'Bufanda de Alpaca'), 1, 18000.00, 18000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250925-001'), (SELECT id FROM productos WHERE nombre = 'Set de Tazas Cerámicas'), 1, 15000.00, 15000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250925-001'), (SELECT id FROM productos WHERE nombre = 'Bufanda de Alpaca'), 1, 18000.00, 18000.00),
 -- María: Tabla de Madera + Anillo
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241206-001'), (SELECT id FROM productos WHERE nombre = 'Tabla de Madera'), 1, 15000.00, 15000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241206-001'), (SELECT id FROM productos WHERE nombre = 'Anillo de Cuarzo'), 1, 10000.00, 10000.00);
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250930-001'), (SELECT id FROM productos WHERE nombre = 'Tabla de Madera'), 1, 15000.00, 15000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250930-001'), (SELECT id FROM productos WHERE nombre = 'Anillo de Cuarzo'), 1, 10000.00, 10000.00);
 
 -- Órdenes de Carlos Rodríguez
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456796', 'ORDER-20241207-001', 'PAGADO', 42000.00, '2024-12-07 09:30:00', '2024-12-07 09:35:00', (SELECT id FROM usuarios WHERE email = 'carlos.rodriguez@gnail.con')),
-('MP123456797', 'ORDER-20241208-001', 'PENDIENTE', 18000.00, '2024-12-08 16:15:00', '2024-12-08 16:15:00', (SELECT id FROM usuarios WHERE email = 'carlos.rodriguez@gnail.con'));
+('MP123456796', 'ORDER-20251002-001', 'PAGADO', 42000.00, '2025-10-02 09:30:00', '2025-10-02 09:35:00', (SELECT id FROM usuarios WHERE email = 'carlos.rodriguez@gnail.con')),
+('MP123456797', 'ORDER-20251005-001', 'PENDIENTE', 18000.00, '2025-10-05 16:15:00', '2025-10-05 16:15:00', (SELECT id FROM usuarios WHERE email = 'carlos.rodriguez@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Carlos: Billetera + Cuenco Bordado
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241207-001'), (SELECT id FROM productos WHERE nombre = 'Billetera de Cuero'), 1, 18000.00, 18000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241207-001'), (SELECT id FROM productos WHERE nombre = 'Cojín Bordado'), 1, 12000.00, 12000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241207-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Lavanda'), 1, 8000.00, 8000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241207-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Vainilla'), 1, 4000.00, 4000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251002-001'), (SELECT id FROM productos WHERE nombre = 'Billetera de Cuero'), 1, 18000.00, 18000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251002-001'), (SELECT id FROM productos WHERE nombre = 'Cojín Bordado'), 1, 12000.00, 12000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251002-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Lavanda'), 1, 8000.00, 8000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251002-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Vainilla'), 1, 4000.00, 4000.00),
 -- Carlos: Pulsera de Ágata (pendiente)
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241208-001'), (SELECT id FROM productos WHERE nombre = 'Pulsera de Ágata'), 1, 12000.00, 12000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241208-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Eucalipto'), 1, 6000.00, 6000.00);
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251005-001'), (SELECT id FROM productos WHERE nombre = 'Pulsera de Ágata'), 1, 12000.00, 12000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251005-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Eucalipto'), 1, 6000.00, 6000.00);
 
 -- Órdenes de Ana Martínez
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456798', 'ORDER-20241209-001', 'PAGADO', 55000.00, '2024-12-09 14:20:00', '2024-12-09 14:25:00', (SELECT id FROM usuarios WHERE email = 'ana.martinez@gnail.con'));
+('MP123456798', 'ORDER-20251008-001', 'PAGADO', 55000.00, '2025-10-08 14:20:00', '2025-10-08 14:25:00', (SELECT id FROM usuarios WHERE email = 'ana.martinez@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Ana: Manta de Lana + Collar de Amatista
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241209-001'), (SELECT id FROM productos WHERE nombre = 'Manta de Lana'), 1, 45000.00, 45000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241209-001'), (SELECT id FROM productos WHERE nombre = 'Collar de Amatista'), 1, 10000.00, 10000.00);
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251008-001'), (SELECT id FROM productos WHERE nombre = 'Manta de Lana'), 1, 45000.00, 45000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251008-001'), (SELECT id FROM productos WHERE nombre = 'Collar de Amatista'), 1, 10000.00, 10000.00);
 
 -- Órdenes de Luis Fernández
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456799', 'ORDER-20241211-001', 'PAGADO', 30000.00, '2024-12-11 10:15:00', '2024-12-11 10:20:00', (SELECT id FROM usuarios WHERE email = 'luis.fernandez@gnail.con'));
+('MP123456799', 'ORDER-20251010-001', 'PAGADO', 30000.00, '2025-10-10 10:15:00', '2025-10-10 10:20:00', (SELECT id FROM usuarios WHERE email = 'luis.fernandez@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Luis: Lámpara de Madera + Aros Turquesa
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241211-001'), (SELECT id FROM productos WHERE nombre = 'Lámpara de Madera'), 1, 30000.00, 30000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241211-001'), (SELECT id FROM productos WHERE nombre = 'Aros Turquesa'), 1, 0.00, 0.00); -- Sin stock
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251010-001'), (SELECT id FROM productos WHERE nombre = 'Lámpara de Madera'), 1, 30000.00, 30000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251010-001'), (SELECT id FROM productos WHERE nombre = 'Aros Turquesa'), 1, 0.00, 0.00); -- Sin stock
 
 -- Órdenes de Sofia López
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456800', 'ORDER-20241212-001', 'PAGADO', 25000.00, '2024-12-12 13:30:00', '2024-12-12 13:35:00', (SELECT id FROM usuarios WHERE email = 'sofia.lopez@gnail.con'));
+('MP123456800', 'ORDER-20251012-001', 'PAGADO', 25000.00, '2025-10-12 13:30:00', '2025-10-12 13:35:00', (SELECT id FROM usuarios WHERE email = 'sofia.lopez@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Sofia: Cinturón de Cuero + Porta Vino
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241212-001'), (SELECT id FROM productos WHERE nombre = 'Cinturón de Cuero'), 1, 25000.00, 25000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241212-001'), (SELECT id FROM productos WHERE nombre = 'Porta Vino'), 1, 0.00, 0.00); -- Sin stock
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251012-001'), (SELECT id FROM productos WHERE nombre = 'Cinturón de Cuero'), 1, 25000.00, 25000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251012-001'), (SELECT id FROM productos WHERE nombre = 'Porta Vino'), 1, 0.00, 0.00); -- Sin stock
 
 -- Órdenes de Diego Herrera
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456801', 'ORDER-20241213-001', 'PAGADO', 18000.00, '2024-12-13 16:45:00', '2024-12-13 16:50:00', (SELECT id FROM usuarios WHERE email = 'diego.herrera@gnail.con'));
+('MP123456801', 'ORDER-20251015-001', 'PAGADO', 18000.00, '2025-10-15 16:45:00', '2025-10-15 16:50:00', (SELECT id FROM usuarios WHERE email = 'diego.herrera@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Diego: Caja de Madera + Dije de Jade
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241213-001'), (SELECT id FROM productos WHERE nombre = 'Caja de Madera'), 1, 18000.00, 18000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241213-001'), (SELECT id FROM productos WHERE nombre = 'Dije de Jade'), 1, 0.00, 0.00); -- Sin stock
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251015-001'), (SELECT id FROM productos WHERE nombre = 'Caja de Madera'), 1, 18000.00, 18000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251015-001'), (SELECT id FROM productos WHERE nombre = 'Dije de Jade'), 1, 0.00, 0.00); -- Sin stock
 
 -- Órdenes de Valentina Silva
 INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
-('MP123456802', 'ORDER-20241214-001', 'PAGADO', 20000.00, '2024-12-14 12:00:00', '2024-12-14 12:05:00', (SELECT id FROM usuarios WHERE email = 'valentina.silva@gnail.con'));
+('MP123456802', 'ORDER-20251018-001', 'PAGADO', 20000.00, '2025-10-18 12:00:00', '2025-10-18 12:05:00', (SELECT id FROM usuarios WHERE email = 'valentina.silva@gnail.con'));
 
 INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
 -- Valentina: Set de Velas + Mantel de Lino
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241214-001'), (SELECT id FROM productos WHERE nombre = 'Set de Velas'), 1, 20000.00, 20000.00),
-((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20241214-001'), (SELECT id FROM productos WHERE nombre = 'Mantel de Lino'), 1, 0.00, 0.00); -- Sin stock
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251018-001'), (SELECT id FROM productos WHERE nombre = 'Set de Velas'), 1, 20000.00, 20000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251018-001'), (SELECT id FROM productos WHERE nombre = 'Mantel de Lino'), 1, 0.00, 0.00); -- Sin stock
+
+-- ===========================================
+-- ÓRDENES DE CAROLINA COMBA (carolinacomba422@gmail.com) COMO COMPRADORA
+-- ===========================================
+
+-- Orden 1: Carolina compra productos de Francisco (cerámica)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456803', 'ORDER-20250922-001', 'PAGADO', 37500.00, '2025-09-22 09:30:00', '2025-09-22 09:35:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Set de Tazas + Plato Hondo + Jarrón
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250922-001'), (SELECT id FROM productos WHERE nombre = 'Set de Tazas Cerámicas'), 1, 20000.00, 20000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250922-001'), (SELECT id FROM productos WHERE nombre = 'Plato Hondo Artesanal'), 1, 17500.00, 17500.00);
+
+-- Orden 2: Carolina compra productos de Elena (textiles)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456804', 'ORDER-20250928-001', 'PAGADO', 63000.00, '2025-09-28 14:20:00', '2025-09-28 14:25:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Manta de Lana + Bufanda de Alpaca + Cojín Bordado
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250928-001'), (SELECT id FROM productos WHERE nombre = 'Manta de Lana'), 1, 45000.00, 45000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20250928-001'), (SELECT id FROM productos WHERE nombre = 'Bufanda de Alpaca'), 1, 18000.00, 18000.00);
+
+-- Orden 3: Carolina compra productos de Roberto (madera)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456805', 'ORDER-20251003-001', 'PAGADO', 55000.00, '2025-10-03 11:45:00', '2025-10-03 11:50:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Tabla de Madera + Porta Vino + Caja de Madera
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251003-001'), (SELECT id FROM productos WHERE nombre = 'Tabla de Madera'), 1, 15000.00, 15000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251003-001'), (SELECT id FROM productos WHERE nombre = 'Porta Vino'), 1, 25000.00, 25000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251003-001'), (SELECT id FROM productos WHERE nombre = 'Caja de Madera'), 1, 18000.00, 18000.00);
+
+-- Orden 4: Carolina compra productos de Isabel (joyería)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456806', 'ORDER-20251007-001', 'PAGADO', 270000.00, '2025-10-07 16:30:00', '2025-10-07 16:35:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Collar de Amatista + Anillo de Cuarzo + Pulsera de Ágata
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251007-001'), (SELECT id FROM productos WHERE nombre = 'Collar de Amatista'), 1, 228000.00, 228000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251007-001'), (SELECT id FROM productos WHERE nombre = 'Anillo de Cuarzo'), 1, 150000.00, 150000.00);
+
+-- Orden 5: Carolina compra productos de Miguel (cuero)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456807', 'ORDER-20251013-001', 'PAGADO', 70000.00, '2025-10-13 13:15:00', '2025-10-13 13:20:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Billetera de Cuero + Cinturón de Cuero + Bolso de Cuero
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251013-001'), (SELECT id FROM productos WHERE nombre = 'Billetera de Cuero'), 1, 18000.00, 18000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251013-001'), (SELECT id FROM productos WHERE nombre = 'Cinturón de Cuero'), 1, 25000.00, 25000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251013-001'), (SELECT id FROM productos WHERE nombre = 'Bolso de Cuero'), 1, 45000.00, 45000.00);
+
+-- Orden 6: Carolina compra productos de Carmen (velas)
+INSERT INTO ordenes (mercadopago_id, external_reference, estado, total, fecha_creacion, fecha_actualizacion, usuario_id) VALUES 
+('MP123456808', 'ORDER-20251019-001', 'PAGADO', 24000.00, '2025-10-19 10:00:00', '2025-10-19 10:05:00', (SELECT id FROM usuarios WHERE email = 'carolinacomba422@gmail.com'));
+
+INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subtotal) VALUES 
+-- Carolina: Vela de Lavanda + Vela de Vainilla + Vela de Eucalipto
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251019-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Lavanda'), 1, 8000.00, 8000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251019-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Vainilla'), 1, 8000.00, 8000.00),
+((SELECT id FROM ordenes WHERE external_reference = 'ORDER-20251019-001'), (SELECT id FROM productos WHERE nombre = 'Vela de Eucalipto'), 1, 8000.00, 8000.00);
 
 -- ===========================================
 -- RESUMEN DE DATOS POBLADOS
@@ -236,10 +297,11 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 -- - Diferentes categorías y artesanos
 -- 
 -- ÓRDENES:
--- - 15 órdenes de compra
+-- - 21 órdenes de compra (15 originales + 6 de Carolina como compradora)
 -- - Órdenes pagadas y pendientes
 -- - Compras de diferentes usuarios a diferentes artesanos
 -- - Items con y sin stock
+-- - Carolina Comba tiene 6 órdenes finalizadas como compradora
 -- 
 -- VENTAS:
 -- - Cada artesano tiene ventas registradas
@@ -263,4 +325,12 @@ INSERT INTO items_orden (orden_id, producto_id, cantidad, precio_unitario, subto
 -- - 5 órdenes finalizadas (estado PAGADO)
 -- - Total gastado: $175,000
 -- - Productos comprados: Mate, Vela, Taza, Pulsera, Collar (x2), Cesto, Bufanda, Jarrón
--- - Fechas entre diciembre 2024
+-- - Fechas entre 1-20 septiembre 2025
+-- 
+-- Órdenes de ejemplo para carolinacomba422@gmail.com (como compradora):
+-- - 6 órdenes finalizadas (estado PAGADO)
+-- - Total gastado: $515,500
+-- - Productos comprados: Cerámica (Francisco), Textiles (Elena), Madera (Roberto), 
+--   Joyería (Isabel), Cuero (Miguel), Velas (Carmen)
+-- - Fechas entre 22 septiembre - 19 octubre 2025
+-- - Diversidad de categorías y artesanos

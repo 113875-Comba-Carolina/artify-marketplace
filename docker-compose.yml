@@ -1,25 +1,90 @@
-# ===========================================
-# DOCKER COMPOSE PARA MYSQL (PRODUCCIÓN)
-# ===========================================
-# Para usar MySQL, descomenta este archivo y comenta la configuración H2 en application.properties
+services:
+  # Base de datos MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: marketplace_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 113875
+      MYSQL_DATABASE: marketplace
+      MYSQL_USER: marketplace_user
+      MYSQL_PASSWORD: marketplace_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./src/main/resources/create_ventas_view.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - marketplace-network
 
-# version: '3.8'
-# services:
-#   mysql:
-#     image: mysql:8.0
-#     container_name: marketplace_mysql
-#     restart: always
-#     environment:
-#       MYSQL_ROOT_PASSWORD: 113875
-#       MYSQL_DATABASE: marketplace
-#       MYSQL_USER: marketplace_user
-#       MYSQL_PASSWORD: marketplace_password
-#     ports:
-#       - "3306:3306"
-#     volumes:
-#       - mysql_data:/var/lib/mysql
-#       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-#     command: --default-authentication-plugin=mysql_native_password
-# 
-# volumes:
-#   mysql_data:
+  # Backend Spring Boot
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: marketplace_backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/marketplace
+      - SPRING_DATASOURCE_USERNAME=marketplace_user
+      - SPRING_DATASOURCE_PASSWORD=marketplace_password
+    depends_on:
+      - mysql
+    networks:
+      - marketplace-network
+    volumes:
+      - ./src/main/resources:/app/src/main/resources
+
+  # Frontend Angular
+  frontend:
+    build:
+      context: ../artify-frontend
+      dockerfile: Dockerfile
+    container_name: marketplace_frontend
+    restart: always
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - marketplace-network
+    volumes:
+      - ../artify-frontend/src:/app/src
+      - ../artify-frontend/angular.json:/app/angular.json
+      - ../artify-frontend/tsconfig.json:/app/tsconfig.json
+      - ../artify-frontend/tsconfig.app.json:/app/tsconfig.app.json
+      - ../artify-frontend/tsconfig.spec.json:/app/tsconfig.spec.json
+      - ../artify-frontend/vite.config.js:/app/vite.config.js
+
+  # Ngrok para backend (puerto 8080)
+  ngrok-backend:
+    image: ngrok/ngrok:latest
+    container_name: marketplace_ngrok_backend
+    restart: always
+    command: ["http", "backend:8080"]
+    networks:
+      - marketplace-network
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN_BACKEND}
+
+  # Ngrok para frontend (puerto 4200)
+  ngrok-frontend:
+    image: ngrok/ngrok:latest
+    container_name: marketplace_ngrok_frontend
+    restart: always
+    command: ["http", "frontend:4200"]
+    networks:
+      - marketplace-network
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN_FRONTEND}
+
+volumes:
+  mysql_data:
+
+networks:
+  marketplace-network:
+    driver: bridge
