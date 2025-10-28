@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -157,16 +159,22 @@ public class OrdenServiceImpl implements OrdenService {
 
     private OrdenResponse convertirAOrdenResponse(Orden orden) {
         List<ItemOrdenResponse> items = orden.getItems().stream()
-                .map(item -> ItemOrdenResponse.builder()
-                        .id(item.getId())
-                        .productoId(item.getProducto().getId())
-                        .nombreProducto(item.getProducto().getNombre())
-                        .imagenUrl(item.getProducto().getImagenUrl())
-                        .categoria(item.getProducto().getCategoria().toString())
-                        .cantidad(item.getCantidad())
-                        .precioUnitario(item.getPrecioUnitario())
-                        .subtotal(item.getSubtotal())
-                        .build())
+                .map(item -> {
+                    Usuario artesano = item.getProducto().getUsuario();
+                    return ItemOrdenResponse.builder()
+                            .id(item.getId())
+                            .productoId(item.getProducto().getId())
+                            .nombreProducto(item.getProducto().getNombre())
+                            .imagenUrl(item.getProducto().getImagenUrl())
+                            .categoria(item.getProducto().getCategoria().toString())
+                            .cantidad(item.getCantidad())
+                            .precioUnitario(item.getPrecioUnitario())
+                            .subtotal(item.getSubtotal())
+                            .artesanoNombre(artesano.getNombre())
+                            .artesanoEmail(artesano.getEmail())
+                            .artesanoTelefono(artesano.getTelefono())
+                            .build();
+                })
                 .collect(Collectors.toList());
 
         return OrdenResponse.builder()
@@ -179,7 +187,73 @@ public class OrdenServiceImpl implements OrdenService {
                 .fechaActualizacion(orden.getFechaActualizacion())
                 .nombreUsuario(orden.getUsuario().getNombre())
                 .emailUsuario(orden.getUsuario().getEmail())
-                .items(items)
-                .build();
+            .items(items)
+            .build();
+    }
+
+    @Override
+    public BuyerStatisticsResponse obtenerEstadisticasComprador(Usuario usuario) {
+        // Obtener estadísticas generales
+        Object[] estadisticasGenerales = ordenRepository.findEstadisticasComprador(usuario.getId());
+        
+        BuyerStatisticsResponse.BuyerStatisticsResponseBuilder builder = BuyerStatisticsResponse.builder();
+        
+        if (estadisticasGenerales != null && estadisticasGenerales.length >= 4) {
+            builder.totalOrdenes(((Number) estadisticasGenerales[0]).longValue())
+                    .totalGastado(convertirABigDecimal(estadisticasGenerales[1]))
+                    .totalProductos(((Number) estadisticasGenerales[2]).longValue())
+                    .promedioPorCompra(convertirABigDecimal(estadisticasGenerales[3]));
+        } else {
+            builder.totalOrdenes(0L)
+                    .totalGastado(BigDecimal.ZERO)
+                    .totalProductos(0L)
+                    .promedioPorCompra(BigDecimal.ZERO);
+        }
+        
+        // Obtener categorías favoritas
+        List<Object[]> categoriasFavoritas = ordenRepository.findCategoriasFavoritasPorUsuario(usuario.getId());
+        builder.categoriasFavoritas(categoriasFavoritas.stream()
+                .map(cat -> new BuyerStatisticsResponse.CategoriaFavorita(
+                        (String) cat[0],
+                        ((Number) cat[1]).longValue(),
+                        convertirABigDecimal(cat[2])
+                ))
+                .collect(Collectors.toList()));
+        
+        // Obtener productos más comprados
+        List<Object[]> productosMasComprados = ordenRepository.findProductosMasCompradosPorUsuario(usuario.getId());
+        builder.productosMasComprados(productosMasComprados.stream()
+                .map(prod -> new BuyerStatisticsResponse.ProductoMasComprado(
+                        (String) prod[0],
+                        (String) prod[1],
+                        ((Number) prod[2]).longValue(),
+                        convertirABigDecimal(prod[3])
+                ))
+                .collect(Collectors.toList()));
+        
+        // Obtener artesanos favoritos
+        List<Object[]> artesanosFavoritos = ordenRepository.findArtesanosFavoritosPorUsuario(usuario.getId());
+        builder.artesanosFavoritos(artesanosFavoritos.stream()
+                .map(art -> new BuyerStatisticsResponse.ArtesanoFavorito(
+                        (String) art[0],
+                        ((Number) art[1]).longValue(),
+                        convertirABigDecimal(art[2])
+                ))
+                .collect(Collectors.toList()));
+        
+        return builder.build();
+    }
+    
+    private BigDecimal convertirABigDecimal(Object valor) {
+        if (valor == null) {
+            return BigDecimal.ZERO;
+        }
+        if (valor instanceof BigDecimal) {
+            return (BigDecimal) valor;
+        }
+        if (valor instanceof Number) {
+            return BigDecimal.valueOf(((Number) valor).doubleValue()).setScale(2, RoundingMode.HALF_UP);
+        }
+        return BigDecimal.ZERO;
     }
 }

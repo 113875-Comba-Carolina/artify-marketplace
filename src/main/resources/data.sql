@@ -24,7 +24,7 @@ INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario, telefono) VALU
 
 -- Insertar artesanos con datos específicos (herencia SINGLE_TABLE)
 INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario, nombre_emprendimiento, descripcion, ubicacion, telefono) VALUES 
-('Carolina Comba', 'carolinacomba422@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Artesanías Únicas', 'Creaciones únicas hechas a mano con amor y dedicación', 'Villa María, Córdoba', '3534216181'),
+('Carolina Comba', 'carolinacomba422@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Artesanías Únicas', 'Creaciones únicas hechas a mano con amor y dedicación', 'Villa María, Córdoba', '3534095045'),
 ('Francisco Comba', 'fran@gnail.con', '$2a$10$piZ/tQZ3ZXn06Mw7pjzSSOdqiFyot0Ql.9iBwjLNG4WhS2TfvEbui', 'ARTESANO', 'ARTESANO', 'Cerámica para tu vida', 'me gusta hacer cosas de ceramica', 'Cordoba, Argentina', '3512345678'),
 ('Elena Morales', 'elena.morales@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Textiles Artesanales', 'Tejidos únicos en lana y algodón orgánico', 'Buenos Aires, Argentina', '3519876543'),
 ('Roberto Vega', 'roberto.vega@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Maderas del Sur', 'Muebles y objetos decorativos en madera reciclada', 'Bariloche, Río Negro', '3514567890'),
