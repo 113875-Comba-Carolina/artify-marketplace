@@ -193,22 +193,22 @@ public class OrdenServiceImpl implements OrdenService {
 
     @Override
     public BuyerStatisticsResponse obtenerEstadisticasComprador(Usuario usuario) {
-        // Obtener estadísticas generales
-        Object[] estadisticasGenerales = ordenRepository.findEstadisticasComprador(usuario.getId());
+        // Obtener estadísticas generales con queries separadas simples
+        Long totalOrdenes = ordenRepository.countOrdenesPagadasByUsuario(usuario.getId());
+        BigDecimal totalGastado = ordenRepository.sumTotalGastadoByUsuario(usuario.getId());
+        Long totalProductos = ordenRepository.countTotalProductosCompradosByUsuario(usuario.getId());
+        
+        // Calcular promedio
+        BigDecimal promedioPorCompra = BigDecimal.ZERO;
+        if (totalOrdenes != null && totalOrdenes > 0 && totalGastado != null) {
+            promedioPorCompra = totalGastado.divide(BigDecimal.valueOf(totalOrdenes), 2, RoundingMode.HALF_UP);
+        }
         
         BuyerStatisticsResponse.BuyerStatisticsResponseBuilder builder = BuyerStatisticsResponse.builder();
-        
-        if (estadisticasGenerales != null && estadisticasGenerales.length >= 4) {
-            builder.totalOrdenes(((Number) estadisticasGenerales[0]).longValue())
-                    .totalGastado(convertirABigDecimal(estadisticasGenerales[1]))
-                    .totalProductos(((Number) estadisticasGenerales[2]).longValue())
-                    .promedioPorCompra(convertirABigDecimal(estadisticasGenerales[3]));
-        } else {
-            builder.totalOrdenes(0L)
-                    .totalGastado(BigDecimal.ZERO)
-                    .totalProductos(0L)
-                    .promedioPorCompra(BigDecimal.ZERO);
-        }
+        builder.totalOrdenes(totalOrdenes != null ? totalOrdenes : 0L)
+                .totalGastado(totalGastado != null ? totalGastado : BigDecimal.ZERO)
+                .totalProductos(totalProductos != null ? totalProductos : 0L)
+                .promedioPorCompra(promedioPorCompra);
         
         // Obtener categorías favoritas
         List<Object[]> categoriasFavoritas = ordenRepository.findCategoriasFavoritasPorUsuario(usuario.getId());

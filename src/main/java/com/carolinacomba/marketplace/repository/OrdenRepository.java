@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,16 +36,18 @@ public interface OrdenRepository extends JpaRepository<Orden, Long> {
            "LIMIT 10", nativeQuery = true)
     List<Object[]> findActividadReciente();
     
-    // Estadísticas del comprador
-    @Query(value = "SELECT " +
-           "COUNT(DISTINCT o.id) as total_ordenes, " +
-           "COALESCE(SUM(CASE WHEN o.estado = 'PAGADO' THEN o.total ELSE 0 END), 0) as total_gastado, " +
-           "COALESCE(SUM(CASE WHEN o.estado = 'PAGADO' THEN io.cantidad ELSE 0 END), 0) as total_productos, " +
-           "COALESCE(AVG(CASE WHEN o.estado = 'PAGADO' THEN o.total ELSE NULL END), 0) as promedio_por_compra " +
-           "FROM ordenes o " +
-           "LEFT JOIN items_orden io ON o.id = io.orden_id " +
-           "WHERE o.usuario_id = :usuarioId", nativeQuery = true)
-    Object[] findEstadisticasComprador(@Param("usuarioId") Long usuarioId);
+    // Estadísticas del comprador - queries simples separadas
+    @Query(value = "SELECT COUNT(*) FROM ordenes WHERE usuario_id = :usuarioId AND estado = 'PAGADO'", nativeQuery = true)
+    Long countOrdenesPagadasByUsuario(@Param("usuarioId") Long usuarioId);
+    
+    @Query(value = "SELECT COALESCE(SUM(total), 0) FROM ordenes WHERE usuario_id = :usuarioId AND estado = 'PAGADO'", nativeQuery = true)
+    BigDecimal sumTotalGastadoByUsuario(@Param("usuarioId") Long usuarioId);
+    
+    @Query(value = "SELECT COALESCE(SUM(io.cantidad), 0) " +
+           "FROM items_orden io " +
+           "JOIN ordenes o ON io.orden_id = o.id " +
+           "WHERE o.usuario_id = :usuarioId AND o.estado = 'PAGADO'", nativeQuery = true)
+    Long countTotalProductosCompradosByUsuario(@Param("usuarioId") Long usuarioId);
     
     @Query(value = "SELECT " +
            "p.categoria, " +
@@ -82,7 +85,7 @@ public interface OrdenRepository extends JpaRepository<Orden, Long> {
            "JOIN usuarios artesano ON p.usuario_id = artesano.id " +
            "WHERE o.usuario_id = :usuarioId AND o.estado = 'PAGADO' " +
            "GROUP BY artesano.id, artesano.nombre " +
-           "ORDER BY ordenes_con_artesano DESC " +
+           "ORDER BY total_gastado_artesano DESC " +
            "LIMIT 5", nativeQuery = true)
     List<Object[]> findArtesanosFavoritosPorUsuario(@Param("usuarioId") Long usuarioId);
 }
