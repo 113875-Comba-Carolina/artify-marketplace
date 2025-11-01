@@ -17,6 +17,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     
     boolean existsByEmail(String email);
     
+    Optional<Usuario> findByResetPasswordToken(String token);
+    
     // Consulta SQL nativa para obtener solo los campos del emprendimiento
     @Query(value = "SELECT nombre_emprendimiento, descripcion, ubicacion FROM usuarios WHERE email = :email", nativeQuery = true)
     List<Object[]> findEmprendimientoFieldsByEmail(@Param("email") String email);

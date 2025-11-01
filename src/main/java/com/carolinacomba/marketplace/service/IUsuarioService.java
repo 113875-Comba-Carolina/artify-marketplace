@@ -35,4 +35,8 @@ public interface IUsuarioService {
     Usuario save(Usuario usuario);
     
     void delete(Long id);
+    
+    void createPasswordResetToken(String email);
+    
+    void resetPassword(String token, String newPassword);
 }

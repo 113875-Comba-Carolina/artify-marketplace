@@ -1,5 +1,6 @@
 package com.carolinacomba.marketplace.service;
 
+import com.carolinacomba.marketplace.dto.BuyerStatisticsResponse;
 import com.carolinacomba.marketplace.dto.OrdenResponse;
 import com.carolinacomba.marketplace.dto.CarritoItem;
 import com.carolinacomba.marketplace.model.Orden;
@@ -24,4 +25,6 @@ public interface OrdenService {
     List<Orden> obtenerTodasLasOrdenes();
     
     void reducirStockProductos(Long ordenId);
+    
+    BuyerStatisticsResponse obtenerEstadisticasComprador(Usuario usuario);
 }

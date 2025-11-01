@@ -17,4 +17,7 @@ public class ItemOrdenResponse {
     private Integer cantidad;
     private BigDecimal precioUnitario;
     private BigDecimal subtotal;
+    private String artesanoNombre;
+    private String artesanoEmail;
+    private String artesanoTelefono;
 }

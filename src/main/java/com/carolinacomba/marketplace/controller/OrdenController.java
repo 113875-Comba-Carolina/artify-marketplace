@@ -1,5 +1,6 @@
 package com.carolinacomba.marketplace.controller;
 
+import com.carolinacomba.marketplace.dto.BuyerStatisticsResponse;
 import com.carolinacomba.marketplace.dto.OrdenResponse;
 import com.carolinacomba.marketplace.model.Usuario;
 import com.carolinacomba.marketplace.service.OrdenService;
@@ -48,6 +49,18 @@ public class OrdenController {
             OrdenResponse orden = ordenService.obtenerOrdenPorMercadoPagoId(mercadoPagoId);
             return ResponseEntity.ok(orden);
         } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/estadisticas")
+    public ResponseEntity<BuyerStatisticsResponse> obtenerEstadisticasComprador() {
+        try {
+            Usuario usuario = obtenerUsuarioActual();
+            BuyerStatisticsResponse estadisticas = ordenService.obtenerEstadisticasComprador(usuario);
+            return ResponseEntity.ok(estadisticas);
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }

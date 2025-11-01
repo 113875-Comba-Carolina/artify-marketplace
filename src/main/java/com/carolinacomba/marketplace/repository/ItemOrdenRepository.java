@@ -26,7 +26,8 @@ public interface ItemOrdenRepository extends JpaRepository<com.carolinacomba.mar
            "o.fecha_creacion, " +
            "u.nombre, " +
            "u.email, " +
-           "p.imagen_url " +
+           "p.imagen_url, " +
+           "u.telefono " +
            "FROM items_orden io " +
            "JOIN ordenes o ON io.orden_id = o.id " +
            "JOIN productos p ON io.producto_id = p.id " +
@@ -52,7 +53,8 @@ public interface ItemOrdenRepository extends JpaRepository<com.carolinacomba.mar
            "o.fecha_creacion, " +
            "u.nombre, " +
            "u.email, " +
-           "p.imagen_url " +
+           "p.imagen_url, " +
+           "u.telefono " +
            "FROM items_orden io " +
            "JOIN ordenes o ON io.orden_id = o.id " +
            "JOIN productos p ON io.producto_id = p.id " +

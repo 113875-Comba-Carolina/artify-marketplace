@@ -54,6 +54,7 @@ public class ArtesanoServiceImpl implements ArtesanoService {
                 venta.put("compradorNombre", resultado[8]);
                 venta.put("compradorEmail", resultado[9]);
                 venta.put("imagenUrl", resultado[10]);
+                venta.put("compradorTelefono", resultado[11]);
                 ventas.add(venta);
                 
             }
@@ -84,6 +85,7 @@ public class ArtesanoServiceImpl implements ArtesanoService {
             venta.put("compradorNombre", resultado[8]);
             venta.put("compradorEmail", resultado[9]);
             venta.put("imagenUrl", resultado[10]);
+            venta.put("compradorTelefono", resultado[11]);
             ventas.add(venta);
         }
         
