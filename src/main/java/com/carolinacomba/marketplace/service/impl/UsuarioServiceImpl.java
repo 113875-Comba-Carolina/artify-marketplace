@@ -1,6 +1,7 @@
 package com.carolinacomba.marketplace.service.impl;
 
 import com.carolinacomba.marketplace.dto.CambioRolRequest;
+import com.carolinacomba.marketplace.dto.PasswordResetEmailData;
 import com.carolinacomba.marketplace.dto.RegistroArtesanoRequest;
 import com.carolinacomba.marketplace.dto.RegistroUsuarioRequest;
 import com.carolinacomba.marketplace.dto.WelcomeEmailData;
@@ -11,11 +12,14 @@ import com.carolinacomba.marketplace.repository.UsuarioRepository;
 import com.carolinacomba.marketplace.service.EmailService;
 import com.carolinacomba.marketplace.service.IUsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -26,6 +30,9 @@ public class UsuarioServiceImpl implements IUsuarioService {
     private final ArtesanoRepository artesanoRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
+    
+    @Value("${app.frontend.url:http://localhost:4200}")
+    private String frontendUrl;
 
     @Override
     public Usuario buscarPorEmail(String email) {
@@ -182,5 +189,56 @@ public class UsuarioServiceImpl implements IUsuarioService {
     @Override
     public void delete(Long id) {
         usuarioRepository.deleteById(id);
+    }
+
+    @Override
+    public void createPasswordResetToken(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("No existe un usuario con ese correo electrónico"));
+        
+        // Generar token único
+        String token = UUID.randomUUID().toString();
+        
+        // Guardar token y fecha de expiración (1 hora)
+        usuario.setResetPasswordToken(token);
+        usuario.setResetPasswordTokenExpiry(LocalDateTime.now().plusHours(1));
+        usuarioRepository.save(usuario);
+        
+        // Construir link de reseteo
+        String resetLink = frontendUrl + "/auth/reset-password?token=" + token;
+        
+        // Enviar email
+        try {
+            PasswordResetEmailData resetData = new PasswordResetEmailData(
+                usuario.getEmail(),
+                usuario.getNombre(),
+                resetLink
+            );
+            emailService.sendPasswordResetEmail(resetData);
+        } catch (Exception e) {
+            System.err.println("Error enviando email de recuperación: " + e.getMessage());
+            throw new RuntimeException("Error al enviar el correo de recuperación");
+        }
+    }
+
+    @Override
+    public void resetPassword(String token, String newPassword) {
+        Usuario usuario = usuarioRepository.findByResetPasswordToken(token)
+            .orElseThrow(() -> new RuntimeException("Token inválido"));
+        
+        // Verificar que el token no haya expirado
+        if (usuario.getResetPasswordTokenExpiry() == null || 
+            usuario.getResetPasswordTokenExpiry().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("El token ha expirado");
+        }
+        
+        // Actualizar contraseña
+        usuario.setContrasena(passwordEncoder.encode(newPassword));
+        
+        // Limpiar token
+        usuario.setResetPasswordToken(null);
+        usuario.setResetPasswordTokenExpiry(null);
+        
+        usuarioRepository.save(usuario);
     }
 }

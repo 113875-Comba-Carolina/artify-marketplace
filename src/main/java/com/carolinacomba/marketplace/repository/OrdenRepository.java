@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,4 +35,57 @@ public interface OrdenRepository extends JpaRepository<Orden, Long> {
            "ORDER BY o.fecha_creacion DESC " +
            "LIMIT 10", nativeQuery = true)
     List<Object[]> findActividadReciente();
+    
+    // Estadísticas del comprador - queries simples separadas
+    @Query(value = "SELECT COUNT(*) FROM ordenes WHERE usuario_id = :usuarioId AND estado = 'PAGADO'", nativeQuery = true)
+    Long countOrdenesPagadasByUsuario(@Param("usuarioId") Long usuarioId);
+    
+    @Query(value = "SELECT COALESCE(SUM(total), 0) FROM ordenes WHERE usuario_id = :usuarioId AND estado = 'PAGADO'", nativeQuery = true)
+    BigDecimal sumTotalGastadoByUsuario(@Param("usuarioId") Long usuarioId);
+    
+    @Query(value = "SELECT COALESCE(SUM(io.cantidad), 0) " +
+           "FROM items_orden io " +
+           "JOIN ordenes o ON io.orden_id = o.id " +
+           "WHERE o.usuario_id = :usuarioId AND o.estado = 'PAGADO'", nativeQuery = true)
+    Long countTotalProductosCompradosByUsuario(@Param("usuarioId") Long usuarioId);
+    
+    @Query(value = "SELECT " +
+           "p.categoria, " +
+           "COUNT(*) as cantidad_comprada, " +
+           "SUM(io.subtotal) as total_gastado_categoria " +
+           "FROM items_orden io " +
+           "JOIN productos p ON io.producto_id = p.id " +
+           "JOIN ordenes o ON io.orden_id = o.id " +
+           "WHERE o.usuario_id = :usuarioId AND o.estado = 'PAGADO' " +
+           "GROUP BY p.categoria " +
+           "ORDER BY cantidad_comprada DESC", nativeQuery = true)
+    List<Object[]> findCategoriasFavoritasPorUsuario(@Param("usuarioId") Long usuarioId);
+    
+    @Query(value = "SELECT " +
+           "p.nombre, " +
+           "p.imagen_url, " +
+           "SUM(io.cantidad) as total_comprado, " +
+           "SUM(io.subtotal) as total_gastado_producto " +
+           "FROM items_orden io " +
+           "JOIN productos p ON io.producto_id = p.id " +
+           "JOIN ordenes o ON io.orden_id = o.id " +
+           "WHERE o.usuario_id = :usuarioId AND o.estado = 'PAGADO' " +
+           "GROUP BY p.id, p.nombre, p.imagen_url " +
+           "ORDER BY total_comprado DESC " +
+           "LIMIT 5", nativeQuery = true)
+    List<Object[]> findProductosMasCompradosPorUsuario(@Param("usuarioId") Long usuarioId);
+    
+    @Query(value = "SELECT " +
+           "artesano.nombre as artesano_nombre, " +
+           "COUNT(DISTINCT o.id) as ordenes_con_artesano, " +
+           "SUM(io.subtotal) as total_gastado_artesano " +
+           "FROM items_orden io " +
+           "JOIN productos p ON io.producto_id = p.id " +
+           "JOIN ordenes o ON io.orden_id = o.id " +
+           "JOIN usuarios artesano ON p.usuario_id = artesano.id " +
+           "WHERE o.usuario_id = :usuarioId AND o.estado = 'PAGADO' " +
+           "GROUP BY artesano.id, artesano.nombre " +
+           "ORDER BY total_gastado_artesano DESC " +
+           "LIMIT 5", nativeQuery = true)
+    List<Object[]> findArtesanosFavoritosPorUsuario(@Param("usuarioId") Long usuarioId);
 }
