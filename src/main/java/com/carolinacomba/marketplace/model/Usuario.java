@@ -45,6 +45,12 @@ public class Usuario {
     @Column(name = "telefono", length = 20, nullable = true)
     private String telefono;
 
+    @Column(name = "reset_password_token", length = 255)
+    private String resetPasswordToken;
+
+    @Column(name = "reset_password_token_expiry")
+    private java.time.LocalDateTime resetPasswordTokenExpiry;
+
     public Usuario(String nombre, String email, String contrasena, Rol rol) {
         this.nombre = nombre;
         this.email = email;

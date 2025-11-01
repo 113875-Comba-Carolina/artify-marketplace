@@ -2,6 +2,7 @@ package com.carolinacomba.marketplace.service.impl;
 
 import com.carolinacomba.marketplace.dto.EmailRequest;
 import com.carolinacomba.marketplace.dto.OrderConfirmationEmailData;
+import com.carolinacomba.marketplace.dto.PasswordResetEmailData;
 import com.carolinacomba.marketplace.dto.WelcomeEmailData;
 import com.carolinacomba.marketplace.service.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -113,6 +114,23 @@ public class EmailServiceImpl implements EmailService {
             artesanoEmail,
             "¡Nueva venta en tu emprendimiento!",
             "new-sale-notification",
+            variables
+        );
+
+        sendEmail(emailRequest);
+    }
+
+    @Override
+    public void sendPasswordResetEmail(PasswordResetEmailData resetData) {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("userName", resetData.getUserName());
+        variables.put("resetLink", resetData.getResetLink());
+        variables.put("frontendUrl", frontendUrl);
+
+        EmailRequest emailRequest = new EmailRequest(
+            resetData.getEmail(),
+            "Recuperación de contraseña - Artify",
+            "password-reset",
             variables
         );
 
