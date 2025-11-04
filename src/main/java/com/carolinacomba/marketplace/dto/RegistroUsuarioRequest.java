@@ -24,6 +24,7 @@ public class RegistroUsuarioRequest {
     @Size(min = 6, message = "La contrasena debe tener al menos 6 caracteres")
     private String password;
 
+    @NotBlank(message = "El teléfono es requerido")
     @Size(max = 20, message = "El teléfono no puede exceder 20 caracteres")
     private String telefono;
 }

@@ -41,8 +41,9 @@ public class Usuario {
     @Column(nullable = false, length = 20)
     private Rol rol;
 
+    @NotBlank(message = "El teléfono es requerido")
     @Size(max = 20, message = "El teléfono no puede exceder 20 caracteres")
-    @Column(name = "telefono", length = 20, nullable = true)
+    @Column(name = "telefono", length = 20, nullable = false)
     private String telefono;
 
     @Column(name = "reset_password_token", length = 255)
