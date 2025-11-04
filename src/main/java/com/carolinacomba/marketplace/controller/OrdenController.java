@@ -32,13 +32,14 @@ public class OrdenController {
         }
     }
 
-    @GetMapping("/{ordenId}")
-    public ResponseEntity<OrdenResponse> obtenerOrden(@PathVariable Long ordenId) {
+    @GetMapping("/estadisticas")
+    public ResponseEntity<BuyerStatisticsResponse> obtenerEstadisticasComprador() {
         try {
             Usuario usuario = obtenerUsuarioActual();
-            OrdenResponse orden = ordenService.obtenerOrdenPorId(ordenId, usuario);
-            return ResponseEntity.ok(orden);
+            BuyerStatisticsResponse estadisticas = ordenService.obtenerEstadisticasComprador(usuario);
+            return ResponseEntity.ok(estadisticas);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
@@ -53,14 +54,13 @@ public class OrdenController {
         }
     }
 
-    @GetMapping("/estadisticas")
-    public ResponseEntity<BuyerStatisticsResponse> obtenerEstadisticasComprador() {
+    @GetMapping("/{ordenId}")
+    public ResponseEntity<OrdenResponse> obtenerOrden(@PathVariable Long ordenId) {
         try {
             Usuario usuario = obtenerUsuarioActual();
-            BuyerStatisticsResponse estadisticas = ordenService.obtenerEstadisticasComprador(usuario);
-            return ResponseEntity.ok(estadisticas);
+            OrdenResponse orden = ordenService.obtenerOrdenPorId(ordenId, usuario);
+            return ResponseEntity.ok(orden);
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
