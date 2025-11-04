@@ -188,7 +188,7 @@ public class ProductoController {
     @GetMapping("/mis-productos")
     public ResponseEntity<Page<ProductoResponse>> misProductos(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "15") int size) {
         try {
             Artesano artesano = obtenerArtesanoAutenticado();
             Pageable pageable = PageRequest.of(page, size);
@@ -201,7 +201,7 @@ public class ProductoController {
     @GetMapping("/mis-productos-activos")
     public ResponseEntity<Page<ProductoResponse>> misProductosActivos(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "15") int size) {
         try {
             Artesano artesano = obtenerArtesanoAutenticado();
             Pageable pageable = PageRequest.of(page, size);
@@ -234,7 +234,7 @@ public class ProductoController {
     @GetMapping("/inactivos")
     public ResponseEntity<Page<ProductoResponse>> misProductosInactivos(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            @RequestParam(defaultValue = "15") int size) {
         try {
             Artesano artesano = obtenerArtesanoAutenticado();
             Pageable pageable = PageRequest.of(page, size);
