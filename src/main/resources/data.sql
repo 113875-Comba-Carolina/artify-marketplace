@@ -8,8 +8,8 @@ DELETE FROM productos;
 DELETE FROM usuarios;
 
 -- Insertar usuarios base con contrasena hasheada correctamente para "password"
-INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario) VALUES 
-('Admin Sistema', 'admin@artify.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ADMIN', 'USUARIO');
+INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario, telefono) VALUES 
+('Admin Sistema', 'admin@artify.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ADMIN', 'USUARIO', '3511111111');
 
 -- Insertar usuarios normales
 INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario, telefono) VALUES 
