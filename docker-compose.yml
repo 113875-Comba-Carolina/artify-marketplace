@@ -6,17 +6,22 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 113875
-      MYSQL_DATABASE: marketplace
+      MYSQL_DATABASE: artify_marketplace
       MYSQL_USER: marketplace_user
       MYSQL_PASSWORD: marketplace_password
     ports:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./src/main/resources/create_ventas_view.sql:/docker-entrypoint-initdb.d/init.sql
     command: --default-authentication-plugin=mysql_native_password
     networks:
       - marketplace-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p113875"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   # Backend Spring Boot
   backend:
@@ -29,11 +34,12 @@ services:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/marketplace
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/artify_marketplace?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=marketplace_user
       - SPRING_DATASOURCE_PASSWORD=marketplace_password
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     networks:
       - marketplace-network
     volumes:
