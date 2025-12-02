@@ -9,28 +9,28 @@ DELETE FROM usuarios;
 
 -- Insertar usuarios base con contrasena hasheada correctamente para "password"
 INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario, telefono) VALUES 
-('Admin Sistema', 'admin@artify.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ADMIN', 'USUARIO', '3511111111');
+('Admin Sistema', 'admin@artify.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ADMIN', 'USUARIO', '3534095045');
 
 -- Insertar usuarios normales
 INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario, telefono) VALUES 
-('Juan Perez', 'juanperez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3517845202'),
-('María González', 'maria.gonzalez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3512345678'),
-('Carlos Rodríguez', 'carlos.rodriguez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3518765432'),
-('Ana Martínez', 'ana.martinez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3519876543'),
-('Luis Fernández', 'luis.fernandez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3514567890'),
-('Sofia López', 'sofia.lopez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3513456789'),
-('Diego Herrera', 'diego.herrera@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3515678901'),
-('Valentina Silva', 'valentina.silva@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3516789012');
+('Juan Perez', 'juanperez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3534095045'),
+('María González', 'maria.gonzalez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3534095045'),
+('Carlos Rodríguez', 'carlos.rodriguez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3534095045'),
+('Ana Martínez', 'ana.martinez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3534095045'),
+('Luis Fernández', 'luis.fernandez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3534095045'),
+('Sofia López', 'sofia.lopez@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3534095045'),
+('Diego Herrera', 'diego.herrera@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3534095045'),
+('Valentina Silva', 'valentina.silva@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'USUARIO', 'USUARIO', '3534095045');
 
 -- Insertar artesanos con datos específicos (herencia SINGLE_TABLE)
 INSERT INTO usuarios (nombre, email, password, rol, tipo_usuario, nombre_emprendimiento, descripcion, ubicacion, telefono) VALUES 
 ('Carolina Comba', 'carolinacomba422@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Artesanías Únicas', 'Creaciones únicas hechas a mano con amor y dedicación', 'Villa María, Córdoba', '3534095045'),
-('Francisco Comba', 'fran@gnail.con', '$2a$10$piZ/tQZ3ZXn06Mw7pjzSSOdqiFyot0Ql.9iBwjLNG4WhS2TfvEbui', 'ARTESANO', 'ARTESANO', 'Cerámica para tu vida', 'me gusta hacer cosas de ceramica', 'Cordoba, Argentina', '3512345678'),
-('Elena Morales', 'elena.morales@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Textiles Artesanales', 'Tejidos únicos en lana y algodón orgánico', 'Buenos Aires, Argentina', '3519876543'),
-('Roberto Vega', 'roberto.vega@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Maderas del Sur', 'Muebles y objetos decorativos en madera reciclada', 'Bariloche, Río Negro', '3514567890'),
-('Isabel Ruiz', 'isabel.ruiz@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Joyas Naturales', 'Bisutería artesanal con piedras semipreciosas', 'Mendoza, Argentina', '3513456789'),
-('Miguel Torres', 'miguel.torres@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Cuero Artesanal', 'Accesorios y artículos de cuero genuino', 'Córdoba, Argentina', '3515678901'),
-('Carmen Díaz', 'carmen.diaz@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Velas Aromáticas', 'Velas de cera de soja con esencias naturales', 'Rosario, Santa Fe', '3516789012');
+('Francisco Comba', 'fran@gnail.con', '$2a$10$piZ/tQZ3ZXn06Mw7pjzSSOdqiFyot0Ql.9iBwjLNG4WhS2TfvEbui', 'ARTESANO', 'ARTESANO', 'Cerámica para tu vida', 'me gusta hacer cosas de ceramica', 'Cordoba, Argentina', '3534095045'),
+('Elena Morales', 'elena.morales@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Textiles Artesanales', 'Tejidos únicos en lana y algodón orgánico', 'Buenos Aires, Argentina', '3534095045'),
+('Roberto Vega', 'roberto.vega@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Maderas del Sur', 'Muebles y objetos decorativos en madera reciclada', 'Bariloche, Río Negro', '3534095045'),
+('Isabel Ruiz', 'isabel.ruiz@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Joyas Naturales', 'Bisutería artesanal con piedras semipreciosas', 'Mendoza, Argentina', '3534095045'),
+('Miguel Torres', 'miguel.torres@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Cuero Artesanal', 'Accesorios y artículos de cuero genuino', 'Córdoba, Argentina', '3534095045'),
+('Carmen Díaz', 'carmen.diaz@gnail.con', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ARTESANO', 'ARTESANO', 'Velas Aromáticas', 'Velas de cera de soja con esencias naturales', 'Rosario, Santa Fe', '3534095045');
 
 -- ===========================================
 -- PRODUCTOS DE FRANCISCO COMBA (Cerámica para tu vida)
